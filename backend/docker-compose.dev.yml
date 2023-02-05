@@ -1,0 +1,36 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: 'Dockerfile.dev'
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - ./src:/usr/src/app/src
+      - /usr/src/app/node_modules
+    networks:
+      - backend
+
+  db:
+    image: 'mongo:4'
+    restart: unless-stopped
+    volumes:
+      - mongodata:/data/db
+      - mongoconfig:/data/configdb
+    ports:
+      - '27017:27017'
+    networks:
+      - backend
+
+volumes:
+  mongoconfig:
+    external: false
+
+  mongodata:
+    external: false
+
+networks:
+  backend:
