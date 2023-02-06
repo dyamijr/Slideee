@@ -2,15 +2,14 @@ version: "3"
 services:
   backend:
     build:
-      context: .
+      context: backend
       dockerfile: "Dockerfile.dev"
     restart: unless-stopped
     ports:
       - 3000:3000
       - 9229:9229
     volumes:
-      - .backend/src:/usr/src/app/src
-      - /usr/src/app/node_modules
+      - ./backend/src:/usr/src/app/src
     networks:
       - backend
 
