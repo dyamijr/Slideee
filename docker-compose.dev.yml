@@ -20,7 +20,7 @@ services:
       - mongodata:/data/db
       - mongoconfig:/data/configdb
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - backend
 
