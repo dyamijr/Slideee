@@ -20,7 +20,7 @@ export class UsersService {
     return user;
   }
 
-  async createUser(username: string, password: string) {
+  async createUser(username: string, displayName: string, password: string) {
     let user = await this.findOneByUsername(username);
     if (user) {
       throw new BadRequestException();
@@ -30,10 +30,11 @@ export class UsersService {
 
     const createdUser = new this.userModel({
       username: username,
+      displayName: displayName,
       password: hashPassword,
     });
 
-    // await createdUser.save();
+    await createdUser.save();
 
     return createdUser;
   }

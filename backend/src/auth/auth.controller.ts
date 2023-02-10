@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { LoginAuthGuard } from './login.guard';
 import { SignupAuthGuard } from './signup.guard';
 import { AuthenticatedGuard } from './authenticated.guard';
-import { SignupDto } from './dto/signup.dto';
 
 @Controller('auth')
 export class AuthController {

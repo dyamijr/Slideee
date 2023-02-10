@@ -16,13 +16,14 @@ export class SignupStrategy extends PassportStrategy(Strategy, 'signup') {
   async validate(req, _username: string, _password: string): Promise<any> {
     let signupDto = new SignupDto();
     signupDto.username = req.body.username;
+    signupDto.displayName = req.body.displayName
     signupDto.password = req.body.password;
     let errors = await validate(signupDto);
     if (errors.length > 0) {
       throw new BadRequestException();
     }
 
-    const user = await this.authService.createUser(signupDto.username, signupDto.password);
+    const user = await this.authService.createUser(signupDto.username, signupDto.displayName, signupDto.password);
     if (!user) {
       throw new UnauthorizedException();
     }

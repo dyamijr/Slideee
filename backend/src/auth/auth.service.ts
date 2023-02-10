@@ -17,8 +17,8 @@ export class AuthService {
     return null;
   }
 
-  async createUser(username: string, password: string) {
-    const user = await this.usersService.createUser(username, password);
+  async createUser(username: string, displayName: string, password: string) {
+    const user = await this.usersService.createUser(username, displayName, password);
     return user;
   }
  
