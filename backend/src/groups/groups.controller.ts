@@ -1,15 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards} from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { EditGroupDto } from './dto/edit-group.dto';
+import { AuthenticatedGuard } from '../auth/authenticated.guard';
+
 
 @Controller('groups')
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
 
-  @Post()
-  async createGroup(@Body() createGroupDto: CreateGroupDto) {
-    let group = this.groupsService.createGroup(createGroupDto.groupName, createGroupDto.displayName, createGroupDto.isPrivate);
+  @UseGuards(AuthenticatedGuard)
+  @Post('new')
+  async createGroup(@Body() createGroupDto: CreateGroupDto, @Request() req) {
+    console.log("test");
+    let group = this.groupsService.createGroup(createGroupDto.groupName, createGroupDto.displayName, createGroupDto.isPrivate, req.user);
     return group;
   }
 

@@ -17,7 +17,10 @@ export class Group {
   isPrivate: Boolean;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  Owner: User;//find right type
+  Owner: User;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  Admins: User[];//find right type
 }
 
 export const GroupSchema = SchemaFactory.createForClass(Group);

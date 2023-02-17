@@ -2,12 +2,14 @@ import { Model } from 'mongoose';
 import { Injectable, BadRequestException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group, GroupDocument } from '../schemas/group.schema';
+import { User } from '../schemas/user.schema';
+
 
 @Injectable()
 export class GroupsService {
   constructor(@InjectModel(Group.name) private groupModel: Model<GroupDocument>) {}
 
-  async createGroup(groupName: string, displayName: string, isPrivate: Boolean) {
+  async createGroup(groupName: string, displayName: string, isPrivate: Boolean, owner: User) {
     let group = await this.findOneByGroupName(groupName);
     if (group) {
       throw new BadRequestException();
@@ -17,6 +19,8 @@ export class GroupsService {
       groupName: groupName,
       displayName: displayName,
       isPrivate: isPrivate,
+      Owner: owner,
+      Admins: [owner],
     });
 
     await createdGroup.save();
@@ -39,11 +43,9 @@ export class GroupsService {
     if (!group) {
       throw new BadRequestException();
     }
-
-    group.update({
-      displayName: displayName, 
-      isPrivate: isPrivate, 
-    });
+    group.displayName = displayName;
+    group.isPrivate = isPrivate;
+    await group.save();
 
     return group;
   }
