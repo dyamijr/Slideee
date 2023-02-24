@@ -35,7 +35,7 @@ export class GroupsService {
     return group;
   }
 
-  async editGroup(groupName: string, displayName: string, isPrivate: Boolean) {
+  async editGroup(groupName: string, displayName: string, isPrivate: Boolean, user: User) {
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
@@ -43,6 +43,11 @@ export class GroupsService {
     if (!group) {
       throw new BadRequestException();
     }
+
+    if(!group.Admins.find(x => x == user)){
+      throw new BadRequestException();
+    }
+
     group.displayName = displayName;
     group.isPrivate = isPrivate;
     await group.save();
@@ -50,7 +55,7 @@ export class GroupsService {
     return group;
   }
 
-  async deleteGroup(groupName: string) {
+  async deleteGroup(groupName: string, owner: User) {
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
@@ -58,8 +63,11 @@ export class GroupsService {
     if (!group) {
       throw new BadRequestException();
     }
-    //check permisions on user
+    if(group.Owner != owner){
+      throw new BadRequestException();
+    }
     group.deleteOne();
     return 'Succsess';
   }
+  
 }

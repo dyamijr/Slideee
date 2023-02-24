@@ -22,5 +22,6 @@ export class Group {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   Admins: User[];//find right type
 }
+const GroupSchema = SchemaFactory.createForClass(Group)
 
-export const GroupSchema = SchemaFactory.createForClass(Group);
+export {GroupSchema};

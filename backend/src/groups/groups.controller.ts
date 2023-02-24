@@ -3,6 +3,7 @@ import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { EditGroupDto } from './dto/edit-group.dto';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
+import { User } from '../schemas/user.schema';
 
 
 @Controller('groups')
@@ -24,14 +25,14 @@ export class GroupsController {
   }
 
   @Post(':groupName/delete')
-  async deleteGroup(@Param('groupName') groupName: string) {
-    let group = await this.groupsService.deleteGroup(groupName);
+  async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
+    let group = await this.groupsService.deleteGroup(groupName, req.user);
     return group;
   }
   
   @Post(':groupName/edit')
-  async editGroup(@Param('groupName') groupName: string, @Body() editGroupDto: EditGroupDto) {
-    let group = await this.groupsService.editGroup(groupName, editGroupDto.displayName, editGroupDto.isPrivate);
+  async editGroup(@Param('groupName') groupName: string, @Body() editGroupDto: EditGroupDto, @Request() req) {
+    let group = await this.groupsService.editGroup(groupName, editGroupDto.displayName, editGroupDto.isPrivate, req.user);
     return group;
   }
 }
