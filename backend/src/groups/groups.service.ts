@@ -59,15 +59,14 @@ export class GroupsService {
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
-
     if (!group) {
       throw new BadRequestException();
     }
-    if(group.Owner != owner){
-      throw new BadRequestException();
+    if(group.Owner.username != group.Owner.username){
+       throw new BadRequestException();
     }
     group.deleteOne();
-    return 'Succsess';
+    return 'Success';
   }
   
 }
