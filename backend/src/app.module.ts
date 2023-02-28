@@ -6,9 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { EventsController } from './events/events.controller';
 import { EventsModule } from './events/events.module';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot('mongodb://db:27017/slideee'), AuthModule, EventsModule],
+  imports: [UsersModule, MongooseModule.forRoot('mongodb://db:27017/slideee'), AuthModule, GroupsModule, EventsModule],
   controllers: [AppController, EventsController],
   providers: [AppService],
 })
