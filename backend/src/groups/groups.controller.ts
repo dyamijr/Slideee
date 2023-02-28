@@ -13,7 +13,6 @@ export class GroupsController {
   @UseGuards(AuthenticatedGuard)
   @Post('new')
   async createGroup(@Body() createGroupDto: CreateGroupDto, @Request() req) {
-    console.log("test");
     let group = this.groupsService.createGroup(createGroupDto.groupName, createGroupDto.displayName, createGroupDto.isPrivate, req.user);
     return group;
   }

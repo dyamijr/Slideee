@@ -2,7 +2,8 @@ import { Model } from 'mongoose';
 import { Injectable, BadRequestException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group, GroupDocument } from '../schemas/group.schema';
-import { User } from '../schemas/user.schema';
+import { User, UserDocument } from '../schemas/user.schema';
+import { ConsoleWriter } from 'istanbul-lib-report';
 
 
 @Injectable()
@@ -35,7 +36,7 @@ export class GroupsService {
     return group;
   }
 
-  async editGroup(groupName: string, displayName: string, isPrivate: Boolean, user: User) {
+  async editGroup(groupName: string, displayName: string, isPrivate: Boolean, user: UserDocument) {
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
@@ -44,8 +45,8 @@ export class GroupsService {
       throw new BadRequestException();
     }
 
-    if(!group.Admins.find(x => x == user)){
-      throw new BadRequestException();
+    if(!group.Admins.find(x => x.equals(user._id))){
+     throw new BadRequestException();
     }
 
     group.displayName = displayName;
@@ -55,17 +56,17 @@ export class GroupsService {
     return group;
   }
 
-  async deleteGroup(groupName: string, owner: User) {
+  async deleteGroup(groupName: string, owner: UserDocument) {
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
     if (!group) {
       throw new BadRequestException();
     }
-    if(group.Owner.username != group.Owner.username){
+    if(!group.Owner.equals(owner._id)){
        throw new BadRequestException();
     }
-    group.deleteOne();
+    await group.deleteOne();
     return 'Success';
   }
   
