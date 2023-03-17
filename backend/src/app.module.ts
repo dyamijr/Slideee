@@ -6,8 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
 
+
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot('mongodb://localhost:27017/slideee'), AuthModule, GroupsModule],
+  imports: [UsersModule, MongooseModule.forRoot('mongodb://0.0.0.0:27017', {
+    dbName: "slideee"
+  }), AuthModule, GroupsModule],
   controllers: [AppController],
   providers: [AppService],
 })
