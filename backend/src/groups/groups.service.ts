@@ -92,4 +92,24 @@ export class GroupsService {
 
     return group;
   }
+  async unfollowGroup(groupName: string, user: UserDocument){
+    let group = await this.groupModel.findOne({
+      groupName: groupName,
+    });
+    if (!group) {
+      throw new BadRequestException();
+    }
+
+    let index = group.Followers.indexOf(user._id);
+
+    if(index === -1){
+      throw new BadRequestException();
+    }
+    
+    group.Followers.splice(index, 1);
+
+    await group.save();
+
+    return group;
+  }
 }
