@@ -34,4 +34,10 @@ export class GroupsController {
     let group = await this.groupsService.editGroup(groupName, editGroupDto.displayName, editGroupDto.isPrivate, req.user);
     return group;
   }
+
+  @Post(':groupName/follow')
+  async followGroup(@Param('groupName') groupName: string, @Request() req) {
+    let group = await this.groupsService.followGroup(groupName, req.user);
+    return group;
+  }
 }

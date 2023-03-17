@@ -22,6 +22,7 @@ export class GroupsService {
       isPrivate: isPrivate,
       Owner: owner,
       Admins: [owner],
+      Followers: [],
     });
 
     await createdGroup.save();
@@ -70,4 +71,25 @@ export class GroupsService {
     return 'Success';
   }
   
+  async followGroup(groupName: string, user: UserDocument){
+    let group = await this.groupModel.findOne({
+      groupName: groupName,
+    });
+    if (!group) {
+      throw new BadRequestException();
+    }
+    if(group.Admins.find(x => x.equals(user._id))){
+      throw new BadRequestException();
+    }
+    if(group.Followers.find(x => x.equals(user._id))){
+      throw new BadRequestException();
+    }
+    if(!group.isPrivate){
+      group.Followers.push(user._id);
+    }
+    //When invite system is added request to follow private groups
+    await group.save();
+
+    return group;
+  }
 }
