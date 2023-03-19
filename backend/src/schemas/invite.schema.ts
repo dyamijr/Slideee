@@ -1,29 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 export type InviteDocument = HydratedDocument<Invite>;
 
+export enum InviteType {
+  FollowRequest = "FollowRequest",
+  AdminRequest = "AdminRequest",
+}
 @Schema()
 export class Invite {
-  @Prop()
+  @Prop({ type: String, enum: InviteType })
   type: string;
-
   
   @Prop()
-  sender: Schema.Types.ObjectId;
+  sender: mongoose.Types.ObjectId;
 
   @Prop()
-  recepient: Schema.Types.ObjectId;
+  recipient: mongoose.Types.ObjectId;
 
-  @Prop()
+  @Prop({ default: false })
   accepted: boolean;
 
   @Prop()
   created: Date;
-
-  @Prop()
-  expires:Date;
-
 }
 
 export const InviteSchema = SchemaFactory.createForClass(Invite);
