@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
@@ -10,14 +18,17 @@ export class EventsController {
   @UseGuards(AuthenticatedGuard)
   @Post('new')
   async create(@Body() createEventDto: CreateEventDto) {
-    let event = await this.eventsService.create(createEventDto.title, createEventDto.description);
+    const event = await this.eventsService.create(
+      createEventDto.title,
+      createEventDto.description,
+    );
     return event;
   }
 
   @UseGuards(AuthenticatedGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    let event = await this.eventsService.findOne(+id);
+    const event = await this.eventsService.findOne(+id);
     return event;
   }
 

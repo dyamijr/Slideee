@@ -16,11 +16,13 @@ export class User {
   @Prop()
   password: string;
 
-  @Prop({ 
-    type: [{ 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: 'Event' 
-    }]
+  @Prop({
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event',
+      },
+    ],
   })
   likedEvents: Event[];
 }

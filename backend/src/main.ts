@@ -11,11 +11,15 @@ async function bootstrap() {
     session({
       secret: 'my-secret',
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+      cookie: {
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000,
+      },
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  await app.listen(3000);
+  await app.listen(1234);
 }
 bootstrap();
