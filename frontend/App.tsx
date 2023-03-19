@@ -8,6 +8,7 @@ import Signup from './src/Signup';
 import Home from './src/Home';
 import Group from './src/Group';
 import CreateGroup from './src/CreateGroup';
+import Groups from './src/Groups';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Group" component={Group} />
         <Stack.Screen name="CreateGroup" component={CreateGroup} />
+        <Stack.Screen name="Groups" component={Groups} />
       </Stack.Navigator>
     </NavigationContainer>
   );

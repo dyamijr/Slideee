@@ -8,10 +8,13 @@ export class MeService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   getCurrentUser(me: UserDocument) {
-    console.log(me);
     return {
       username: me.username,
       displayName: me.displayName,
     };
+  }
+
+  getCurrentUserGroups(me: UserDocument) {
+    return [];
   }
 }

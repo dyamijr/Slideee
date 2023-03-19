@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import Input from './components/Input';
+import { REACT_APP_BACKEND_URL } from '@env';
 
 export default function Home({ navigation }: { route: any; navigation: any }) {
   const [userSearchQuery, setUserSearchQuery] = useState('');
-  const [groupSearchQuery, setGroupSearchQuery] = useState('');
 
   useEffect(() => {
     async function getCurrentUser() {
-      let response = await fetch('http://129.161.251.215:1234/users/me', {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me`, {
         method: 'GET',
       });
       let json = await response.json();
@@ -25,22 +25,11 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
         placeholder={'Username'}
       />
       <Button title={'Search User'} />
-      <Input
-        value={groupSearchQuery}
-        onChangeText={(newValue) => setGroupSearchQuery(newValue)}
-        placeholder={'Group Name'}
-      />
       <Button
-        title={'Search Group'}
+        title={'Groups'}
         onPress={() =>
-          navigation.navigate('Group', {
-            groupName: groupSearchQuery,
-          })
+          navigation.navigate('Groups')
         }
-      />
-      <Button
-        title={'Create Group'}
-        onPress={() => navigation.navigate('CreateGroup')}
       />
     </View>
   );

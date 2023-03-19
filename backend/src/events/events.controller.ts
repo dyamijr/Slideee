@@ -17,10 +17,12 @@ export class EventsController {
 
   @UseGuards(AuthenticatedGuard)
   @Post('new')
-  async create(@Body() createEventDto: CreateEventDto) {
+  async create(@Request() req, @Body() createEventDto: CreateEventDto) {
     const event = await this.eventsService.create(
       createEventDto.title,
       createEventDto.description,
+      createEventDto.collaborators,
+      req.user
     );
     return event;
   }

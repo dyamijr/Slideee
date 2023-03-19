@@ -25,8 +25,8 @@ export class GroupsService {
       groupName: groupName,
       displayName: displayName,
       isPrivate: isPrivate,
-      Owner: owner,
-      Admins: [owner],
+      owner: owner,
+      admins: [owner],
     });
 
     await createdGroup.save();
@@ -55,7 +55,7 @@ export class GroupsService {
       throw new BadRequestException();
     }
 
-    if (!group.Admins.find((x) => x.equals(user._id))) {
+    if (!group.admins.find((x) => x.equals(user._id))) {
       throw new BadRequestException();
     }
 
@@ -73,7 +73,7 @@ export class GroupsService {
     if (!group) {
       throw new BadRequestException();
     }
-    if (!group.Owner.equals(owner._id)) {
+    if (!group.owner.equals(owner._id)) {
       throw new BadRequestException();
     }
     await group.deleteOne();
