@@ -7,11 +7,25 @@ import { Types } from 'mongoose';
 export class InvitesController {
   constructor(private readonly invitesService: InvitesService) {}
  
-  @Post('new')
-  async createInvite() {
-    let sender = new Types.ObjectId();
-    let recipient = new Types.ObjectId();
-    let invite = this.invitesService.createInvite(InviteType.FollowRequest, sender, recipient);
+
+  // create invite was being removed because we call the service from user/group
+
+  // add req to make sure all recepient can accept the invite 
+  @Post(':id/accept')
+  async acceptInvite(@Param('id') inviteId: string) {
+    let invite = await this.invitesService.acceptInvite(inviteId);
+    return invite;
+  }
+  
+  @Post(':id/decline')
+  async declineInvite(@Param('id') inviteId: string) {
+    let invite = await this.invitesService.declineInvite(inviteId);
+    return invite;
+  }
+
+  @Post(':id/remove')
+  async removeInvite(@Param('id') inviteId: string) {
+    let invite = await this.invitesService.removeInvite(inviteId);
     return invite;
   }
 

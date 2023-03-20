@@ -5,8 +5,8 @@ import * as mongoose from 'mongoose';
 export type InviteDocument = HydratedDocument<Invite>;
 
 export enum InviteType {
-  FollowRequest = "FollowRequest",
-  AdminRequest = "AdminRequest",
+  FollowRequest = "FollowRequest", // this is a user to group invitation
+  AdminRequest = "AdminRequest",   // this is a  group to user invitation
 }
 @Schema()
 export class Invite {
