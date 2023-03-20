@@ -24,7 +24,6 @@ export class EventsService {
       collaboratorsGroupDocuments.push(group);
     }
 
-    
     let isUserGroupAdmin = collaboratorsGroupDocuments[0].admins.find((x) => x.equals(admin._id));
     if (!isUserGroupAdmin) {
       throw new UnauthorizedException();
@@ -37,8 +36,8 @@ export class EventsService {
       createdBy: admin._id,
       created: Date.now()
     });
-    
     await createdEvent.save();
+    
     return createdEvent;
   }
 

@@ -27,11 +27,4 @@ export class EventsController {
     );
     return event;
   }
-
-  @UseGuards(AuthenticatedGuard)
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const event = await this.eventsService.findOne(+id);
-    return event;
-  }
 }

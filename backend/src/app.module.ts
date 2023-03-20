@@ -8,16 +8,20 @@ import { EventsController } from './events/events.controller';
 import { EventsModule } from './events/events.module';
 import { GroupsModule } from './groups/groups.module';
 import { UsersController } from './users/users.controller';
+import { InvitesModule } from './invites/invites.module';
 
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/slideee'),
+    MongooseModule.forRoot('mongodb://0.0.0.0:27017', {
+      dbName: 'slideee',
+    }),
     AuthModule,
     GroupsModule,
-    EventsModule,
+    InvitesModule,
+    EventsModule
   ],
-  controllers: [AppController, UsersController, EventsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -3,7 +3,9 @@ import {
   Get,
   Post,
   Body,
+  Patch,
   Param,
+  Delete,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -11,6 +13,7 @@ import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { EditGroupDto } from './dto/edit-group.dto';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
+import { User } from '../schemas/user.schema';
 
 @Controller('groups')
 export class GroupsController {
