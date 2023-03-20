@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
-import { InvitesModule } from './invite/invites.module';
+import { InvitesModule } from './invites/invites.module';
 
 @Module({
   imports: [
