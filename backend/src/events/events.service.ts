@@ -11,20 +11,31 @@ import { UnauthorizedException } from '@nestjs/common/exceptions';
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
-    private groupsService: GroupsService
+    private groupsService: GroupsService,
   ) {}
 
-  async create(title: string, description: string, collaboratorsGroupNames: string[], admin: UserDocument) {
-    let collaboratorsGroupDocuments: GroupDocument[] = [];
-    for (let collaboratorGroupName of collaboratorsGroupNames) {
-      let group = await this.groupsService.findOneByGroupName(collaboratorGroupName);
+  async create(
+    title: string,
+    description: string,
+    collaboratorsGroupNames: string[],
+    admin: UserDocument,
+  ) {
+    const collaboratorsGroupDocuments: GroupDocument[] = [];
+    for (const collaboratorGroupName of collaboratorsGroupNames) {
+      const group = await this.groupsService.findOneByGroupName(
+        collaboratorGroupName,
+      );
       if (!group) {
-        throw new BadRequestException(`Group Not Found: ${collaboratorGroupName}`);
+        throw new BadRequestException(
+          `Group Not Found: ${collaboratorGroupName}`,
+        );
       }
       collaboratorsGroupDocuments.push(group);
     }
 
-    let isUserGroupAdmin = collaboratorsGroupDocuments[0].admins.find((x) => x.equals(admin._id));
+    const isUserGroupAdmin = collaboratorsGroupDocuments[0].admins.find((x) =>
+      x.equals(admin._id),
+    );
     if (!isUserGroupAdmin) {
       throw new UnauthorizedException();
     }
@@ -34,10 +45,10 @@ export class EventsService {
       description: description,
       collaborators: [collaboratorsGroupDocuments[0]._id],
       createdBy: admin._id,
-      created: Date.now()
+      created: Date.now(),
     });
     await createdEvent.save();
-    
+
     return createdEvent;
   }
 

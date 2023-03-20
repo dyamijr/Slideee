@@ -22,7 +22,7 @@ export class AuthController {
   @UseGuards(LoginAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    console.log("Here")
+    console.log('Here');
     return req.user;
   }
 

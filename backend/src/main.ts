@@ -3,7 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as passport from 'passport';
 import * as session from 'express-session';
-let MongoStore = require('connect-mongo')
+const MongoStore = require('connect-mongo');
 
 async function bootstrap() {
   console.log(MongoStore);

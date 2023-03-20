@@ -8,7 +8,7 @@ import { GroupsModule } from 'src/groups/groups.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
-    GroupsModule
+    GroupsModule,
   ],
   controllers: [EventsController],
   providers: [EventsService],

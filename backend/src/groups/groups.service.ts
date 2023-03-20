@@ -61,7 +61,7 @@ export class GroupsService {
 
     group.displayName = displayName;
     group.isPrivate = isPrivate;
-    
+
     await group.save();
     return group;
   }

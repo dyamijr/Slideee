@@ -18,12 +18,12 @@ export class EventsController {
   @UseGuards(AuthenticatedGuard)
   @Post('new')
   async create(@Request() req, @Body() createEventDto: CreateEventDto) {
-    console.log("Here");
+    console.log('Here');
     const event = await this.eventsService.create(
       createEventDto.title,
       createEventDto.description,
       createEventDto.collaborators,
-      req.user
+      req.user,
     );
     return event;
   }

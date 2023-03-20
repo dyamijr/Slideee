@@ -3,7 +3,12 @@ import { StyleSheet, View, Button } from 'react-native';
 import Input from './components/Input';
 import { REACT_APP_BACKEND_URL } from '@env';
 
-export default function Groups({ navigation }: { route: any; navigation: any }) {
+export default function Groups({
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}) {
   const [groupSearchQuery, setGroupSearchQuery] = useState('');
 
   useEffect(() => {

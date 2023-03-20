@@ -19,7 +19,7 @@ import { InvitesModule } from './invites/invites.module';
     AuthModule,
     GroupsModule,
     InvitesModule,
-    EventsModule
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

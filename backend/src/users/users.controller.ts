@@ -6,8 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards, 
-  Request 
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';

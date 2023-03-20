@@ -25,7 +25,7 @@ export default function CreateEvent({
         body: JSON.stringify({
           title: title,
           description: description,
-          collaborators: [route.params.groupName]
+          collaborators: [route.params.groupName],
         }),
       });
       if (response.ok) {

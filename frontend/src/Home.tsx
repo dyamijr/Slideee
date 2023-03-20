@@ -25,12 +25,7 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
         placeholder={'Username'}
       />
       <Button title={'Search User'} />
-      <Button
-        title={'Groups'}
-        onPress={() =>
-          navigation.navigate('Groups')
-        }
-      />
+      <Button title={'Groups'} onPress={() => navigation.navigate('Groups')} />
     </View>
   );
 }
