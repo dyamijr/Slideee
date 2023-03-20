@@ -1,42 +1,46 @@
 import { Model } from 'mongoose';
-import { Injectable, BadRequestException} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Invite, InviteDocument } from '../schemas/invite.schema';
 import { SchemaFactory } from '@nestjs/mongoose';
 import { InviteType } from '../schemas/invite.schema';
 import * as mongoose from 'mongoose';
-import { ObjectId } from "mongodb";
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class InvitesService {
-  constructor(@InjectModel(Invite.name) private inviteModel: Model<InviteDocument>) {}
-  // to create an invite: invite type, sender, recepient and expiry time 
+  constructor(
+    @InjectModel(Invite.name) private inviteModel: Model<InviteDocument>,
+  ) {}
+  // to create an invite: invite type, sender, recepient and expiry time
   //remember ot add back expires
-  async createInvite(type: InviteType, sender: mongoose.Types.ObjectId, recipient: mongoose.Types.ObjectId) {
-    
-      //first make sure invite type is valid 
+  async createInvite(
+    type: InviteType,
+    sender: mongoose.Types.ObjectId,
+    recipient: mongoose.Types.ObjectId,
+  ) {
+    //first make sure invite type is valid
     /*1. "follow_request"
       2. "become_admin"
       3.  */
-    //add functionality to prevent sending multiple invites 
-    //set date now to the current date 
+    //add functionality to prevent sending multiple invites
+    //set date now to the current date
     const createdInvite = new this.inviteModel({
-      type : type,
+      type: type,
       sender: sender,
       recipient: recipient,
       created: new Date(),
     });
-    
+
     await createdInvite.save();
     return createdInvite;
   }
-  //Requres valid invite object id 
- async acceptInvite(inviteId:string) {
-    
-    let invite = await this.inviteModel.findById(inviteId);
-    
+  //Requres valid invite object id
+  async acceptInvite(inviteId: string) {
+    const invite = await this.inviteModel.findById(inviteId);
+
     if (!invite) {
-      throw new BadRequestException("invite does not exist");
+      throw new BadRequestException('invite does not exist');
     }
     //accept the invite
     invite.accepted = true;
@@ -44,24 +48,21 @@ export class InvitesService {
     return invite;
   }
 
-  async declineInvite(inviteId:string) {
-    let invite = await this.inviteModel.findById(inviteId);
+  async declineInvite(inviteId: string) {
+    const invite = await this.inviteModel.findById(inviteId);
     if (!invite) {
-      throw new BadRequestException("invite does not exist");
+      throw new BadRequestException('invite does not exist');
     }
     await invite.deleteOne();
     return 'Success';
   }
 
-  async removeInvite(inviteId:string) {
-    let invite = await this.inviteModel.findById(inviteId);
+  async removeInvite(inviteId: string) {
+    const invite = await this.inviteModel.findById(inviteId);
     if (!invite) {
-      throw new BadRequestException("invite does not exist");
+      throw new BadRequestException('invite does not exist');
     }
     await invite.deleteOne();
     return 'Success';
-    
-
   }
-
 }

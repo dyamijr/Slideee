@@ -5,7 +5,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Invite, InviteSchema } from '../schemas/invite.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Invite.name, schema: InviteSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Invite.name, schema: InviteSchema }]),
+  ],
   controllers: [InvitesController],
   providers: [InvitesService],
   exports: [InvitesService],
