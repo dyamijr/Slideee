@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-import * as session from 'express-session';
 import * as passport from 'passport';
+import * as session from 'express-session';
+const MongoStore = require('connect-mongo');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,10 +13,18 @@ async function bootstrap() {
       secret: 'my-secret',
       resave: false,
       saveUninitialized: false,
+      cookie: {
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000,
+      },
+      store: MongoStore.create({
+        mongoUrl: 'mongodb://0.0.0.0:27017',
+        dbName: 'slideee'
+      }),
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  await app.listen(3000);
+  await app.listen(1234);
 }
 bootstrap();

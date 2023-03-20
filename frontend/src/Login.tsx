@@ -1,13 +1,16 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View, Button, TextInput } from 'react-native';
+import Input from './components/Input';
+import { REACT_APP_BACKEND_URL } from '@env';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }: { route: any; navigation: any }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const onLogin = useCallback(async () => {
     try {
-      let response = await fetch("http://localhost:3000/auth/login", {
+      console.log('HERE');
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -18,39 +21,38 @@ export default function Login({navigation}) {
           password: password,
         }),
       });
-      let json = response.json();
-      console.log(json);
-    } catch(err) {
+      console.log(response);
+      if (response.ok) {
+        navigation.navigate('Home');
+      } else {
+        setPassword('');
+      }
+    } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [username, password]);
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <Input
         placeholder="Username"
-        onChangeText={(value) => setUsername(value)}
         value={username}
+        onChangeText={(newValue) => setUsername(newValue)}
       />
-      <TextInput
+      <Input
         placeholder="Password"
-        onChangeText={(value) => setPassword(value)}
+        onChangeText={(newValue) => setPassword(newValue)}
         value={password}
         secureTextEntry={true}
       />
-      <Button
-        title="Login"
-        onPress={onLogin}
-      />
+      <Button title="Login" onPress={onLogin} />
       <Button
         title="Don't have an account?"
-        onPress={() =>
-          navigation.navigate('Signup')
-        }
+        onPress={() => navigation.navigate('Signup')}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -1,41 +1,68 @@
-import React, {useState} from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, View, Button, TextInput } from 'react-native';
+import Input from './components/Input';
+import { REACT_APP_BACKEND_URL } from '@env';
 
-export default function Signup({navigation}) {
+export default function Signup({
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}) {
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
 
+  const onSignup = useCallback(async () => {
+    try {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          displayName: displayName,
+          password: password,
+        }),
+      });
+      if (response.ok) {
+        navigation.navigate('Home');
+      } else {
+        setPassword('');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [username, displayName, password]);
+
   return (
     <View style={styles.container}>
-      <TextInput
+      <Input
         placeholder="Username"
-        onChangeText={(value) => setUsername(value)}
         value={username}
+        onChangeText={(newValue) => setUsername(newValue)}
       />
-      <TextInput
+      <Input
         placeholder="Display Name"
-        onChangeText={(value) => setDisplayName(value)}
         value={displayName}
+        onChangeText={(newValue) => setDisplayName(newValue)}
       />
-      <TextInput
+      <Input
         placeholder="Password"
-        onChangeText={(value) => setPassword(value)}
         value={password}
+        onChangeText={(newValue) => setPassword(newValue)}
         secureTextEntry={true}
       />
-      <Button
-        title="Signup"
-      />
+      <Button title="Signup" onPress={onSignup} />
       <Button
         title="Already have an account?"
-        onPress={() =>
-          navigation.navigate('Login')
-        }
+        onPress={() => navigation.navigate('Login')}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

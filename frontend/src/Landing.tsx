@@ -1,23 +1,13 @@
 import { StyleSheet, View, Button } from 'react-native';
 
-export default function Landing({navigation}) {
+export default function Landing({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
-      <Button
-        title="Login"
-        onPress={() =>
-          navigation.navigate('Login')
-        }
-      />
-      <Button
-        title="Signup"
-        onPress={() =>
-          navigation.navigate('Signup')
-        }
-      />
+      <Button title="Login" onPress={() => navigation.navigate('Login')} />
+      <Button title="Signup" onPress={() => navigation.navigate('Signup')} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

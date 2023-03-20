@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from './dto/signup.dto';
-import { validate, Length } from 'class-validator';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class SignupStrategy extends PassportStrategy(Strategy, 'signup') {

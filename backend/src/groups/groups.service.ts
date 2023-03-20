@@ -3,7 +3,6 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group, GroupDocument } from '../schemas/group.schema';
 import { User, UserDocument } from '../schemas/user.schema';
-import { ConsoleWriter } from 'istanbul-lib-report';
 
 @Injectable()
 export class GroupsService {
@@ -26,8 +25,8 @@ export class GroupsService {
       groupName: groupName,
       displayName: displayName,
       isPrivate: isPrivate,
-      Owner: owner,
-      Admins: [owner],
+      owner: owner,
+      admins: [owner],
     });
 
     await createdGroup.save();
@@ -56,14 +55,14 @@ export class GroupsService {
       throw new BadRequestException();
     }
 
-    if (!group.Admins.find((x) => x.equals(user._id))) {
+    if (!group.admins.find((x) => x.equals(user._id))) {
       throw new BadRequestException();
     }
 
     group.displayName = displayName;
     group.isPrivate = isPrivate;
-    await group.save();
 
+    await group.save();
     return group;
   }
 
@@ -74,7 +73,7 @@ export class GroupsService {
     if (!group) {
       throw new BadRequestException();
     }
-    if (!group.Owner.equals(owner._id)) {
+    if (!group.owner.equals(owner._id)) {
       throw new BadRequestException();
     }
     await group.deleteOne();
