@@ -14,7 +14,7 @@ export class Group {
   displayName: string;
 
   @Prop()
-  isPrivate: Boolean;
+  isPrivate: boolean;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   Owner: mongoose.Types.ObjectId;
@@ -22,6 +22,6 @@ export class Group {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   Admins: mongoose.Types.ObjectId[];
 }
-const GroupSchema = SchemaFactory.createForClass(Group)
+const GroupSchema = SchemaFactory.createForClass(Group);
 
-export {GroupSchema};
+export { GroupSchema };

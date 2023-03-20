@@ -5,7 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { LoginStrategy } from './login.strategy';
 import { SignupStrategy } from './signup.strategy';
 import { AuthController } from './auth.controller';
-import { SessionSerializer } from "./session.serializer";
+import { SessionSerializer } from './session.serializer';
 
 @Module({
   controllers: [AuthController],

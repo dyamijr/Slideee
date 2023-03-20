@@ -6,7 +6,7 @@ export class SignupDto {
 
   @Length(3, 20)
   displayName: string;
-  
+
   @Length(3, 20)
   password: string;
 }
