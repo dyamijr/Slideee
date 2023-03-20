@@ -6,7 +6,6 @@ import * as session from 'express-session';
 const MongoStore = require('connect-mongo');
 
 async function bootstrap() {
-  console.log(MongoStore);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.use(
@@ -19,7 +18,8 @@ async function bootstrap() {
         maxAge: 24 * 60 * 60 * 1000,
       },
       store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/slideee',
+        mongoUrl: 'mongodb://0.0.0.0:27017',
+        dbName: 'slideee'
       }),
     }),
   );
