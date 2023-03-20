@@ -15,6 +15,7 @@ export default function CreateEvent({
 
   const onCreateEvent = useCallback(async () => {
     try {
+      console.log(route);
       let response = await fetch(`${REACT_APP_BACKEND_URL}/events/new`, {
         method: 'POST',
         headers: {

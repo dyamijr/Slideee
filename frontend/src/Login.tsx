@@ -9,6 +9,7 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
 
   const onLogin = useCallback(async () => {
     try {
+      console.log("HERE")
       let response = await fetch(`${REACT_APP_BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -20,6 +21,7 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
           password: password,
         }),
       });
+      console.log(response);
       if (response.ok) {
         navigation.navigate('Home');
       } else {

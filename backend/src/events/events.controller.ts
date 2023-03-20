@@ -18,6 +18,7 @@ export class EventsController {
   @UseGuards(AuthenticatedGuard)
   @Post('new')
   async create(@Request() req, @Body() createEventDto: CreateEventDto) {
+    console.log("Here");
     const event = await this.eventsService.create(
       createEventDto.title,
       createEventDto.description,
@@ -32,11 +33,5 @@ export class EventsController {
   async findOne(@Param('id') id: string) {
     const event = await this.eventsService.findOne(+id);
     return event;
-  }
-
-  @UseGuards(AuthenticatedGuard)
-  @Post(':id/like')
-  async likeEvent(@Request() req, @Param('id') id: string) {
-    return await this.eventsService.likeEvent(+id, req.user);
   }
 }

@@ -15,7 +15,7 @@ export class EventsService {
   ) {}
 
   async create(title: string, description: string, collaboratorsGroupNames: string[], admin: UserDocument) {
-    let collaboratorsGroupDocuments: GroupDocument[];
+    let collaboratorsGroupDocuments: GroupDocument[] = [];
     for (let collaboratorGroupName of collaboratorsGroupNames) {
       let group = await this.groupsService.findOneByGroupName(collaboratorGroupName);
       if (!group) {
@@ -23,6 +23,7 @@ export class EventsService {
       }
       collaboratorsGroupDocuments.push(group);
     }
+
     
     let isUserGroupAdmin = collaboratorsGroupDocuments[0].admins.find((x) => x.equals(admin._id));
     if (!isUserGroupAdmin) {
@@ -36,7 +37,7 @@ export class EventsService {
       createdBy: admin._id,
       created: Date.now()
     });
-
+    
     await createdEvent.save();
     return createdEvent;
   }
@@ -44,26 +45,5 @@ export class EventsService {
   async findOne(id: number) {
     const event = await this.eventModel.findById(id);
     return event;
-  }
-
-  async likeEvent(id: number, user: UserDocument) {
-    const event = await this.eventModel.findById(id);
-    if (!event) {
-      throw new BadRequestException();
-    }
-
-    const userEventIndex = user.likedEvents.findIndex((x) => x == event);
-    if (userEventIndex >= 0) {
-      event.likes--;
-      user.likedEvents.splice(userEventIndex, 1);
-    } else {
-      event.likes++;
-      user.likedEvents.push(event);
-    }
-
-    await event.save();
-    await user.save();
-
-    return 'Success';
   }
 }

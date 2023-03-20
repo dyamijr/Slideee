@@ -26,7 +26,9 @@ export default function Group({
   return (
     <View style={styles.container}>
       <Text>{route.params.groupName}</Text>
-      <Button title={'CreateEvent'} onPress={() => navigation.navigate('CreateEvent')} />
+      <Button title={'CreateEvent'} onPress={() => navigation.navigate('CreateEvent', {
+        groupName: route.params.groupName,
+      })} />
       <Button title={'Home'} onPress={() => navigation.navigate('Home')} />
     </View>
   );
