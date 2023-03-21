@@ -88,14 +88,14 @@ export class GroupsService {
     if (!group) {
       throw new BadRequestException();
     }
-    if(group.Admins.find(x => x.equals(user._id))){
+    if(group.admins.find(x => x.equals(user._id))){
       throw new BadRequestException();
     }
-    if(group.Followers.find(x => x.equals(user._id))){
+    if(group.followers.find(x => x.equals(user._id))){
       throw new BadRequestException();
     }
     if(!group.isPrivate){
-      group.Followers.push(user._id);
+      group.followers.push(user._id);
     }
     //When invite system is added request to follow private groups
     await group.save();
@@ -110,13 +110,13 @@ export class GroupsService {
       throw new BadRequestException();
     }
 
-    let index = group.Followers.indexOf(user._id);
+    let index = group.followers.indexOf(user._id);
 
     if(index === -1){
       throw new BadRequestException();
     }
     
-    group.Followers.splice(index, 1);
+    group.followers.splice(index, 1);
 
     await group.save();
 
