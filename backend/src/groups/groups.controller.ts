@@ -57,4 +57,16 @@ export class GroupsController {
     );
     return group;
   }
+
+  @Post(':groupName/follow')
+  async followGroup(@Param('groupName') groupName: string, @Request() req) {
+    let group = await this.groupsService.followGroup(groupName, req.user);
+    return group;
+  }
+
+  @Post(':groupName/unfollow')
+  async unfollowGroup(@Param('groupName') groupName: string, @Request() req) {
+    let group = await this.groupsService.unfollowGroup(groupName, req.user);
+    return group;
+  }
 }

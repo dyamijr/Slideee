@@ -19,7 +19,10 @@ export class Group {
   owner: mongoose.Types.ObjectId;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  admins: mongoose.Types.ObjectId[];
+  Admins: mongoose.Types.ObjectId[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  Followers: mongoose.Types.ObjectId[];
 }
 
 const GroupSchema = SchemaFactory.createForClass(Group);

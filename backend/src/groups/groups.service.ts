@@ -25,8 +25,9 @@ export class GroupsService {
       groupName: groupName,
       displayName: displayName,
       isPrivate: isPrivate,
-      owner: owner,
-      admins: [owner],
+      Owner: owner,
+      Admins: [owner],
+      Followers: [],
     });
 
     await createdGroup.save();
@@ -78,5 +79,47 @@ export class GroupsService {
     }
     await group.deleteOne();
     return 'Success';
+  }
+  
+  async followGroup(groupName: string, user: UserDocument){
+    let group = await this.groupModel.findOne({
+      groupName: groupName,
+    });
+    if (!group) {
+      throw new BadRequestException();
+    }
+    if(group.Admins.find(x => x.equals(user._id))){
+      throw new BadRequestException();
+    }
+    if(group.Followers.find(x => x.equals(user._id))){
+      throw new BadRequestException();
+    }
+    if(!group.isPrivate){
+      group.Followers.push(user._id);
+    }
+    //When invite system is added request to follow private groups
+    await group.save();
+
+    return group;
+  }
+  async unfollowGroup(groupName: string, user: UserDocument){
+    let group = await this.groupModel.findOne({
+      groupName: groupName,
+    });
+    if (!group) {
+      throw new BadRequestException();
+    }
+
+    let index = group.Followers.indexOf(user._id);
+
+    if(index === -1){
+      throw new BadRequestException();
+    }
+    
+    group.Followers.splice(index, 1);
+
+    await group.save();
+
+    return group;
   }
 }
