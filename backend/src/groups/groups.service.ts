@@ -14,7 +14,7 @@ export class GroupsService {
     groupName: string,
     displayName: string,
     isPrivate: boolean,
-    owner: User,
+    owner: UserDocument,
   ) {
     const group = await this.findOneByGroupName(groupName);
     if (group) {
@@ -25,9 +25,9 @@ export class GroupsService {
       groupName: groupName,
       displayName: displayName,
       isPrivate: isPrivate,
-      Owner: owner,
-      Admins: [owner],
-      Followers: [],
+      owner: owner._id,
+      admins: [owner],
+      followers: [],
     });
 
     await createdGroup.save();
