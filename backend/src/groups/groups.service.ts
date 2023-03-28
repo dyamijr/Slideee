@@ -125,7 +125,8 @@ export class GroupsService {
     await group.save();
 
     return group;
-
+  }
+  
   // TODO: Get requests where the group is a sender and where the group is a recipient.
   async getGroupCollaborationRequests() {
     return [];
