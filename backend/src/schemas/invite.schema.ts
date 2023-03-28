@@ -7,6 +7,7 @@ export type InviteDocument = HydratedDocument<Invite>;
 export enum InviteType {
   FollowRequest = 'FollowRequest',
   AdminRequest = 'AdminRequest',
+  CollaboratorRequest = 'CollaboratorRequest',
 }
 
 @Schema()
@@ -19,6 +20,9 @@ export class Invite {
 
   @Prop()
   recipient: mongoose.Types.ObjectId;
+
+  @Prop()
+  content: mongoose.Types.ObjectId;
 
   @Prop({ default: false })
   accepted: boolean;

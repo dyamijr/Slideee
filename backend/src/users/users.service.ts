@@ -25,17 +25,13 @@ export class UsersService {
     if (user) {
       throw new BadRequestException();
     }
-
     const hashPassword = await bcrypt.hash(password, 10);
-
     const createdUser = new this.userModel({
       username: username,
       displayName: displayName,
       password: hashPassword,
     });
-
     await createdUser.save();
-
     return createdUser;
   }
 }

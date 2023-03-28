@@ -8,6 +8,8 @@ import {
   Delete,
   Request,
   UseGuards,
+  Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
@@ -31,9 +33,18 @@ export class GroupsController {
     return group;
   }
 
+  @Get('/')
+  async queryGroups(@Query('groupName') groupNameQuery = '') {
+    const groups = await this.groupsService.queryGroups(groupNameQuery);
+    return groups;
+  }
+
   @Get(':groupName')
   async findOneByGroupName(@Param('groupName') groupName: string) {
     const group = await this.groupsService.findOneByGroupName(groupName);
+    if (!group) {
+      throw new NotFoundException();
+    }
     return group;
   }
 

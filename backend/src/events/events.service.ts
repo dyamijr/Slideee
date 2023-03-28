@@ -5,13 +5,19 @@ import { Event, EventDocument } from '../schemas/event.schema';
 import { UserDocument } from '../schemas/user.schema';
 import { GroupDocument } from 'src/schemas/group.schema';
 import { GroupsService } from 'src/groups/groups.service';
-import { UnauthorizedException } from '@nestjs/common/exceptions';
+import {
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common/exceptions';
+import { InviteType } from 'src/schemas/invite.schema';
+import { InvitesService } from 'src/invites/invites.service';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
     private groupsService: GroupsService,
+    private invitesService: InvitesService,
   ) {}
 
   async create(
@@ -48,6 +54,15 @@ export class EventsService {
       created: Date.now(),
     });
     await createdEvent.save();
+
+    for (let i = 1; i < collaboratorsGroupDocuments.length; i++) {
+      this.invitesService.createInvite(
+        InviteType.CollaboratorRequest,
+        collaboratorsGroupDocuments[0]._id,
+        collaboratorsGroupDocuments[i]._id,
+        createdEvent._id,
+      );
+    }
 
     return createdEvent;
   }
