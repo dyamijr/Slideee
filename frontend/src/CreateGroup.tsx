@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
-import Input from './components/Input';
+import { StyleSheet, View, Text } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
+import { Button, Checkbox, TextInput } from 'react-native-paper';
 
 export default function CreateGroup({
   route,
@@ -28,34 +28,43 @@ export default function CreateGroup({
           isPrivate: isPrivate,
         }),
       });
-      if (response.ok) {
-        navigation.navigate('Group', {
-          groupName: groupName,
-        });
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
       }
+      navigation.navigate('Group', {
+        screen: 'Main',
+        params: {
+          groupName: groupName,
+        }
+      });
     } catch (err) {
-      console.log(err);
+      console.error(`Error Creating Group: ${err}`);
     }
   }, [groupName, displayName, isPrivate]);
 
   return (
     <View style={styles.container}>
-      <Input
+      <TextInput
         placeholder="Group Name"
         value={groupName}
         onChangeText={(newValue) => setGroupName(newValue)}
       />
-      <Input
+      <TextInput
         placeholder="Display Name"
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
       />
-      <Button
-        title={`isPrivate: ${isPrivate}`}
-        onPress={() => setIsPrivate(!isPrivate)}
+      <Checkbox.Item
+        mode="android"
+        label='isPrivate'
+        status={isPrivate ? 'checked' : 'unchecked'}
+        onPress={() => {
+          setIsPrivate(!isPrivate);
+        }}
       />
-      <Button title={`Create Group`} onPress={onCreateGroup} />
-      <Button title={'Home'} onPress={() => navigation.navigate('Home')} />
+      <Button mode="outlined" onPress={onCreateGroup}>
+        Create Group
+        </Button>
     </View>
   );
 }
