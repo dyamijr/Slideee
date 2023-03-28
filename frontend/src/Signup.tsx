@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Button, TextInput } from 'react-native';
-import Input from './components/Input';
+import { StyleSheet, View } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
+import { Button, TextInput } from 'react-native-paper';
 
 export default function Signup({
   navigation,
@@ -33,33 +33,36 @@ export default function Signup({
         setPassword('');
       }
     } catch (err) {
-      console.log(err);
+      console.error(`Error Signing Up: ${err}.`)
     }
   }, [username, displayName, password]);
 
   return (
     <View style={styles.container}>
-      <Input
+      <TextInput
         placeholder="Username"
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
-      <Input
+      <TextInput
         placeholder="Display Name"
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
       />
-      <Input
+      <TextInput
         placeholder="Password"
         value={password}
         onChangeText={(newValue) => setPassword(newValue)}
         secureTextEntry={true}
       />
-      <Button title="Signup" onPress={onSignup} />
+      <Button onPress={onSignup}>
+        Signup
+      </Button>
       <Button
-        title="Already have an account?"
         onPress={() => navigation.navigate('Login')}
-      />
+      >
+        Already have an account?
+      </Button>
     </View>
   );
 }

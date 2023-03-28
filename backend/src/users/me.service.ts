@@ -14,6 +14,7 @@ export class MeService {
     };
   }
 
+  // Todo: Return Groups that the user is an admin of.
   getCurrentUserGroups(me: UserDocument) {
     return [];
   }

@@ -11,14 +11,21 @@ export default function Group({
 }) {
   useEffect(() => {
     async function getGroup() {
-      let response = await fetch(
-        `${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}`,
-        {
-          method: 'GET',
-        },
-      );
-      let json = await response.json();
-      console.log(json);
+      try {
+        let response = await fetch(
+          `${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}`,
+          {
+            method: 'GET',
+          },
+        );
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        let json = await response.json();
+        console.log(json);
+      } catch(err) {
+        console.error(`Error retrieving group: ${err}.`)
+      }
     }
     getGroup();
   }, []);
@@ -26,15 +33,6 @@ export default function Group({
   return (
     <View style={styles.container}>
       <Text>{route.params.groupName}</Text>
-      <Button
-        title={'CreateEvent'}
-        onPress={() =>
-          navigation.navigate('CreateEvent', {
-            groupName: route.params.groupName,
-          })
-        }
-      />
-      <Button title={'Home'} onPress={() => navigation.navigate('Home')} />
     </View>
   );
 }

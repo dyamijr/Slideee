@@ -8,6 +8,8 @@ import {
   Delete,
   Request,
   UseGuards,
+  Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
@@ -30,18 +32,31 @@ export class GroupsController {
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Get('/')
+  async queryGroups(@Query('groupName') groupNameQuery = '') {
+    const groups = await this.groupsService.queryGroups(groupNameQuery);
+    return groups;
+  }
+
+  @UseGuards(AuthenticatedGuard)
   @Get(':groupName')
   async findOneByGroupName(@Param('groupName') groupName: string) {
     const group = await this.groupsService.findOneByGroupName(groupName);
+    if (!group) {
+      throw new NotFoundException();
+    }
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
     const group = await this.groupsService.deleteGroup(groupName, req.user);
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/edit')
   async editGroup(
     @Param('groupName') groupName: string,
