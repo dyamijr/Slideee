@@ -34,6 +34,7 @@ export class UsersController {
     return data;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get(':username')
   async findOneByUsername(@Param('username') username: string) {
     const user = await this.usersService.findOneByUsername(username);

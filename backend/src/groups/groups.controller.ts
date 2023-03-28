@@ -33,12 +33,14 @@ export class GroupsController {
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get('/')
   async queryGroups(@Query('groupName') groupNameQuery = '') {
     const groups = await this.groupsService.queryGroups(groupNameQuery);
     return groups;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get(':groupName')
   async findOneByGroupName(@Param('groupName') groupName: string) {
     const group = await this.groupsService.findOneByGroupName(groupName);
@@ -48,12 +50,14 @@ export class GroupsController {
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
     const group = await this.groupsService.deleteGroup(groupName, req.user);
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/edit')
   async editGroup(
     @Param('groupName') groupName: string,
