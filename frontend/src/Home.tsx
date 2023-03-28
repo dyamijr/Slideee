@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
-import Input from './components/Input';
 import { REACT_APP_BACKEND_URL } from '@env';
 
 export default function Home({ navigation }: { route: any; navigation: any }) {
@@ -8,24 +7,25 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
 
   useEffect(() => {
     async function getCurrentUser() {
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me`, {
-        method: 'GET',
-      });
-      let json = await response.json();
-      console.log(json);
+      try {
+        let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me`, {
+          method: 'GET',
+        });
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        let json = await response.json();
+        console.log(json);
+      } catch(err) {
+        console.error(`Error retrieving current user: ${err}`);
+      }
     }
     getCurrentUser();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Input
-        value={userSearchQuery}
-        onChangeText={(newValue) => setUserSearchQuery(newValue)}
-        placeholder={'Username'}
-      />
-      <Button title={'Search User'} />
-      <Button title={'Groups'} onPress={() => navigation.navigate('Groups')} />
+
     </View>
   );
 }

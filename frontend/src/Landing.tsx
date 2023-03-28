@@ -1,10 +1,15 @@
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-paper';
 
 export default function Landing({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
-      <Button title="Login" onPress={() => navigation.navigate('Login')} />
-      <Button title="Signup" onPress={() => navigation.navigate('Signup')} />
+      <Button mode="outlined" onPress={() => navigation.navigate('Login')}>
+        Login
+      </Button>
+      <Button mode="outlined" onPress={() => navigation.navigate('Signup')}>
+        Signup
+      </Button>
     </View>
   );
 }

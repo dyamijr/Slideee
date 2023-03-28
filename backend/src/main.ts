@@ -3,6 +3,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as passport from 'passport';
 import * as session from 'express-session';
+import * as morgan from 'morgan';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MongoStore = require('connect-mongo');
 
 async function bootstrap() {
@@ -19,12 +21,13 @@ async function bootstrap() {
       },
       store: MongoStore.create({
         mongoUrl: 'mongodb://0.0.0.0:27017',
-        dbName: 'slideee'
+        dbName: 'slideee',
       }),
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(morgan('tiny'));
   await app.listen(1234);
 }
 bootstrap();

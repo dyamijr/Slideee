@@ -6,28 +6,34 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 import { InvitesService } from './invites.service';
 
 @Controller('invites')
 export class InvitesController {
   constructor(private readonly invitesService: InvitesService) {}
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':id/accept')
-  async acceptInvite(@Param('id') inviteId: string) {
-    const invite = await this.invitesService.acceptInvite(inviteId);
+  async acceptInvite(@Request() req, @Param('id') inviteId: string) {
+    const invite = await this.invitesService.acceptInvite(inviteId, req.user);
     return invite;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':id/decline')
-  async declineInvite(@Param('id') inviteId: string) {
-    const invite = await this.invitesService.declineInvite(inviteId);
+  async declineInvite(@Request() req, @Param('id') inviteId: string) {
+    const invite = await this.invitesService.declineInvite(inviteId, req.user);
     return invite;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':id/remove')
-  async removeInvite(@Param('id') inviteId: string) {
-    const invite = await this.invitesService.removeInvite(inviteId);
+  async removeInvite(@Request() req, @Param('id') inviteId: string) {
+    const invite = await this.invitesService.removeInvite(inviteId, req.user);
     return invite;
   }
 }

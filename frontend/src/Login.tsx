@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, View, Button, TextInput } from 'react-native';
-import Input from './components/Input';
+import { StyleSheet, View } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
+import { Button, Chip, Text, TextInput } from 'react-native-paper';
 
 export default function Login({ navigation }: { route: any; navigation: any }) {
   const [username, setUsername] = useState('');
@@ -9,7 +9,6 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
 
   const onLogin = useCallback(async () => {
     try {
-      console.log('HERE');
       let response = await fetch(`${REACT_APP_BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -21,35 +20,35 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
           password: password,
         }),
       });
-      console.log(response);
       if (response.ok) {
         navigation.navigate('Home');
       } else {
         setPassword('');
       }
     } catch (err) {
-      console.log(err);
+      console.error(`Error Logging In: ${err}.`)
     }
   }, [username, password]);
 
   return (
     <View style={styles.container}>
-      <Input
+      <TextInput
         placeholder="Username"
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
-      <Input
+      <TextInput
         placeholder="Password"
         onChangeText={(newValue) => setPassword(newValue)}
         value={password}
         secureTextEntry={true}
       />
-      <Button title="Login" onPress={onLogin} />
-      <Button
-        title="Don't have an account?"
-        onPress={() => navigation.navigate('Signup')}
-      />
+      <Button mode="outlined" onPress={onLogin}>
+        Login
+      </Button>
+      <Button mode="outlined" onPress={() => navigation.navigate('Signup')}>
+        Don't have an account?
+      </Button>
     </View>
   );
 }
