@@ -9,13 +9,12 @@ import { Invite, InviteDocument } from '../schemas/invite.schema';
 import { SchemaFactory } from '@nestjs/mongoose';
 import { InviteType } from '../schemas/invite.schema';
 import * as mongoose from 'mongoose';
-// import { EventsService } from 'src/events/events.service';
 import { UserDocument } from 'src/schemas/user.schema';
 
 @Injectable()
 export class InvitesService {
   constructor(
-    @InjectModel(Invite.name) private inviteModel: Model<InviteDocument>, // private eventsService: EventsService,
+    @InjectModel(Invite.name) private inviteModel: Model<InviteDocument>,
   ) {}
 
   async createInvite(
