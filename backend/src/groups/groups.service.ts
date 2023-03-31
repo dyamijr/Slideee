@@ -11,14 +11,12 @@ import { User, UserDocument } from '../schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { InviteType } from 'src/schemas/invite.schema';
 import { InvitesService } from 'src/invites/invites.service';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class GroupsService {
   constructor(
     @InjectModel(Group.name) private groupModel: Model<GroupDocument>,
     private invitesService: InvitesService,
-    private usersService: UsersService,
   ) {}
 
   async createGroup(
