@@ -16,6 +16,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchGroups from './src/SearchGroups';
+import GroupInvites from './src/GroupInvites';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -184,6 +185,14 @@ function GroupNavigation() {
         component={CreateEvent} 
         options={{
           title: "Create Event"
+        }}
+      />
+
+      <Stack.Screen 
+        name="GroupInvites" 
+        component={GroupInvites} 
+        options={{
+          title: "Group Invites"
         }}
       />
     </Stack.Navigator>

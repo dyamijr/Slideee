@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { StyleSheet, View,Text } from 'react-native';
+
 import { REACT_APP_BACKEND_URL } from '@env';
+import { Button } from 'react-native-paper';
 
 export default function Group({
   route,
@@ -33,7 +35,15 @@ export default function Group({
   return (
     <View style={styles.container}>
       <Text>{route.params.groupName}</Text>
+      
+      <Button mode="outlined" onPress={() => navigation.navigate("GroupInvites", {
+                  groupName: route.params.groupName
+                })}>
+        Group Invites
+      </Button>
+
     </View>
+
   );
 }
 
@@ -45,3 +55,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+ 
