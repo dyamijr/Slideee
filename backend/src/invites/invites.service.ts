@@ -62,4 +62,11 @@ export class InvitesService {
     await invite.deleteOne();
     return 'Success';
   }
+
+  //this function will be used to find all invites where a group is a recepient
+  async findInviteRequestGroup(groupId: string, user: UserDocument) {
+    const invites = await this.inviteModel.find({recepient: groupId});
+    return invites;
+  }
 }
+
