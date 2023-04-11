@@ -11,6 +11,7 @@ import { User, UserDocument } from '../schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { InviteType } from 'src/schemas/invite.schema';
 import { InvitesService } from 'src/invites/invites.service';
+import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class GroupsService {
@@ -85,7 +86,7 @@ export class GroupsService {
       throw new UnauthorizedException();
     }
     await group.deleteOne();
-    return 'Success';
+    return STATUS_CODES.Success;;
   }
   
   async followGroup(groupName: string, user: UserDocument){
@@ -135,6 +136,7 @@ export class GroupsService {
 
     return group;
   }
+
   async addAdmin(groupName: string, userToAdmin: mongoose.Types.ObjectId, user: UserDocument){
     let group = await this.groupModel.findOne({
       groupName: groupName,
@@ -155,28 +157,22 @@ export class GroupsService {
       userToAdmin,
     );
 
-    await group.save();
-
-    return group;
+    return STATUS_CODES.Success;
   }
+
   async removeAdmin(groupName: string, removeAdminId: mongoose.Types.ObjectId, user: UserDocument){
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
     if (!group) {
-      console.log("test1");
       throw new BadRequestException();
     }
-    console.log(removeAdminId);
     if (!group.owner.equals(user._id)) {
-      console.log("test2");
       throw new UnauthorizedException();
     }
-    console.log(removeAdminId);
     let index = group.admins.indexOf(removeAdminId);
 
     if(index === -1){
-      console.log("test3");
       throw new BadRequestException();
     }
     

@@ -10,11 +10,13 @@ import { SchemaFactory } from '@nestjs/mongoose';
 import { InviteType } from '../schemas/invite.schema';
 import * as mongoose from 'mongoose';
 import { UserDocument } from 'src/schemas/user.schema';
+import { InvitesUtilService } from './inviteUtils.service';
 
 @Injectable()
 export class InvitesService {
   constructor(
     @InjectModel(Invite.name) private inviteModel: Model<InviteDocument>,
+    private invitesUtilService: InvitesUtilService,
   ) {}
 
   async createInvite(
@@ -41,8 +43,15 @@ export class InvitesService {
       throw new NotFoundException('invite does not exist');
     }
     invite.accepted = true;
+    let res;
+    if(invite.type === InviteType.AdminRequest){
+      res = this.invitesUtilService.adminAccept(invite.sender, invite.recipient);
+    }
+    else if(invite.type === InviteType.FollowRequest){
+      res = this.invitesUtilService.acceptFollow(invite.recipient, invite.sender);
+    }
     await invite.save();
-    return 'Success';
+    return res;
   }
 
   async declineInvite(inviteId: string, user: UserDocument) {
