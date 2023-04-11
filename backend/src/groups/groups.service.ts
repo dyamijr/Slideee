@@ -9,11 +9,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Group, GroupDocument } from '../schemas/group.schema';
 import { User, UserDocument } from '../schemas/user.schema';
 import * as mongoose from 'mongoose';
-
+import { InviteType } from 'src/schemas/invite.schema';
+import { InvitesService } from 'src/invites/invites.service';
 @Injectable()
 export class GroupsService {
   constructor(
     @InjectModel(Group.name) private groupModel: Model<GroupDocument>,
+    private invitesService: InvitesService,
   ) {}
 
   async createGroup(
@@ -84,9 +86,22 @@ export class GroupsService {
     return 'Success';
   }
 
-  // TODO: Get requests where the group is a sender and where the group is a recipient.
-  async getGroupCollaborationRequests() {
-    return [];
+  async getEventCollaborationRequests(groupId: string, admin: UserDocument) {
+    const group = await this.groupModel.findById(groupId);
+    if (!group) {
+      throw new NotFoundException();
+    }
+
+    if (!group.admins.find((x) => x.equals(admin._id))) {
+      throw new UnauthorizedException();
+    }
+    
+    const invites = await this.invitesService.findInvites(
+      InviteType.CollaboratorRequest,
+      group._id,
+    );
+    // console.log(groupId);
+    return invites;
   }
 
   async queryGroups(groupNameQuery: string) {

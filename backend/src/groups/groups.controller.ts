@@ -51,6 +51,16 @@ export class GroupsController {
   }
 
   @UseGuards(AuthenticatedGuard)
+  @Get(':id/getgroupInvites')
+  async getGroupInvites(@Param('id') groupName: string) {
+    const group = await this.groupsService.findOneByGroupName(groupName);
+    if (!group) {
+      throw new NotFoundException();
+    }
+    return group;
+  }
+  
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
     const group = await this.groupsService.deleteGroup(groupName, req.user);
@@ -72,4 +82,19 @@ export class GroupsController {
     );
     return group;
   }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get(':groupId/eventCollaborationRequests')
+  async getEventCollaborationRequests(
+    @Param('groupId') groupId: string,
+    @Request() req,
+  ) {
+    console.log(groupId, req.user);
+    const invites = await this.groupsService.getEventCollaborationRequests(
+      groupId,
+      req.user,
+    );
+     return invites;
+  }
+  
 }

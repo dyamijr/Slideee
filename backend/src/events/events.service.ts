@@ -56,7 +56,7 @@ export class EventsService {
     await createdEvent.save();
 
     for (let i = 1; i < collaboratorsGroupDocuments.length; i++) {
-      this.invitesService.createInvite(
+      await this.invitesService.createInvite(
         InviteType.CollaboratorRequest,
         collaboratorsGroupDocuments[0]._id,
         collaboratorsGroupDocuments[i]._id,

@@ -64,9 +64,16 @@ export class InvitesService {
   }
 
   //this function will be used to find all invites where a group is a recepient
-  async findInviteRequestGroup(groupId: string, user: UserDocument) {
-    const invites = await this.inviteModel.find({recepient: groupId});
+  /*async findInvites({ type, recipient } : { type?: InviteType, recipient?: string }) {
+    const invites = await this.inviteModel.find({
+      type: type,
+      //sender: sender,
+      recipient: recipient,
+    });
+    return invites;
+  }*/
+  async findInvites(type: InviteType, groupId: mongoose.Types.ObjectId) {
+    const invites = await this.inviteModel.find({ type: type, recipient: groupId});
     return invites;
   }
 }
-

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View,Text } from 'react-native';
 
 import { REACT_APP_BACKEND_URL } from '@env';
@@ -11,6 +11,10 @@ export default function Group({
   route: any;
   navigation: any;
 }) {
+  let [group, setGroup] = useState({
+    _id: null,
+  });
+
   useEffect(() => {
     async function getGroup() {
       try {
@@ -24,6 +28,7 @@ export default function Group({
           throw new Error(`${response.status}`);
         }
         let json = await response.json();
+        setGroup(json);
         console.log(json);
       } catch(err) {
         console.error(`Error retrieving group: ${err}.`)
@@ -37,7 +42,8 @@ export default function Group({
       <Text>{route.params.groupName}</Text>
       
       <Button mode="outlined" onPress={() => navigation.navigate("GroupInvites", {
-                  groupName: route.params.groupName
+                  groupName: route.params.groupName,
+                  groupId: group._id,
                 })}>
         Group Invites
       </Button>
