@@ -11,6 +11,9 @@ export default function GroupInvites({
   route: any;
   navigation: any;
 }) {
+
+  const [eventCollaborationRequests,setEventCollaborationRequest] = useState([]);
+
   useEffect(() => {
     async function getEventCollaborationRequest() {
       try {
@@ -25,6 +28,7 @@ export default function GroupInvites({
           throw new Error(`${response.status}`);
         }
         let json = await response.json();
+        setEventCollaborationRequest(json);
         console.log(json);
       } catch(err) {
         console.error(`Error retrieving user groups: ${err}.`);
@@ -34,13 +38,23 @@ export default function GroupInvites({
    getEventCollaborationRequest();
   }, []);
 
-  console.log(route.params);
+  //console.log(route.params);
+  let requestDisplay =<Text>You have {eventCollaborationRequests.length} request</Text>;
   return (
+    
     <View style={styles.container}>
-      <Text>Group Invites</Text>
-    </View>
+      <Text>These are the group invites</Text>
+      {requestDisplay}
+      <FlatList
+          data={eventCollaborationRequests}
+          keyExtractor={(item) => item._id}
+          renderItem={({item}) => <Text> {item.senderName} </Text>      }
+        />
+      </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

@@ -59,6 +59,8 @@ export class GroupsController {
     }
     return group;
   }
+
+ 
   
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
@@ -89,12 +91,31 @@ export class GroupsController {
     @Param('groupId') groupId: string,
     @Request() req,
   ) {
-    console.log(groupId, req.user);
+    //console.log(groupId, req.user);
     const invites = await this.groupsService.getEventCollaborationRequests(
       groupId,
       req.user,
     );
-     return invites;
+   
+   for(let i = 0;i <invites.length ; i++){
+    const senderName = await this.findOnebyGroupID(invites[i].sender.toString());
+      invites[i].senderName = senderName.groupName;
+   }
+    return invites;
   }
-  
+
+  //make sure to add this route @Treube
+  @UseGuards(AuthenticatedGuard)
+  @Get(':groupId/findById')
+  async findOnebyGroupID(@Param('groupId') groupId: string) {
+    const group = await this.groupsService.findOnebyGroupId(groupId);
+    // eslint-disable-next-line prettier/prettier
+    if (!group) {
+      throw new NotFoundException();
+    }
+    console.log("We are here");
+    console.log(group);
+    return group;
+  }
+
 }

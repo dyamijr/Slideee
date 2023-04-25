@@ -32,6 +32,7 @@ export class InvitesService {
       created: new Date(),
     });
     await createdInvite.save();
+    console.log('working');
     return createdInvite;
   }
 
@@ -63,17 +64,14 @@ export class InvitesService {
     return 'Success';
   }
 
-  //this function will be used to find all invites where a group is a recepient
-  /*async findInvites({ type, recipient } : { type?: InviteType, recipient?: string }) {
-    const invites = await this.inviteModel.find({
-      type: type,
-      //sender: sender,
-      recipient: recipient,
-    });
-    return invites;
-  }*/
+  
   async findInvites(type: InviteType, groupId: mongoose.Types.ObjectId) {
     const invites = await this.inviteModel.find({ type: type, recipient: groupId});
+    if (invites.length > 0) {
+      for (let i = 0; i < invites.length; i++) {
+        invites[i].senderName = 'HAHA got em';
+      }
+    }
     return invites;
   }
 }

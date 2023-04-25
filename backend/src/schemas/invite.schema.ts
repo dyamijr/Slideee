@@ -29,6 +29,10 @@ export class Invite {
 
   @Prop()
   created: Date;
+
+  @Prop()
+  senderName:string;
+  
 }
 
 export const InviteSchema = SchemaFactory.createForClass(Invite);

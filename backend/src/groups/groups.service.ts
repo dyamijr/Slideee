@@ -86,6 +86,15 @@ export class GroupsService {
     return 'Success';
   }
 
+  //@Treube document this change
+  async findOnebyGroupId(groupId: string) {
+    const group = await this.groupModel.findById(groupId);
+    if (!group) {
+      throw new NotFoundException();
+    }
+    return group;
+  }
+
   async getEventCollaborationRequests(groupId: string, admin: UserDocument) {
     const group = await this.groupModel.findById(groupId);
     if (!group) {
@@ -95,7 +104,7 @@ export class GroupsService {
     if (!group.admins.find((x) => x.equals(admin._id))) {
       throw new UnauthorizedException();
     }
-    
+
     const invites = await this.invitesService.findInvites(
       InviteType.CollaboratorRequest,
       group._id,
