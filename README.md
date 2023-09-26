@@ -15,4 +15,6 @@ Welcome to the Slideee application
 - TypeScript
 - MongoDB
 
+Installation Tip
+
  
