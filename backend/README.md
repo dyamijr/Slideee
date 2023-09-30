@@ -44,7 +44,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
-# Note: 
+### Note: 
 You must have mongodb (mongod) running in the background for the connection to be established. If it is not connecting, try:
 MacOS
 ```bash
