@@ -44,6 +44,20 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+#### Note: 
+You must have mongodb (mongod) running in the background for the connection to be established. If it is not connecting, try:
+MacOS
+```bash
+# Brew mongodb formula
+brew tap mongodb/brew
+
+# Install mongod dependency
+brew install mongodb-community@7.0
+
+# Run the process in the background
+mongod --config /usr/local/etc/mongod.conf --fork
+```
+Windows: Follow this tutorial --> https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows-unattended/
 
 ## Test
 
