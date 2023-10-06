@@ -14,5 +14,24 @@ Welcome to the Slideee application
 - NestJS
 - TypeScript
 - MongoDB
+  
+## Starting Frontend
+### Installations Needed
+- ngrok
+- Expo
+- ExpoGo on mobile device
+### Steps
+- Start the backend
+- Create a ngrok account at https://dashboard.ngrok.com/login
+- Locate Your Authtoken on the left-hand side of the page
+- Copy Authtoken
+- In your terminal run ngrok config add-authtoken <YOUR_AUTHTOKEN>
+- Run ngrok http 1234
+- Obtain the forwarding address
+- Place in the /slideee/frontend/.env
+- Run npx expo start
+- Scan QR Code
+- Celebrate
+
 
  
