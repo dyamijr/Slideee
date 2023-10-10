@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Chip, Text, TextInput } from 'react-native-paper';
+
+
 
 export default function Login({ navigation }: { route: any; navigation: any }) {
   const [username, setUsername] = useState('');
@@ -31,7 +33,9 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
   }, [username, password]);
 
   return (
+    
     <View style={styles.container}>
+      <Image source={require('../assets/slide.png')} />
       <TextInput
         placeholder="Username"
         value={username}
