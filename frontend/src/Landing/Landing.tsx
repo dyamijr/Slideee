@@ -1,13 +1,17 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Button } from 'react-native-paper';
+import landingStyle from './LandingStyle'
 
 export default function Landing({ navigation }: { navigation: any }) {
   return (
-    <View style={styles.container}>
-      <Button mode="outlined" onPress={() => navigation.navigate('Login')}>
+    <View style={landingStyle.container}>
+      <Image 
+      style = {landingStyle.logoImage}
+      source={require('../../assets/slide.png')} />
+      <Button style = {landingStyle.button} mode="outlined" onPress={() => navigation.navigate('Login')}>
         Login
       </Button>
-      <Button mode="outlined" onPress={() => navigation.navigate('Signup')}>
+      <Button style = {landingStyle.button} mode="outlined" onPress={() => navigation.navigate('Signup')}>
         Signup
       </Button>
     </View>
