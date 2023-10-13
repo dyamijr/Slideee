@@ -55,7 +55,11 @@ brew tap mongodb/brew
 brew install mongodb-community@7.0
 
 # Run the process in the background
-mongod --config /usr/local/etc/mongod.conf --fork
+For Apple intel processors:
+  mongod --config /usr/local/etc/mongod.conf --fork
+
+For apple silicon processors use :
+  mongod --config /opt/homebrew/etc/mongod.conf --fork
 ```
 Windows: Follow this tutorial --> https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows-unattended/
 
