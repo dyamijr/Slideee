@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { StyleSheet, View, Button, Text } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
+
 
 export default function Group({
   route,
@@ -8,7 +9,14 @@ export default function Group({
 }: {
   route: any;
   navigation: any;
-}) {
+}) 
+
+{
+  let [group, setGroup] = useState({
+    _id: null,
+  });
+  
+  
   useEffect(() => {
     async function getGroup() {
       try {
@@ -33,6 +41,14 @@ export default function Group({
   return (
     <View style={styles.container}>
       <Text>{route.params.groupName}</Text>
+      <Button 
+      title="Group Invites" 
+      color="#f194ff"
+      onPress={() => navigation.navigate("GroupInvites", {
+                  groupName: route.params.groupName,
+                  groupId: group._id,
+                })}>
+      </Button>
     </View>
   );
 }
