@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, TextInput } from 'react-native-paper';
+import signupStyle from './SignupStyle';
+import styles from '../../styles/main'
 
 export default function Signup({
   navigation,
@@ -39,17 +41,26 @@ export default function Signup({
 
   return (
     <View style={styles.container}>
+      <Image 
+      style = {styles.logoImage}
+      source={require('../../../assets/slide.png')} />
       <TextInput
+        style = {styles.inputText}
+        underlineColor = "trasnparent"
         placeholder="Username"
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
       <TextInput
+        style = {styles.inputText}
+        underlineColor = "trasnparent"
         placeholder="Display Name"
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
       />
       <TextInput
+        style = {styles.inputText}
+        underlineColor = "trasnparent"
         placeholder="Password"
         value={password}
         onChangeText={(newValue) => setPassword(newValue)}
@@ -67,11 +78,3 @@ export default function Signup({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

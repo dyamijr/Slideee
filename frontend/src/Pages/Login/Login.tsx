@@ -3,6 +3,7 @@ import { StyleSheet, View, Image } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Chip, Text, TextInput } from 'react-native-paper';
 import loginStyle from './LoginStyle'
+import styles from '../../styles/main'
 
 
 
@@ -35,29 +36,29 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
 
   return (
     
-    <View style={loginStyle.container}>
+    <View style={styles.container}>
       <Image 
-      style = {loginStyle.logoImage}
-      source={require('../../assets/slide.png')} />
+      style = {styles.logoImage}
+      source={require('../../../assets/slide.png')} />
       <TextInput
-        style = {loginStyle.inputText}
+        style = {styles.inputText}
         underlineColor="transparent"
         placeholder="Username"
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
       <TextInput
-        style = {loginStyle.inputText}
+        style = {styles.inputText}
         underlineColor="transparent"
         placeholder="Password"
         onChangeText={(newValue) => setPassword(newValue)}
         value={password}
         secureTextEntry={true}
       />
-      <Button style = {loginStyle.button} mode="outlined" onPress={onLogin}>
+      <Button style = {styles.button} mode="outlined" onPress={onLogin}>
         Login
       </Button>
-      <Button style = {loginStyle.button} mode="outlined" onPress={() => navigation.navigate('Signup')}>
+      <Button style = {styles.button} mode="outlined" onPress={() => navigation.navigate('Signup')}>
         Don't have an account?
       </Button>
     </View>
