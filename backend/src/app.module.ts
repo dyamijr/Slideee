@@ -13,7 +13,7 @@ import { InvitesModule } from './invites/invites.module';
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017', {
+    MongooseModule.forRoot('mongodb://0.0.0.0:27017', {
       dbName: 'slideee',
     }),
     AuthModule,
