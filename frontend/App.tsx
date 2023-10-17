@@ -16,6 +16,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchGroups from './src/Pages/SearchGroups/SearchGroups';
+import Invites from './src/Pages/Invites/Invites';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -64,16 +65,7 @@ function AppNavigation() {
         />
       )}
     >
-      <Tab.Screen
-        name="Main"
-        component={Home}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => {
-            return <Icon name="home" size={size} color={color} />;
-          },
-        }}
-      />
+    
       <Tab.Screen
         name="Groups"
         component={GroupsNavigation}
@@ -84,6 +76,27 @@ function AppNavigation() {
           },
         }}
       />
+        <Tab.Screen
+        name="Main"
+        component={Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => {
+            return <Icon name="home" size={size} color={color} />;
+          },
+        }}
+      />
+       <Tab.Screen
+        name="Invites"
+        component={Invites}
+        options={{
+          tabBarLabel: 'Invites',
+          tabBarIcon: ({ color, size }) => {
+            return <Icon name="view-list" size={size} color={color} />;
+          },
+        }}
+      />
+      
     </Tab.Navigator>
   )
 }
