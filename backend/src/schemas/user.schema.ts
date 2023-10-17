@@ -24,7 +24,7 @@ export class User {
       },
     ],
   })
-  likedEvents: Event[];
+  likedEvents: String[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

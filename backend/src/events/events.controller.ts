@@ -26,4 +26,11 @@ export class EventsController {
     );
     return event;
   }
+
+  @UseGuards(AuthenticatedGuard)
+  @Post(':id/like')
+  async likeEvent(@Param('id') id: String, @Request() req) {
+    const event = await this.eventsService.likeEvent(id, req.user);   
+    return event;
+  }
 }

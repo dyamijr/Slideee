@@ -71,4 +71,15 @@ export class EventsService {
     const event = await this.eventModel.findById(id);
     return event;
   }
+
+  async likeEvent(id: String, user: UserDocument) {
+    const event = await this.eventModel.findById(id);
+    if (!id) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    event.likes++;
+    user.likedEvents.push(id);
+  }
 }
