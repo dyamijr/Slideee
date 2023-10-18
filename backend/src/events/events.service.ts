@@ -51,6 +51,7 @@ export class EventsService {
       description: description,
       collaborators: [collaboratorsGroupDocuments[0]._id],
       createdBy: admin._id,
+      likes: 0,
       created: Date.now(),
     });
     await createdEvent.save();
@@ -74,12 +75,20 @@ export class EventsService {
 
   async likeEvent(id: String, user: UserDocument) {
     const event = await this.eventModel.findById(id);
-    if (!id) {
+    if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
-    event.likes++;
-    user.likedEvents.push(id);
+    if (user.likedEvents.indexOf(id)!=-1) { 
+      throw new UnauthorizedException(
+        'Already Liked',
+      );
+    } else {
+      event.likes++;
+      await event.save();
+      user.likedEvents.push(id);
+      await user.save();
+    }
   }
 }
