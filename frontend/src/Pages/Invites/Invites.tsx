@@ -16,36 +16,36 @@ export default function Invites({
 
   const [eventCollaborationRequests,setEventCollaborationRequest] = useState([]);
 
-  useEffect(() => {
-    async function getEventCollaborationRequest() {
-      try {
-        let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupId}/eventCollaborationRequests`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-        if (!response.ok) {
-          throw new Error(`${response.status}`);
-        }
-        let json = await response.json();
-        setEventCollaborationRequest(json);
-        console.log(json);
-      } catch(err) {
-        console.error(`Error retrieving user groups: ${err}.`);
-      }
-    }
+  // useEffect(() => {
+  //   async function getEventCollaborationRequest() {
+  //     try {
+  //       let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupId}/eventCollaborationRequests`, {
+  //         method: 'GET',
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+  //       if (!response.ok) {
+  //         throw new Error(`${response.status}`);
+  //       }
+  //       let json = await response.json();
+  //       setEventCollaborationRequest(json);
+  //       console.log(json);
+  //     } catch(err) {
+  //       console.error(`Error retrieving user groups: ${err}.`);
+  //     }
+  //   }
     
-   getEventCollaborationRequest();
-  }, []);
+  //  getEventCollaborationRequest();
+  // }, []);
 
   //console.log(route.params);
-  let requestDisplay =<Text>You have {eventCollaborationRequests.length} request</Text>;
+  //let requestDisplay =<Text>You have {eventCollaborationRequests.length} request</Text>;
   return (
-    
+  
     <View style={styles.container}>
-      <Text>These are the group invites</Text>
+     <Text>Current Invites</Text>
       </View>
   );
 }

@@ -88,7 +88,7 @@ function AppNavigation() {
       />
        <Tab.Screen
         name="Invites"
-        component={Invites}
+        component={InviteNavigation}
         options={{
           tabBarLabel: 'Invites',
           tabBarIcon: ({ color, size }) => {
@@ -201,6 +201,39 @@ function GroupNavigation() {
       />
     </Stack.Navigator>
   )
+}
+
+function InvitesNavigationBar(props: any) {
+  return (
+    <Appbar.Header>
+      {props.back ? <Appbar.BackAction onPress={props.navigation.goBack} /> : null}
+      <Appbar.Content title={props.options.title} />
+    </Appbar.Header>
+  )
+}
+function InviteNavigation(){
+  return(
+  <Stack.Navigator 
+  initialRouteName='Main'
+  screenOptions={{
+    headerShown: true,
+    header: (props) => <GroupsNavigationBar {...props} />,
+  }}
+>
+  <Stack.Screen 
+    name="Main" 
+    component={Invites}
+    options={{
+      header: (props) => (
+        <Appbar.Header>
+          <Appbar.Content title="Invitations"/>
+        </Appbar.Header>
+      ),
+    }}  
+  />
+</Stack.Navigator>
+)
+
 }
 
 export default function App() {
