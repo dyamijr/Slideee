@@ -3,6 +3,8 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  Inject,
+  forwardRef
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Invite, InviteDocument } from '../schemas/invite.schema';
@@ -10,14 +12,21 @@ import { SchemaFactory } from '@nestjs/mongoose';
 import { InviteType } from '../schemas/invite.schema';
 import * as mongoose from 'mongoose';
 import { UserDocument } from 'src/schemas/user.schema';
-import { InvitesUtilService } from './inviteUtils.service';
+//import { InvitesUtilService } from './inviteUtils.service';
+//import { GroupsService } from 'src/groups/groups.service';
+import { OnModuleInit } from '@nestjs/common/interfaces/hooks';
+import { ModuleRef } from '@nestjs/core';
 
 @Injectable()
 export class InvitesService {
+
   constructor(
     @InjectModel(Invite.name) private inviteModel: Model<InviteDocument>,
-    private invitesUtilService: InvitesUtilService,
+    //private invitesUtilService: InvitesUtilService,
+    //@Inject(forwardRef(() => GroupsService))
+    //private groupsService: GroupsService,
   ) {}
+  
 
   async createInvite(
     type: InviteType,
@@ -35,23 +44,6 @@ export class InvitesService {
     });
     await createdInvite.save();
     return createdInvite;
-  }
-
-  async acceptInvite(inviteId: string, user: UserDocument) {
-    const invite = await this.inviteModel.findById(inviteId);
-    if (!invite) {
-      throw new NotFoundException('invite does not exist');
-    }
-    invite.accepted = true;
-    let res;
-    if(invite.type === InviteType.AdminRequest){
-      res = this.invitesUtilService.adminAccept(invite.sender, invite.recipient);
-    }
-    else if(invite.type === InviteType.FollowRequest){
-      res = this.invitesUtilService.acceptFollow(invite.recipient, invite.sender);
-    }
-    await invite.save();
-    return res;
   }
 
   async declineInvite(inviteId: string, user: UserDocument) {

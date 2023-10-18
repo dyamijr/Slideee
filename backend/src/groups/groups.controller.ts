@@ -76,11 +76,11 @@ export class GroupsController {
     return group;
   }
 
-  @Post(':groupName/follow')
-  async followGroup(@Param('groupName') groupName: string, @Request() req) {
-    let group = await this.groupsService.followGroup(groupName, req.user);
-    return group;
-  }
+  // @Post(':groupName/follow')
+  // async followGroup(@Param('groupName') groupName: string, @Request() req) {
+  //   let group = await this.groupsService.followGroup(groupName, req.user);
+  //   return group;
+  // }
 
   @Post(':groupName/unfollow')
   async unfollowGroup(@Param('groupName') groupName: string, @Request() req) {
@@ -88,11 +88,11 @@ export class GroupsController {
     return group;
   }
 
-  @Post(':groupName/addAdmin')
-  async addAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    let group = await this.groupsService.addAdmin(groupName, userDto.user, req.user);
-    return group;
-  }
+  // @Post(':groupName/addAdmin')
+  // async addAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
+  //   let group = await this.groupsService.addAdmin(groupName, userDto.user, req.user);
+  //   return group;
+  // }
 
   @Post(':groupName/removeAdmin')
   async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {

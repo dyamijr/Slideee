@@ -4,6 +4,8 @@ import {
   BadRequestException,
   NotFoundException,
   UnauthorizedException,
+  forwardRef,
+  Inject
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group, GroupDocument } from '../schemas/group.schema';
@@ -12,12 +14,14 @@ import * as mongoose from 'mongoose';
 import { InviteType } from 'src/schemas/invite.schema';
 import { InvitesService } from 'src/invites/invites.service';
 import { STATUS_CODES } from 'http';
+import { ModuleRef} from '@nestjs/core';
+import { OnModuleInit } from '@nestjs/common/interfaces/hooks';
 
 @Injectable()
 export class GroupsService {
+
   constructor(
     @InjectModel(Group.name) private groupModel: Model<GroupDocument>,
-    private invitesService: InvitesService,
   ) {}
 
   async createGroup(
@@ -88,34 +92,37 @@ export class GroupsService {
     await group.deleteOne();
     return STATUS_CODES.Success;;
   }
-  
-  async followGroup(groupName: string, user: UserDocument){
-    let group = await this.groupModel.findOne({
-      groupName: groupName,
-    });
-    if (!group) {
-      throw new BadRequestException();
-    }
-    if(group.admins.find(x => x.equals(user._id))){
-      throw new BadRequestException();
-    }
-    if(group.followers.find(x => x.equals(user._id))){
-      throw new BadRequestException();
-    }
-    if(!group.isPrivate){
-      group.followers.push(user._id);
-    }
-    else{
-      this.invitesService.createInvite(
-        InviteType.FollowRequest,
-        user._id,
-        group._id,
-      );
-    }
-    await group.save();
-
-    return group;
+  async testFun(){
+    return STATUS_CODES.Success;
   }
+  
+  // async followGroup(groupName: string, user: UserDocument){
+  //   let group = await this.groupModel.findOne({
+  //     groupName: groupName,
+  //   });
+  //   if (!group) {
+  //     throw new BadRequestException();
+  //   }
+  //   if(group.admins.find(x => x.equals(user._id))){
+  //     throw new BadRequestException();
+  //   }
+  //   if(group.followers.find(x => x.equals(user._id))){
+  //     throw new BadRequestException();
+  //   }
+  //   if(!group.isPrivate){
+  //     group.followers.push(user._id);
+  //   }
+  //   else{
+  //     this.invitesService.createInvite(
+  //       InviteType.FollowRequest,
+  //       user._id,
+  //       group._id,
+  //     );
+  //   }
+  //   await group.save();
+
+  //   return group;
+  // }
   async unfollowGroup(groupName: string, user: UserDocument){
     let group = await this.groupModel.findOne({
       groupName: groupName,
@@ -137,28 +144,28 @@ export class GroupsService {
     return group;
   }
 
-  async addAdmin(groupName: string, userToAdmin: mongoose.Types.ObjectId, user: UserDocument){
-    let group = await this.groupModel.findOne({
-      groupName: groupName,
-    });
-    if (!group) {
-      throw new BadRequestException();
-    }
-    if(!group.admins.find(x => x.equals(user._id))){
-      throw new UnauthorizedException();
-    }
-    if(group.admins.find(x => x.equals(userToAdmin))){
-      throw new BadRequestException();
-    }
+  // async addAdmin(groupName: string, userToAdmin: mongoose.Types.ObjectId, user: UserDocument){
+  //   let group = await this.groupModel.findOne({
+  //     groupName: groupName,
+  //   });
+  //   if (!group) {
+  //     throw new BadRequestException();
+  //   }
+  //   if(!group.admins.find(x => x.equals(user._id))){
+  //     throw new UnauthorizedException();
+  //   }
+  //   if(group.admins.find(x => x.equals(userToAdmin))){
+  //     throw new BadRequestException();
+  //   }
 
-    this.invitesService.createInvite(
-      InviteType.AdminRequest,
-      group._id,
-      userToAdmin,
-    );
+  //   this.invitesService.createInvite(
+  //     InviteType.AdminRequest,
+  //     group._id,
+  //     userToAdmin,
+  //   );
 
-    return STATUS_CODES.Success;
-  }
+  //   return STATUS_CODES.Success;
+  // }
 
   async removeAdmin(groupName: string, removeAdminId: mongoose.Types.ObjectId, user: UserDocument){
     let group = await this.groupModel.findOne({
