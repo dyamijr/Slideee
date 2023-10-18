@@ -46,11 +46,12 @@ export class GroupInvitesService {
       group.followers.push(user._id);
     }
     else{
-      this.invitesService.createInvite(
+      let invite = this.invitesService.createInvite(
         InviteType.FollowRequest,
         user._id,
         group._id,
       );
+      return invite;
     }
     await group.save();
 
@@ -77,13 +78,13 @@ export class GroupInvitesService {
       //To Do add checks to make sure there is not an invite of this type already
       //add checks to make sure userToAdmin is a user
 
-      this.invitesService.createInvite(
+      let invite = this.invitesService.createInvite(
         InviteType.AdminRequest,
         group._id,
         userToAdmin,
       );
   
-      return STATUS_CODES.Success;
+      return invite;
     }
 
     async acceptInvite(inviteId: string, user: UserDocument) {
