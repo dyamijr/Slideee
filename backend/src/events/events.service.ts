@@ -52,6 +52,7 @@ export class EventsService {
       collaborators: [collaboratorsGroupDocuments[0]._id],
       createdBy: admin._id,
       likes: 0,
+      slides: 0,
       created: Date.now(),
     });
     await createdEvent.save();
@@ -88,6 +89,25 @@ export class EventsService {
       event.likes++;
       await event.save();
       user.likedEvents.push(id);
+      await user.save();
+    }
+  }
+
+  async slideEvent(id: String, user: UserDocument) {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    if (user.slidEvents.indexOf(id)!=-1) { 
+      throw new UnauthorizedException(
+        'Already Slid',
+      );
+    } else {
+      event.slides++;
+      await event.save();
+      user.slidEvents.push(id);
       await user.save();
     }
   }

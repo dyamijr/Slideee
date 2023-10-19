@@ -25,6 +25,16 @@ export class User {
     ],
   })
   likedEvents: String[];
+
+  @Prop({
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event',
+      },
+    ],
+  })
+  slidEvents: String[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

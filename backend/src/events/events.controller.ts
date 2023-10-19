@@ -33,4 +33,12 @@ export class EventsController {
     const event = await this.eventsService.likeEvent(id, req.user);   
     return event;
   }
+  
+  @UseGuards(AuthenticatedGuard)
+  @Post(':id/slide')
+  async slideEvent(@Param('id') id: String, @Request() req) {
+    const event = await this.eventsService.slideEvent(id, req.user);   
+    return event;
+  }
+
 }
