@@ -33,11 +33,25 @@ export class EventsController {
     const event = await this.eventsService.likeEvent(id, req.user);   
     return event;
   }
+
+  @UseGuards(AuthenticatedGuard)
+  @Post(':id/unlike')
+  async unlikeEvent(@Param('id') id: String, @Request() req) {
+    const event = await this.eventsService.unlikeEvent(id, req.user);   
+    return event;
+  }
   
   @UseGuards(AuthenticatedGuard)
   @Post(':id/slide')
   async slideEvent(@Param('id') id: String, @Request() req) {
     const event = await this.eventsService.slideEvent(id, req.user);   
+    return event;
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Post(':id/unslide')
+  async unslideEvent(@Param('id') id: String, @Request() req) {
+    const event = await this.eventsService.unslideEvent(id, req.user);   
     return event;
   }
 

@@ -93,6 +93,25 @@ export class EventsService {
     }
   }
 
+  async unlikeEvent(id: String, user: UserDocument) {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    if (user.likedEvents.indexOf(id)==-1) { 
+      throw new UnauthorizedException(
+        'Never Liked',
+      );
+    } else {
+      event.likes--;
+      await event.save();
+      user.likedEvents.splice(user.likedEvents.indexOf(id), 1);
+      await user.save();
+    }
+  }  
+
   async slideEvent(id: String, user: UserDocument) {
     const event = await this.eventModel.findById(id);
     if (!event) {
@@ -111,4 +130,25 @@ export class EventsService {
       await user.save();
     }
   }
+
+  async unslideEvent(id: String, user: UserDocument) {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    if (user.slidEvents.indexOf(id)==-1) { 
+      throw new UnauthorizedException(
+        'Never Slid',
+      );
+    } else {
+      event.slides--;
+      await event.save();
+      user.slidEvents.splice(user.slidEvents.indexOf(id), 1);
+      await user.save();
+    }
+  }  
 }
+
+
