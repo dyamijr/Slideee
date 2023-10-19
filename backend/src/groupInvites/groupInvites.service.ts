@@ -9,9 +9,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { STATUS_CODES } from 'http';
-import { ModuleRef} from '@nestjs/core';
-import { OnModuleInit } from '@nestjs/common/interfaces/hooks';
 import { Group, GroupDocument } from '../schemas/group.schema';
 import { Invite, InviteDocument } from '../schemas/invite.schema';
 import { User, UserDocument } from '../schemas/user.schema';
@@ -26,6 +23,7 @@ export class GroupInvitesService {
   constructor(
     @InjectModel(Group.name) private groupModel: Model<GroupDocument>,
     @InjectModel(Invite.name) private inviteModel: Model<InviteDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
     private invitesService: InvitesService
   ) {}
 
@@ -34,13 +32,13 @@ export class GroupInvitesService {
       groupName: groupName,
     });
     if (!group) {
-      throw new BadRequestException();
+      throw new BadRequestException('Group does not exist');
     }
     if(group.admins.find(x => x.equals(user._id))){
-      throw new BadRequestException();
+      throw new BadRequestException('User is already an admin');
     }
     if(group.followers.find(x => x.equals(user._id))){
-      throw new BadRequestException();
+      throw new BadRequestException('User is already a follower');
     }
     if(!group.isPrivate){
       group.followers.push(user._id);
@@ -63,20 +61,17 @@ export class GroupInvitesService {
         groupName: groupName,
       });
       if (!group) {
-        throw new BadRequestException();
-      }
-      if(!userToAdmin){
-        throw new BadRequestException();
+        throw new BadRequestException('Group does not exist');
       }
       if(!group.admins.find(x => x.equals(user._id))){
-        throw new UnauthorizedException();
+        throw new UnauthorizedException('User is not an admin');
+      }
+      if(!this.userModel.findById(userToAdmin)){
+        throw new BadRequestException('User does not exist');
       }
       if(group.admins.find(x => x.equals(userToAdmin))){
-        throw new BadRequestException();
+        throw new BadRequestException('User is already an admin');
       }
-
-      //To Do add checks to make sure there is not an invite of this type already
-      //add checks to make sure userToAdmin is a user
 
       let invite = this.invitesService.createInvite(
         InviteType.AdminRequest,
@@ -90,15 +85,15 @@ export class GroupInvitesService {
     async acceptInvite(inviteId: string, user: UserDocument) {
       const invite = await this.inviteModel.findById(inviteId);
       if (!invite) {
-        throw new NotFoundException('invite does not exist');
+        throw new NotFoundException('Invite does not exist');
       }
       if(invite.type === InviteType.AdminRequest){
         if(invite.recipient != user._id.valueOf()){
-          throw new BadRequestException();
+          throw new UnauthorizedException('Incorrect user');
         }
         let group = await this.groupModel.findById(invite.sender);
         if(!group){
-          throw new BadRequestException();
+          throw new BadRequestException('Group does not exist');
         }
         
         group.admins.push(user._id);
@@ -107,10 +102,10 @@ export class GroupInvitesService {
       else if(invite.type === InviteType.FollowRequest){
         let group = await this.groupModel.findById(invite.recipient);
         if(!group){
-          throw new BadRequestException();
+          throw new BadRequestException('Group does not exist');
         }
         if(!group.admins.find(x => x.equals(user._id))){
-          throw new UnauthorizedException();
+          throw new UnauthorizedException('User is not an admin');
         }
         group.followers.push(invite.sender);
         await group.save();
