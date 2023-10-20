@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Text} from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, TextInput } from 'react-native-paper';
 import signupStyle from './SignupStyle';
@@ -14,6 +14,9 @@ export default function Signup({
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [displayNameError,setDisplayNameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const onSignup = useCallback(async () => {
     try {
@@ -31,7 +34,12 @@ export default function Signup({
       });
       if (response.ok) {
         navigation.navigate('Home');
-      } else {
+      } 
+      
+      else{
+        const err = await response.json();
+        throw new Error(err.message || err.statusText);
+        setUsernameError(err.message);
         setPassword('');
       }
     } catch (err) {
@@ -51,6 +59,7 @@ export default function Signup({
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
+      <Text></Text>
       <TextInput
         style = {styles.inputText}
         underlineColor = "trasnparent"

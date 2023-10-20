@@ -25,7 +25,10 @@ export class SignupStrategy extends PassportStrategy(Strategy, 'signup') {
     signupDto.password = req.body.password;
     const errors = await validate(signupDto);
     if (errors.length > 0) {
-      throw new BadRequestException();
+      console.log(errors)
+      let myMap = new Map<string, string>();
+      
+      throw new BadRequestException(myMap);
     }
 
     const user = await this.authService.createUser(

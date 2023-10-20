@@ -14,7 +14,7 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
         if (!response.ok) {
           throw new Error(`${response.status}`);
         }
-        let json = await response.json();
+        let json = await response.text();
         console.log(json);
       } catch(err) {
         console.error(`Error retrieving current user: ${err}`);
