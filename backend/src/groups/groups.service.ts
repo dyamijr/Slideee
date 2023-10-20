@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group, GroupDocument } from '../schemas/group.schema';
-import { User, UserDocument } from '../schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { STATUS_CODES } from 'http';
 
@@ -23,7 +22,7 @@ export class GroupsService {
     groupName: string,
     displayName: string,
     isPrivate: boolean,
-    owner: UserDocument,
+    owner: mongoose.Types.ObjectId,
   ) {
     const group = await this.findOneByGroupName(groupName);
     if (group) {
@@ -33,7 +32,7 @@ export class GroupsService {
       groupName: groupName,
       displayName: displayName,
       isPrivate: isPrivate,
-      owner: owner._id,
+      owner: owner,
       admins: [owner],
       followers: [],
     });
@@ -48,8 +47,55 @@ export class GroupsService {
     return group;
   }
 
-  async findOneById(groupId: string) {
+  async findOneById(groupId: mongoose.Types.ObjectId) {
     const group = await this.groupModel.findById(groupId);
+    return group;
+  }
+
+  async isValidGroupByName(groupName: string){
+    if(await this.findOneByGroupName(groupName)){
+      return true;
+    }
+    return false;
+  }
+
+  async isValidGroupById(groupId: mongoose.Types.ObjectId){
+    if(await this.findOneById(groupId)){
+      return true;
+    }
+    return false;
+  }
+
+  async getIdFromGroupName(groupName: string){
+    const group = await this.findOneByGroupName(groupName)
+    return group._id;
+  }
+
+  async isAdmin(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId)
+    return group.admins.find(x => x.equals(user));
+  }
+
+  async isFollower(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId)
+    return group.followers.find(x => x.equals(user));
+  }
+
+  async isPrivate(groupId: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId)
+    return group.isPrivate;
+  }
+
+  async addFollower(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId);
+    group.followers.push(user);
+    group.save();
+    return group;
+  }
+  async addAdmin(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId);
+    group.admins.push(user);
+    group.save();
     return group;
   }
 
@@ -57,7 +103,7 @@ export class GroupsService {
     groupName: string,
     displayName: string,
     isPrivate: boolean,
-    user: UserDocument,
+    user: mongoose.Types.ObjectId,
   ) {
     const group = await this.groupModel.findOne({
       groupName: groupName,
@@ -65,7 +111,7 @@ export class GroupsService {
     if (!group) {
       throw new NotFoundException('Group does not exist');
     }
-    if (!group.admins.find((x) => x.equals(user._id))) {
+    if (!group.admins.find((x) => x.equals(user))) {
       throw new UnauthorizedException('User is not an admin');
     }
     group.displayName = displayName;
@@ -74,14 +120,14 @@ export class GroupsService {
     return group;
   }
 
-  async deleteGroup(groupName: string, owner: UserDocument) {
+  async deleteGroup(groupName: string, owner: mongoose.Types.ObjectId) {
     const group = await this.groupModel.findOne({
       groupName: groupName,
     });
     if (!group) {
       throw new NotFoundException('Group does not exist');
     }
-    if (!group.owner.equals(owner._id)) {
+    if (!group.owner.equals(owner)) {
       throw new UnauthorizedException('User is not group owner');
     }
     await group.deleteOne();
@@ -92,7 +138,7 @@ export class GroupsService {
     return STATUS_CODES.Success;
   }
   
-  async unfollowGroup(groupName: string, user: UserDocument){
+  async unfollowGroup(groupName: string, user: mongoose.Types.ObjectId){
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
@@ -100,7 +146,7 @@ export class GroupsService {
       throw new BadRequestException('Group does not exist');
     }
 
-    let index = group.followers.indexOf(user._id);
+    let index = group.followers.indexOf(user);
 
     if(index === -1){
       throw new BadRequestException('User is not a follower');
@@ -113,14 +159,14 @@ export class GroupsService {
     return group;
   }
 
-  async removeAdmin(groupName: string, removeAdminId: mongoose.Types.ObjectId, user: UserDocument){
+  async removeAdmin(groupName: string, removeAdminId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
     if (!group) {
       throw new BadRequestException('Group does not exist');
     }
-    if (!group.owner.equals(user._id)) {
+    if (!group.owner.equals(user)) {
       throw new UnauthorizedException('User is not the owner');
     }
     let index = group.admins.indexOf(removeAdminId);

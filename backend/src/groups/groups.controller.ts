@@ -31,7 +31,7 @@ export class GroupsController {
       createGroupDto.groupName,
       createGroupDto.displayName,
       createGroupDto.isPrivate,
-      req.user,
+      req.user._id,
     );
     return group;
   }
@@ -56,7 +56,7 @@ export class GroupsController {
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
-    const group = await this.groupsService.deleteGroup(groupName, req.user);
+    const group = await this.groupsService.deleteGroup(groupName, req.user._id);
     return group;
   }
 
@@ -71,21 +71,21 @@ export class GroupsController {
       groupName,
       editGroupDto.displayName,
       editGroupDto.isPrivate,
-      req.user,
+      req.user._id,
     );
     return group;
   }
 
   @Post(':groupName/unfollow')
   async unfollowGroup(@Param('groupName') groupName: string, @Request() req) {
-    let group = await this.groupsService.unfollowGroup(groupName, req.user);
+    let group = await this.groupsService.unfollowGroup(groupName, req.user._id);
     return group;
   }
 
   @Post(':groupName/removeAdmin')
   async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
     console.log("os");
-    let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user);
+    let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user._id);
     return group;
   }
 }

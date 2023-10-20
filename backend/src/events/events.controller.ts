@@ -15,15 +15,15 @@ import { AuthenticatedGuard } from '../auth/authenticated.guard';
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
-  @UseGuards(AuthenticatedGuard)
-  @Post('new')
-  async create(@Request() req, @Body() createEventDto: CreateEventDto) {
-    const event = await this.eventsService.create(
-      createEventDto.title,
-      createEventDto.description,
-      createEventDto.collaborators,
-      req.user,
-    );
-    return event;
-  }
+  // @UseGuards(AuthenticatedGuard)
+  // @Post('new')
+  // async create(@Request() req, @Body() createEventDto: CreateEventDto) {
+  //   const event = await this.eventsService.create(
+  //     createEventDto.title,
+  //     createEventDto.description,
+  //     createEventDto.collaborators,
+  //     req.user,
+  //   );
+  //   return event;
+  // }
 }
