@@ -45,7 +45,7 @@ export default function Invites({
   return (
   
     <View style={styles.container}>
-     <Text>Current Invites</Text>
+     <Text>You have no current Invites</Text>
       </View>
   );
 }
