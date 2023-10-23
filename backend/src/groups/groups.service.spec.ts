@@ -85,7 +85,7 @@ describe('GroupsService', () => {
   });
   
   describe('findByExistingGroupName', () => {
-    it('should return the accurate group details', async () => {
+    it('should return a group with username: name, display: name', async () => {
 
       const groupName = "groupName";
       const displayName = "displayName";
@@ -126,7 +126,7 @@ describe('GroupsService', () => {
 
 
   describe('findByExistingGroupId', () => {
-    it('should return the accurate group details', async () => {
+    it('should return a group with username: name, display: name', async () => {
         
       const groupName = "groupName";
       const displayName = "displayName";
