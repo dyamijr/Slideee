@@ -14,7 +14,7 @@ Welcome to the Slideee application
 - NestJS
 - TypeScript
 - MongoDB
-  
+
 ## Starting Frontend
 ### Installations Needed
 - ngrok
@@ -33,5 +33,10 @@ Welcome to the Slideee application
 - Scan QR Code
 - Celebrate
 
-
- 
+## Testing
+- npm run test
+### Coverage Report
+- To generate coverage report run: npm run test:cov
+- coverage report wil generate and display in terminal
+- can also be found at /backend/coverage/lcov-report/index.html 
+- open the index.html file in browser
