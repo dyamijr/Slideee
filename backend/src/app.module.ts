@@ -9,7 +9,7 @@ import { EventsModule } from './events/events.module';
 import { GroupsModule } from './groups/groups.module';
 import { UsersController } from './users/users.controller';
 import { InvitesModule } from './invites/invites.module';
-import { InviteHandlerModule } from './groupInvites/inviteHandler.module';
+import { InviteHandlerModule } from './inviteHandler/inviteHandler.module';
 
 
 @Module({
