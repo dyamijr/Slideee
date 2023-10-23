@@ -9,6 +9,8 @@ import { EventsModule } from './events/events.module';
 import { GroupsModule } from './groups/groups.module';
 import { UsersController } from './users/users.controller';
 import { InvitesModule } from './invites/invites.module';
+import { InviteHandlerModule } from './groupInvites/inviteHandler.module';
+
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { InvitesModule } from './invites/invites.module';
       dbName: 'slideee',
     }),
     AuthModule,
+    InviteHandlerModule,
     GroupsModule,
     InvitesModule,
     EventsModule,

@@ -79,7 +79,7 @@ export default function CreateEvent({
       <View style={styles.collaborators}>
         {collaborators.map((collaborator, index) => (
           <View style={{display: 'flex', flexDirection: 'row'}} key={index}>
-            <Chip onClose={collaborator === route.params.groupName ? undefined : () => setCollaborators(collaborator.filter((item: any) => item !== collaborator))} icon="account-group">
+            <Chip onClose={collaborator === route.params.groupName ? undefined : () => setCollaborators(collaborators.filter((item: any) => item !== collaborator))} icon="account-group">
               {collaborator}
               </Chip>
           </View>
