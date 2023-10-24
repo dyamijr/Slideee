@@ -1,55 +1,26 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event, EventDocument } from '../schemas/event.schema';
-import { UserDocument } from '../schemas/user.schema';
-import { GroupDocument } from 'src/schemas/group.schema';
-import { GroupsService } from 'src/groups/groups.service';
-import {
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common/exceptions';
-import { InviteType } from 'src/schemas/invite.schema';
-import { InvitesService } from 'src/invites/invites.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class EventsService {
+  userService: UsersService;
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
-    private groupsService: GroupsService,
-    private invitesService: InvitesService,
   ) {}
 
   async create(
     title: string,
     description: string,
-    collaboratorsGroupNames: string[],
-    admin: UserDocument,
+    group: mongoose.Types.ObjectId,
+    admin: mongoose.Types.ObjectId,
   ) {
-    const collaboratorsGroupDocuments: GroupDocument[] = [];
-    for (const collaboratorGroupName of collaboratorsGroupNames) {
-      const group = await this.groupsService.findOneByGroupName(
-        collaboratorGroupName,
-      );
-      if (!group) {
-        throw new BadRequestException(
-          `Group Not Found: ${collaboratorGroupName}`,
-        );
-      }
-      collaboratorsGroupDocuments.push(group);
-    }
-
-    const isUserGroupAdmin = collaboratorsGroupDocuments[0].admins.find((x) =>
-      x.equals(admin._id),
-    );
-    if (!isUserGroupAdmin) {
-      throw new UnauthorizedException();
-    }
-
     const createdEvent = new this.eventModel({
       title: title,
       description: description,
-      collaborators: [collaboratorsGroupDocuments[0]._id],
+      collaborators: [group],
       createdBy: admin._id,
       likes: 0,
       slides: 0,
@@ -58,16 +29,7 @@ export class EventsService {
     });
     await createdEvent.save();
 
-    for (let i = 1; i < collaboratorsGroupDocuments.length; i++) {
-      this.invitesService.createInvite(
-        InviteType.CollaboratorRequest,
-        collaboratorsGroupDocuments[0]._id,
-        collaboratorsGroupDocuments[i]._id,
-        createdEvent._id,
-      );
-    }
-
-    return createdEvent;
+    return createdEvent._id;
   }
 
   async findOne(id: number) {
@@ -75,81 +37,98 @@ export class EventsService {
     return event;
   }
 
-  async likeEvent(id: String, user: UserDocument) {
+  async likeEvent(id: String, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
-    if (user.likedEvents.indexOf(id)!=-1) { 
+    if (await this.userService.findLike(id, uid)!=-1) { 
       throw new UnauthorizedException(
         'Already Liked',
       );
     } else {
       event.likes++;
       await event.save();
-      user.likedEvents.push(id);
-      await user.save();
+      this.userService.likeEvent(id, uid);
     }
   }
 
-  async unlikeEvent(id: String, user: UserDocument) {
+  async unlikeEvent(id: String, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
-    if (user.likedEvents.indexOf(id)==-1) { 
+    if (await this.userService.findLike(id, uid)==-1) { 
       throw new UnauthorizedException(
         'Never Liked',
       );
     } else {
       event.likes--;
       await event.save();
-      user.likedEvents.splice(user.likedEvents.indexOf(id), 1);
-      await user.save();
+      this.userService.unlikeEvent(id, uid);
     }
   }  
 
-  async slideEvent(id: String, user: UserDocument) {
+  async slideEvent(id: String, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
-    if (user.slidEvents.indexOf(id)!=-1) { 
+    if (await this.userService.findSlide(id, uid)!=-1) { 
       throw new UnauthorizedException(
         'Already Slid',
       );
     } else {
       event.slides++;
       await event.save();
-      user.slidEvents.push(id);
-      await user.save();
+      this.userService.slideEvent(id, uid);
     }
   }
 
-  async unslideEvent(id: String, user: UserDocument) {
+  async unslideEvent(id: String, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
-    if (user.slidEvents.indexOf(id)==-1) { 
+
+    if (await this.userService.findSlide(id, uid)==-1) { 
       throw new UnauthorizedException(
         'Never Slid',
       );
     } else {
       event.slides--;
       await event.save();
-      user.slidEvents.splice(user.slidEvents.indexOf(id), 1);
-      await user.save();
+      this.userService.unslideEvent(id, uid);;
     }
   }  
+ 
+  async findById(id: mongoose.Types.ObjectId){
+    const event = await this.eventModel.findById(id);
+    return event;
+  }
+
+  async addColloborator(eventId: mongoose.Types.ObjectId, colloborator: mongoose.Types.ObjectId){
+    const event = await this.findById(eventId);
+    event.collaborators.push(colloborator);
+    await event.save();
+    return event;
+  }
+
+  async isValidEvent(eventId: mongoose.Types.ObjectId){
+    const event = this.findById(eventId);
+    if(event){
+      return true;
+    }
+    return false;
+  }
 }
 
 

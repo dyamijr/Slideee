@@ -14,8 +14,11 @@ import {
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { EditGroupDto } from './dto/edit-group.dto';
+import { UserDto } from './dto/user.dto';
+import * as mongoose from 'mongoose';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
-import { User } from '../schemas/user.schema';
+import { User } from 'src/users/entities/user.entity';
+
 
 @Controller('groups')
 export class GroupsController {
@@ -28,7 +31,7 @@ export class GroupsController {
       createGroupDto.groupName,
       createGroupDto.displayName,
       createGroupDto.isPrivate,
-      req.user,
+      req.user._id,
     );
     return group;
   }
@@ -53,7 +56,7 @@ export class GroupsController {
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
-    const group = await this.groupsService.deleteGroup(groupName, req.user);
+    const group = await this.groupsService.deleteGroup(groupName, req.user._id);
     return group;
   }
 
@@ -68,8 +71,21 @@ export class GroupsController {
       groupName,
       editGroupDto.displayName,
       editGroupDto.isPrivate,
-      req.user,
+      req.user._id,
     );
+    return group;
+  }
+
+  @Post(':groupName/unfollow')
+  async unfollowGroup(@Param('groupName') groupName: string, @Request() req) {
+    let group = await this.groupsService.unfollowGroup(groupName, req.user._id);
+    return group;
+  }
+
+  @Post(':groupName/removeAdmin')
+  async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
+    console.log("os");
+    let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user._id);
     return group;
   }
 }

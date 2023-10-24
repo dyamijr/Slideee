@@ -17,23 +17,16 @@ export class InvitesController {
   constructor(private readonly invitesService: InvitesService) {}
 
   @UseGuards(AuthenticatedGuard)
-  @Post(':id/accept')
-  async acceptInvite(@Request() req, @Param('id') inviteId: string) {
-    const invite = await this.invitesService.acceptInvite(inviteId, req.user);
-    return invite;
-  }
-
-  @UseGuards(AuthenticatedGuard)
   @Post(':id/decline')
   async declineInvite(@Request() req, @Param('id') inviteId: string) {
-    const invite = await this.invitesService.declineInvite(inviteId, req.user);
+    const invite = await this.invitesService.declineInvite(inviteId, req.user._id);
     return invite;
   }
 
   @UseGuards(AuthenticatedGuard)
   @Post(':id/remove')
   async removeInvite(@Request() req, @Param('id') inviteId: string) {
-    const invite = await this.invitesService.removeInvite(inviteId, req.user);
+    const invite = await this.invitesService.removeInvite(inviteId, req.user._id);
     return invite;
   }
 }
