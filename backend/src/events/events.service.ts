@@ -53,6 +53,7 @@ export class EventsService {
       createdBy: admin._id,
       likes: 0,
       slides: 0,
+      comments: [],
       created: Date.now(),
     });
     await createdEvent.save();
