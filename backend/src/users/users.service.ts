@@ -34,4 +34,38 @@ export class UsersService {
     await createdUser.save();
     return createdUser;
   }
+
+  async likeEvent(id: String, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    user.likedEvents.push(id);
+    await user.save();
+  }
+
+  async unlikeEvent(id: String, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    user.likedEvents.splice(user.likedEvents.indexOf(id), 1);
+    await user.save();
+  }
+
+  async findLike(id: String, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    return user.likedEvents.indexOf(id);
+  }
+
+  async slideEvent(id: String, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    user.slidEvents.push(id);
+    await user.save();
+  }
+
+  async unslideEvent(id: String, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    user.slidEvents.splice(user.slidEvents.indexOf(id), 1);
+    await user.save();
+  }
+
+  async findSlide(id: String, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    return user.slidEvents.indexOf(id);
+  }
 }
