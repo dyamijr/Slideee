@@ -36,7 +36,7 @@
     "class-validator": "^0.13.2",
     "connect-mongo": "^5.0.0",
     "express-session": "^1.17.3",
-    "mongodb-memory-server": "^8.15.1",
+    "mongodb-memory-server": "^8.16.0",
     "mongoose": "^6.9.0",
     "morgan": "^1.10.0",
     "npm": "^9.4.2",
