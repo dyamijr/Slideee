@@ -3,12 +3,14 @@ import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event, EventDocument } from '../schemas/event.schema';
 import { UsersService } from 'src/users/users.service';
+import { CommentDocument } from 'src/schemas/comment.schema';
 
 @Injectable()
 export class EventsService {
   userService: UsersService;
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
+    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
   ) {}
 
   async create(
@@ -98,7 +100,6 @@ export class EventsService {
         `Event Not Found`,
       );
     }
-
     if (await this.userService.findSlide(id, uid)==-1) { 
       throw new UnauthorizedException(
         'Never Slid',
@@ -108,6 +109,23 @@ export class EventsService {
       await event.save();
       this.userService.unslideEvent(id, uid);;
     }
+  }  
+
+  async commentEvent(id: String, comment: String, uid: mongoose.Types.ObjectId) {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    const createdComment = new this.commentModel({
+      comment: comment,
+      created: Date.now(),
+      author: uid
+    });
+    await createdComment.save();
+    event.comments.push(createdComment._id);
+    await event.save();
   }  
  
   async findById(id: mongoose.Types.ObjectId){

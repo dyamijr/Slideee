@@ -43,4 +43,10 @@ export class EventsController {
     return event;
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Post(':id/comment/new')
+  async commentEvent(@Param('id') id: String, @Param('comment') comment: String, @Request() req) {
+    const event = await this.eventsService.commentEvent(id, comment, req.user);   
+    return event;
+  }
 }
