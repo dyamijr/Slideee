@@ -19,7 +19,7 @@ export default function CreateEvent({
 
   const onCreateEvent = useCallback(async () => {
     try {
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/events/new`, {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/newevent`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
