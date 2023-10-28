@@ -183,14 +183,7 @@ export class GroupsService {
 
   }
   // TODO: Get requests where the group is a sender and where the group is a recipient.
-  async getGroupCollaborationRequests() {
-    return [];
-  }
-
-  async queryGroups(groupNameQuery: string) {
-    const groups = await this.groupModel.find({
-      groupName: new RegExp(`.*${groupNameQuery}.*`, 'i'),
-    });
-    return groups;
-  }
+  // async getGroupCollaborationRequests() {
+  //   return [];
+  // }
 }
