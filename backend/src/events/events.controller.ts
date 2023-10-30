@@ -14,4 +14,11 @@ import { AuthenticatedGuard } from '../auth/authenticated.guard';
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
+
+  @UseGuards(AuthenticatedGuard)
+  @Get(':groupId/events')
+  async getEvents(@Param('groupId') groupId: string){
+    const events = await this.eventsService.getEvents(groupId);
+    return events;
+  }
 }

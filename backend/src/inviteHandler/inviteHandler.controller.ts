@@ -33,8 +33,15 @@ export class InviteHandlerController {
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/addAdmin')
   async addAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    let group = await this.inviteHandlerService.addAdmin(groupName, userDto.user, req.user._id);
-    return group;
+    let invite = await this.inviteHandlerService.addAdmin(groupName, userDto.user, req.user._id);
+    return invite;
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Post(':groupName/transfer')
+  async tranferOwnership(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
+    let invite = await this.inviteHandlerService.transferOwnership(groupName, userDto.user, req.user._id);
+    return invite;
   }
   
   @UseGuards(AuthenticatedGuard)
