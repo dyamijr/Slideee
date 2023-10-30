@@ -182,7 +182,7 @@ export class GroupsService {
     return group;
   }
 
-  async removeFollower(groupName: string, removeAdminId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+  async removeAdmin(groupName: string, removeAdminId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });
@@ -206,7 +206,7 @@ export class GroupsService {
 
   }
 
-  async removeAdmin(groupName: string, removeFollowerId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+  async removeFollower(groupName: string, removeFollowerId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
     let group = await this.groupModel.findOne({
       groupName: groupName,
     });

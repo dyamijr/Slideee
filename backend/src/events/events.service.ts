@@ -45,7 +45,6 @@ export class EventsService {
   }
   async getEvents(groupId: string){
     const events = this.eventModel.find({collaborators: groupId});
-    console.log(groupId);
     return events;
   }
   async isValidEvent(eventId: mongoose.Types.ObjectId){
