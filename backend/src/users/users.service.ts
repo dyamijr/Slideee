@@ -65,7 +65,9 @@ export class UsersService {
   }
 
   async findSlide(id: String, uid: mongoose.Types.ObjectId) {
+    console.log('test')
     const user = await this.userModel.findById(uid);
+    
     return user.slidEvents.indexOf(id);
   }
 }

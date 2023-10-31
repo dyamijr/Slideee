@@ -3,12 +3,13 @@ import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event, EventDocument } from '../schemas/event.schema';
 import { UsersService } from 'src/users/users.service';
-import { CommentDocument } from 'src/schemas/comment.schema';
+import { Comment, CommentDocument } from 'src/schemas/comment.schema';
 
 @Injectable()
 export class EventsService {
-  userService: UsersService;
+  
   constructor(
+    private userService: UsersService,
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
   ) {}
@@ -30,16 +31,15 @@ export class EventsService {
       created: Date.now(),
     });
     await createdEvent.save();
-
     return createdEvent._id;
   }
 
   async findOne(id: number) {
-    const event = await this.eventModel.findById(id);
+    const event = await this.eventModel.findById(id); 
     return event;
   }
 
-  async likeEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async likeEvent(id: string, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
@@ -57,7 +57,7 @@ export class EventsService {
     }
   }
 
-  async unlikeEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async unlikeEvent(id: string, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
@@ -75,13 +75,16 @@ export class EventsService {
     }
   }  
 
-  async slideEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async slideEvent(id: string, uid: mongoose.Types.ObjectId) {
+    console.log('test21')
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
+    console.log('test22')
+    await this.userService.findSlide(id, uid)
     if (await this.userService.findSlide(id, uid)!=-1) { 
       throw new UnauthorizedException(
         'Already Slid',
@@ -93,7 +96,7 @@ export class EventsService {
     }
   }
 
-  async unslideEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async unslideEvent(id: string, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
@@ -107,11 +110,11 @@ export class EventsService {
     } else {
       event.slides--;
       await event.save();
-      this.userService.unslideEvent(id, uid);;
+      this.userService.unslideEvent(id, uid);
     }
   }  
 
-  async commentEvent(id: String, comment: String, uid: mongoose.Types.ObjectId) {
+  async commentEvent(id: string, comment: string, uid: mongoose.Types.ObjectId) {
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
@@ -119,14 +122,62 @@ export class EventsService {
       );
     }
     const createdComment = new this.commentModel({
-      comment: comment,
+      content: comment,
       created: Date.now(),
       author: uid
     });
     await createdComment.save();
     event.comments.push(createdComment._id);
     await event.save();
-  }  
+  } 
+  
+  async editComment(id: string, cid: string, comment: string, uid: mongoose.Types.ObjectId) {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    const oldComment = await this.commentModel.findById(cid);
+    if (!oldComment) {
+      throw new BadRequestException(
+        `Comment Not Found`,
+      );
+    }
+    if (oldComment.author.equals(uid)) {
+      oldComment.content = comment;
+      await oldComment.save();
+      await event.save();
+    } else {
+      throw new BadRequestException(
+        `Cannot edit comment: Not the author of this comment`,
+      );
+    }
+  }
+
+  async deleteComment(id: string, cid: string, uid: mongoose.Types.ObjectId) {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new BadRequestException(
+        `Event Not Found`,
+      );
+    }
+    const oldComment = await this.commentModel.findById(cid);
+    if (!oldComment) {
+      throw new BadRequestException(
+        `Comment Not Found`,
+      );
+    }
+    if (!oldComment.author.equals(uid)) {
+      throw new BadRequestException(
+        `Cannot delete comment: Not the author of this comment`,
+      );
+    } else {
+      await oldComment.delete();
+      event.comments.splice(event.comments.indexOf(oldComment._id), 1);
+      await event.save();
+    }
+  }
  
   async findById(id: mongoose.Types.ObjectId){
     const event = await this.eventModel.findById(id);

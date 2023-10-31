@@ -12,7 +12,7 @@ export class Comment {
     @Prop()
     created: Date;
 
-    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     author: mongoose.Types.ObjectId;
 }
 
