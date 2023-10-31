@@ -29,7 +29,7 @@ Welcome to the Slideee application
 - Run ngrok http 1234
 - Obtain the forwarding address
 - Place in the /slideee/frontend/.env
-- Run npx expo start
+- Run npx expo start -c
 - Scan QR Code
 - Celebrate
 
