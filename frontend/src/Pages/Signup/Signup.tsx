@@ -43,7 +43,7 @@ export default function Signup({
         setPassword('');
       }
     } catch (err) {
-      console.error(`Error Signing Up: ${err}.`)
+      console.error(`${err}.`)
     }
   }, [username, displayName, password]);
 

@@ -10,7 +10,7 @@ export class SignupDto {
   @Matches(RegExp('^[a-zA-Z0-9\\-]+$'), {message: 'Please enter a display name using only alphanumeric characters'})
   displayName: string;
 
-  @Length(3, 20)
+  @Length(8, 20)
   @Matches(RegExp('^[a-zA-Z0-9\\-]+$'), {message: 'Please enter a password using only alphanumeric characters'})
   password: string;
   

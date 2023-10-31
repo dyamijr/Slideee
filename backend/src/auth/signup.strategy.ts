@@ -25,10 +25,24 @@ export class SignupStrategy extends PassportStrategy(Strategy, 'signup') {
     signupDto.password = req.body.password;
     const errors = await validate(signupDto);
     if (errors.length > 0) {
-      console.log(errors)
+      console.log(errors[0].constraints.matches)
       let myMap = new Map<string, string>();
+      for (let i = 0; i < errors.length; i++) {
+        if (errors[i].constraints.matches.includes('user')){
+            myMap.set('User', errors[i].constraints.matches)
+            throw new BadRequestException(errors[i].constraints.matches);
+        } 
+        else if (errors[i].constraints.matches.includes('display') ){
+          myMap.set('Display', errors[i].constraints.matches)
+          throw new BadRequestException(errors[i].constraints.matches);
+        }
+        else if (errors[i].constraints.matches.includes('password') ){
+          myMap.set('Password', errors[i].constraints.matches)
+          throw new BadRequestException(errors[i].constraints.matches);
+        }
+      }
+      throw new BadRequestException("Signup Error");
       
-      throw new BadRequestException(myMap);
     }
 
     const user = await this.authService.createUser(
