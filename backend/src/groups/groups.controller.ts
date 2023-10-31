@@ -68,6 +68,20 @@ export class GroupsController {
   }
 
   @UseGuards(AuthenticatedGuard)
+  @Get('me/adminGroups')
+  getCurrentUserAdminGroups(@Request() req) {
+    const data = this.groupsService.getAdminGroups(req.user._id);
+    return data;
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get('me/followGroups')
+  getCurrentUserFollowGroups(@Request() req) {
+    const data = this.groupsService.getFollowGroups(req.user._id);
+    return data;
+  }
+
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
     const group = await this.groupsService.deleteGroup(groupName, req.user._id);

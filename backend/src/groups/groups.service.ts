@@ -229,6 +229,14 @@ export class GroupsService {
     return group;
 
   }
+  async getAdminGroups(user: mongoose.Types.ObjectId){
+    const groups = this.groupModel.find({admins: user});
+    return groups;
+  }
+  async getFollowGroups(user: mongoose.Types.ObjectId){
+    const groups = this.groupModel.find({followers: user});
+    return groups;
+  }
   // TODO: Get requests where the group is a sender and where the group is a recipient.
   async getGroupCollaborationRequests() {
     return [];

@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
+import { Button, Chip, Text, TextInput } from 'react-native-paper';
+import styles from '../../styles/main';
 
 export default function Group({
   route,
@@ -30,18 +32,37 @@ export default function Group({
     getGroup();
   }, []);
 
+  const test = async() => console.log('test');
+
+  const getAdmins = useCallback(async () => {
+    try {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/${route.params.groupName}/admins`, {
+        method: 'GET',
+      },
+      );
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      let json = await response.json();
+      console.log(json);
+
+    } catch (err) {
+      console.error(`Error retriving group: ${err}.`)
+    }
+  }, []);
+
   return (
     <View style={styles.container}>
+      <Button onPress={getAdmins}>
+        Admin
+      </Button>
+      <Button onPress={test}>
+        Followers
+      </Button>
       <Text>{route.params.groupName}</Text>
+      <Text>baller</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
