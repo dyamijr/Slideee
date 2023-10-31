@@ -186,6 +186,7 @@ function GroupNavigation() {
                 <Appbar.Content title={route.params.groupName} />
                 <Appbar.Action icon="account-plus" onPress={() => navigation.navigate("CreateEvent", {
                   groupName: route.params.groupName
+              
                 })}/>
               </Appbar.Header>
             )

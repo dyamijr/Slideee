@@ -109,7 +109,7 @@ export class InviteHandlerService {
         if(!await this.groupsService.isValidGroupById(group1) || !await this.groupsService.isValidGroupById(group2)){
           throw new BadRequestException('Group does not exist');
         }
-        if(!await this.groupsService.addAdmin(group2, user)){
+        if(!await this.groupsService.isAdmin(group2, user)){
           throw new UnauthorizedException('User is not an admin');
         }
         let event = await this.invitesService.getInviteContent(inviteId);
