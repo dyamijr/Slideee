@@ -1,4 +1,3 @@
-
 import { Test, TestingModule } from '@nestjs/testing';
 import { GroupsService } from './groups.service';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
@@ -22,7 +21,6 @@ describe('GroupsService', () => {
       ],
       providers: [GroupsService, Group, User],
     }).compile();
-
 
     service = module.get<GroupsService>(GroupsService);
     userModel = module.get<Model<UserDocument>>(getModelToken(User.name));

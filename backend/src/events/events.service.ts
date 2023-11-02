@@ -23,7 +23,6 @@ export class EventsService {
       created: Date.now(),
     });
     await createdEvent.save();
-
     return createdEvent._id;
   }
 

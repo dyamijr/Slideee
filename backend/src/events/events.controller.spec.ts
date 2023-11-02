@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
+import { closeInMongodConnection, rootMongooseTestModule } from '../testUtils/mongo/MongooseTestModule';
+import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 
 describe('EventsController', () => {
   let controller: EventsController;
