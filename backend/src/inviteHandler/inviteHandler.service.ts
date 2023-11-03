@@ -159,4 +159,12 @@ export class InviteHandlerService {
       }
       return createdEventId;
     }
+
+    async showInvites(user: mongoose.Types.ObjectId){
+        //this function should go through all invites and find where you are the recepient 
+        // or where you are an admin in the group
+        // this should call it the invite service 
+        const pendingInvites = await this.invitesService.showInvites(user);
+        return pendingInvites;
+    }
 }

@@ -10,6 +10,12 @@ export enum InviteType {
   CollaboratorRequest = 'CollaboratorRequest',
 }
 
+export enum StatusType{
+  Accepted = 'Accepted',
+  Declined = 'Pecline',
+  Pending = 'Pending'
+}
+
 @Schema()
 export class Invite {
   @Prop({ type: String, enum: InviteType })
@@ -24,8 +30,8 @@ export class Invite {
   @Prop()
   content: mongoose.Types.ObjectId;
 
-  @Prop({ default: false })
-  accepted: boolean;
+  @Prop({ type:String, enum: StatusType })
+  status: string;
 
   @Prop()
   created: Date;

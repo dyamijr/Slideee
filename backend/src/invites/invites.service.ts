@@ -7,6 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Invite, InviteDocument } from '../schemas/invite.schema';
 import { InviteType } from '../schemas/invite.schema';
+import { StatusType } from '../schemas/invite.schema';
 import * as mongoose from 'mongoose';
 
 
@@ -52,12 +53,12 @@ export class InvitesService {
 
   async getInviteStatus(id: string){
     const invite = await this.findById(id);
-    return invite.accepted;
+    return invite.status;
   }
 
   async acceptInvite(id: string){
     const invite = await this.findById(id);
-    invite.accepted = true;
+    invite.status = StatusType.Accepted;
     await invite.save();
     return invite._id;
   }
@@ -85,6 +86,7 @@ export class InvitesService {
       recipient: recipient,
       content: content,
       created: new Date(),
+      status: StatusType.Pending
     });
     await createdInvite.save();
     return createdInvite;
@@ -107,4 +109,13 @@ export class InvitesService {
     await invite.deleteOne();
     return 'Success';
   }
+
+  async showInvites(user: mongoose.Types.ObjectId){
+    //given the user return 
+    const openuserInvites = await this.inviteModel.find({recipient: user, status:StatusType.Pending});
+    //     var groupuserInvites = await this.inviteModel.find().or([{type:'FollowRequest'},{type:'CollaboratorRequest'} ])
+    //     groupuserInvites = groupuserInvites.filter()
+    return openuserInvites;
+  }
+
 }

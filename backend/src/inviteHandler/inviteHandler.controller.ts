@@ -56,4 +56,12 @@ export class InviteHandlerController {
     return event;
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Get('allInvites')
+  async showInvites(@Request() req ) {
+    const pendingInvites = await this.inviteHandlerService.showInvites(
+      req.user._id,
+    );
+    return pendingInvites;
+  }
 }
