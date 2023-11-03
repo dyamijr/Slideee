@@ -16,6 +16,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchGroups from './src/Pages/SearchGroups/SearchGroups';
+import Admin from './src/Pages/Admin/Admin';
+import Followers from './src/Pages/Followers/Followers';
+import AddAdmin from './src/Pages/AddAdmin/AddAdmin';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -134,6 +137,20 @@ function GroupsNavigation() {
         }}
       />
       <Stack.Screen 
+        name="Admin" 
+        component={AdminNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Followers" 
+        component={FollowerNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen 
         name="CreateGroup" 
         component={CreateGroup} 
         options={{
@@ -184,6 +201,84 @@ function GroupNavigation() {
         component={CreateEvent} 
         options={{
           title: "Create Event"
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+function AdminNavigation() {
+  return (
+    <Stack.Navigator 
+      initialRouteName='Main'
+      screenOptions={{
+        headerShown: true,
+        header: (props) => <GroupNavigationBar {...props} />,
+      }}
+    >
+      <Stack.Screen 
+        name="Main" 
+        component={Admin} 
+        options={({ navigation, route } : { navigation: any, route: any }) => {
+          return {
+            header: (props) => (
+              <Appbar.Header>
+                {props.back ? <Appbar.BackAction onPress={props.navigation.goBack} /> : null}
+                <Appbar.Content title={'Group Administrators'} />
+                <Appbar.Action icon="account-plus" onPress={() => navigation.navigate("AddAdmin", {
+                  groupName: route.params.groupName
+                })}/>
+              </Appbar.Header>
+            )
+          }
+        }}
+      />
+      <Stack.Screen 
+        name="AddAdmin" 
+        component={AddAdmin} 
+        options={{
+          title: "Add Admin"
+        }}
+      />
+      <Stack.Screen 
+        name="Admins" 
+        component={Admin} 
+        options={{
+          title: "Admin"
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+function FollowerNavigation() {
+  return (
+    <Stack.Navigator 
+      initialRouteName='Main'
+      screenOptions={{
+        headerShown: true,
+        header: (props) => <GroupNavigationBar {...props} />,
+      }}
+    >
+      <Stack.Screen 
+        name="Main" 
+        component={Followers} 
+        options={({ navigation, route } : { navigation: any, route: any }) => {
+          return {
+            header: (props) => (
+              <Appbar.Header>
+                {props.back ? <Appbar.BackAction onPress={props.navigation.goBack} /> : null}
+                <Appbar.Content title={'Group Followers'} />
+              </Appbar.Header>
+            )
+          }
+        }}
+      />
+      <Stack.Screen 
+        name="Followers" 
+        component={Followers} 
+        options={{
+          title: "Followers"
         }}
       />
     </Stack.Navigator>

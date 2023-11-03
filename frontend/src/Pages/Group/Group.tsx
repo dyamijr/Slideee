@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Chip, Text, TextInput } from 'react-native-paper';
@@ -11,6 +11,9 @@ export default function Group({
   route: any;
   navigation: any;
 }) {
+
+  const[group, setGroup] = useState();
+      
   useEffect(() => {
     async function getGroup() {
       try {
@@ -24,6 +27,7 @@ export default function Group({
           throw new Error(`${response.status}`);
         }
         let json = await response.json();
+        setGroup(json);
         console.log(json);
       } catch(err) {
         console.error(`Error retrieving group: ${err}.`)
@@ -32,35 +36,25 @@ export default function Group({
     getGroup();
   }, []);
 
-  const test = async() => console.log('test');
-
-  const getAdmins = useCallback(async () => {
-    try {
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/${route.params.groupName}/admins`, {
-        method: 'GET',
-      },
-      );
-      if (!response.ok) {
-        throw new Error(`${response.status}`);
-      }
-      let json = await response.json();
-      console.log(json);
-
-    } catch (err) {
-      console.error(`Error retriving group: ${err}.`)
-    }
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Button onPress={getAdmins}>
+      <Button onPress={() => navigation.navigate('Admin', {
+              screen: 'Main',
+              params: {
+                groupName: route.params.groupName,
+              }
+            })}>
         Admin
       </Button>
-      <Button onPress={test}>
+      <Button onPress={() => navigation.navigate('Followers', {
+              screen: 'Main',
+              params: {
+                groupName: route.params.groupName,
+              }
+            })}>
         Followers
       </Button>
       <Text>{route.params.groupName}</Text>
-      <Text>baller</Text>
     </View>
   );
 }

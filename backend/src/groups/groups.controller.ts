@@ -114,14 +114,14 @@ export class GroupsController {
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/removeAdmin')
   async removeFollower(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    let group = await this.groupsService.removeFollower(groupName, userDto.user, req.user._id);
+    let group = await this.groupsService.removeFollower(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
     return group;
   }
 
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/removeAdmin')
   async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user._id);
+    let group = await this.groupsService.removeAdmin(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
     return group;
   }
 }

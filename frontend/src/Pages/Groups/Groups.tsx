@@ -54,7 +54,7 @@ export default function Groups({
 
   return (
     <View style={styles.container}>
-      {admin.length === 0 ?(
+      {admin.length + follow.length === 0 ?(
         <Text>You are not the admin of any groups.</Text>
       ) : (
         <React.Fragment key='1'>
@@ -81,17 +81,6 @@ export default function Groups({
         </React.Fragment>
         
       )}
-      {/* {this.state.adminGroups.length === 0 ? (
-                <p>You are not the admin of any groups.<br/> <br/></p>
-              ) : (
-                <React.Fragment>
-                  {this.state.adminGroups.map((e) => (
-                    <Link to={"/groups/" + e.id}>
-                      <button style={{width: "20em"}} className="button">{e.name}</button>
-                    </Link>
-                  ))}
-                </React.Fragment>
-              )} */}
     </View>
   );
 }

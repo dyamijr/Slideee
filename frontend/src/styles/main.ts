@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
           marginBottom: 10,
           marginTop: 20,
           width: "50%",
+        },
+        collaborators: {
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent:"center",
+          alignItems: 'center',
         }
   });
 

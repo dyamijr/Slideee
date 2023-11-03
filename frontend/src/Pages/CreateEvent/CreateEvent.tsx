@@ -87,7 +87,7 @@ export default function CreateEvent({
         {collaborators.length < MAX_COLLABORATORS && (
           <TextInput
             placeholder="Add Collaborator"
-            value={newCollaborator}
+            value={newCollaborator} 
             onChangeText={(newValue) => setNewCollaborator(newValue)}
             onSubmitEditing={onNewCollaboratorSubmitted}
           />
