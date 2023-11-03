@@ -65,4 +65,11 @@ export class EventsController {
     const event = await this.eventsService.deleteComment(id, cid, req.user._id);   
     return event;
   }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get(':groupId/events')
+  async getEvents(@Param('groupId') groupId: string) {
+    const events = await this.eventsService.getEvents(groupId);
+    return events;
+  }
 }
