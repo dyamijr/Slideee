@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 
 export class CommentDto {
     
-    cid: mongoose.Types.ObjectId
-    @Length(1, 100)
+    @Length(1, 2200)
     content: string;
   }

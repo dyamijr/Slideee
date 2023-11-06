@@ -46,14 +46,15 @@ export class EventsService {
         `Event Not Found`,
       );
     }
-    if (await this.userService.findLike(id, uid)!=-1) { 
+    if (await this.userService.findLike(event._id, uid)!=-1) { 
       throw new UnauthorizedException(
         'Already Liked',
       );
     } else {
       event.likes++;
       await event.save();
-      this.userService.likeEvent(id, uid);
+      this.userService.likeEvent(event._id, uid);
+      return event;
     }
   }
 
@@ -64,35 +65,34 @@ export class EventsService {
         `Event Not Found`,
       );
     }
-    if (await this.userService.findLike(id, uid)==-1) { 
+    if (await this.userService.findLike(event._id, uid)==-1) { 
       throw new UnauthorizedException(
         'Never Liked',
       );
     } else {
       event.likes--;
       await event.save();
-      this.userService.unlikeEvent(id, uid);
+      this.userService.unlikeEvent(event._id, uid);
+      return event;
     }
   }  
 
   async slideEvent(id: string, uid: mongoose.Types.ObjectId) {
-    console.log('test21')
     const event = await this.eventModel.findById(id);
     if (!event) {
       throw new BadRequestException(
         `Event Not Found`,
       );
     }
-    console.log('test22')
-    await this.userService.findSlide(id, uid)
-    if (await this.userService.findSlide(id, uid)!=-1) { 
+    if (await this.userService.findSlide(event._id, uid)!=-1) { 
       throw new UnauthorizedException(
         'Already Slid',
       );
     } else {
       event.slides++;
       await event.save();
-      this.userService.slideEvent(id, uid);
+      this.userService.slideEvent(event._id, uid);
+      return event;
     }
   }
 
@@ -103,14 +103,15 @@ export class EventsService {
         `Event Not Found`,
       );
     }
-    if (await this.userService.findSlide(id, uid)==-1) { 
+    if (await this.userService.findSlide(event._id, uid)==-1) { 
       throw new UnauthorizedException(
         'Never Slid',
       );
     } else {
       event.slides--;
       await event.save();
-      this.userService.unslideEvent(id, uid);
+      this.userService.unslideEvent(event._id, uid);
+      return event;
     }
   }  
 
@@ -129,6 +130,7 @@ export class EventsService {
     await createdComment.save();
     event.comments.push(createdComment._id);
     await event.save();
+    return createdComment;
   } 
   
   async editComment(id: string, cid: string, comment: string, uid: mongoose.Types.ObjectId) {
@@ -148,6 +150,7 @@ export class EventsService {
       oldComment.content = comment;
       await oldComment.save();
       await event.save();
+      return oldComment;
     } else {
       throw new BadRequestException(
         `Cannot edit comment: Not the author of this comment`,

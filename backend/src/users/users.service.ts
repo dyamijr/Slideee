@@ -35,39 +35,67 @@ export class UsersService {
     return createdUser;
   }
 
-  async likeEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async likeEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
     user.likedEvents.push(id);
     await user.save();
   }
 
-  async unlikeEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async unlikeEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
     user.likedEvents.splice(user.likedEvents.indexOf(id), 1);
     await user.save();
   }
 
-  async findLike(id: String, uid: mongoose.Types.ObjectId) {
+  async findLike(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
     return user.likedEvents.indexOf(id);
   }
 
-  async slideEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async slideEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
     user.slidEvents.push(id);
     await user.save();
   }
 
-  async unslideEvent(id: String, uid: mongoose.Types.ObjectId) {
+  async unslideEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
     user.slidEvents.splice(user.slidEvents.indexOf(id), 1);
     await user.save();
   }
 
-  async findSlide(id: String, uid: mongoose.Types.ObjectId) {
-    console.log('test')
+  async findSlide(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(uid);
-    
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
     return user.slidEvents.indexOf(id);
   }
 }

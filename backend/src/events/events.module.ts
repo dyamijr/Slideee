@@ -13,8 +13,6 @@ import { UsersModule } from 'src/users/users.module';
     MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
     MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
     UsersModule,
-    GroupsModule,
-    InvitesModule,
   ],
   controllers: [EventsController],
   providers: [EventsService],
