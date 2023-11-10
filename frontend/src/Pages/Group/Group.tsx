@@ -13,6 +13,8 @@ export default function Group({
 }) {
 
   const[group, setGroup] = useState();
+  const[admin, setAdmin] = useState([]);
+  const[followers, setFollowers] = useState([]);
       
   useEffect(() => {
     async function getGroup() {
@@ -36,14 +38,33 @@ export default function Group({
     getGroup();
   }, []);
 
+  const onAdminClick = async() => {
+    try {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/admins`, {
+        method: 'GET',
+      },
+      );
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      let json = await response.json();
+      setAdmin(json);
+      console.log(json);
+      navigation.navigate('Admin', {
+        screen: 'Main',
+        params: {
+          groupName: route.params.groupName,
+          admins: json,
+        }
+      })
+    } catch (err) {
+      console.error(`Error retriving admins: ${err}.`)
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Button onPress={() => navigation.navigate('Admin', {
-              screen: 'Main',
-              params: {
-                groupName: route.params.groupName,
-              }
-            })}>
+      <Button onPress={onAdminClick}>
         Admin
       </Button>
       <Button onPress={() => navigation.navigate('Followers', {
