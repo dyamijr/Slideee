@@ -3,6 +3,7 @@ import { StyleSheet, View, Button } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Appbar } from 'react-native-paper';
 
+
 export default function Groups({
   navigation,
 }: {

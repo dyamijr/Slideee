@@ -16,6 +16,9 @@ export default function CreateEvent({
   const [description, setDescription] = useState('');
   const [newCollaborator, setNewCollaborator] = useState('');
   const [collaborators, setCollaborators] = useState([route.params.groupName]);
+  const [collaboratorids, setCollaboratorsid] = useState([route.params._id])
+
+
 
   const onCreateEvent = useCallback(async () => {
     try {
@@ -28,7 +31,7 @@ export default function CreateEvent({
         body: JSON.stringify({
           title: title,
           description: description,
-          collaborators: collaborators,
+          collaborators: collaboratorids,
         }),
       });
       if (!response.ok) {
@@ -51,11 +54,16 @@ export default function CreateEvent({
           method: 'GET',
         },
       );
+      let collaboratorid = await response.json()
+      console.log("HEREEEEE!!!")
+      console.log(route.params)
       if (!response.ok) {
         throw new Error("Invalid Group");
       }
       setNewCollaborator("");
       setCollaborators([...collaborators, newCollaborator]);
+      setCollaboratorsid([...collaboratorids, collaboratorid]);
+      console.log(collaboratorids)
     } catch(err) {
       console.error(`Error adding collaboration group: ${err}.`);
     }

@@ -14,38 +14,66 @@ export default function Invites({
   navigation: any;
 }) {
 
-  const [eventCollaborationRequests,setEventCollaborationRequest] = useState([]);
+  const [Invitations,setInvitations] = useState([]);
+  
+  useEffect(() => {
+    async function getallInvites() {
+      try {
+        let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/allinvites`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        let json = await response.json();
+        console.log(json);
+        setInvitations(json);
+        
+       
+      } catch(err) {
+        console.error(`Error retrieving user invites: ${err}.`);
+      }
+  }
+  getallInvites();
+  console.log("hi");
+  console.log(Invitations);
+}, []); 
+   
+const renderItem = ( item:any ) => (
+  <View style={styles.container}>
+     <Text>{item['sender']}</Text>
+    <View style={{ flexDirection: 'row' }}>
+    <Button style = {GroupInviteStyle.button} mode="outlined" >
+        Accept
+      </Button>
+      <Button style = {GroupInviteStyle.button} mode="outlined" >
+        Decline
+      </Button>
+    </View>
+  </View>
+ 
+);
 
-  // useEffect(() => {
-  //   async function getEventCollaborationRequest() {
-  //     try {
-  //       let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupId}/eventCollaborationRequests`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-  //       if (!response.ok) {
-  //         throw new Error(`${response.status}`);
-  //       }
-  //       let json = await response.json();
-  //       setEventCollaborationRequest(json);
-  //       console.log(json);
-  //     } catch(err) {
-  //       console.error(`Error retrieving user groups: ${err}.`);
-  //     }
-  //   }
-    
-  //  getEventCollaborationRequest();
-  // }, []);
-
-  //console.log(route.params);
-  //let requestDisplay =<Text>You have {eventCollaborationRequests.length} request</Text>;
-  return (
+return (
   
     <View style={styles.container}>
-     <Text>You have no current Invites</Text>
+      {Invitations.length === 0 ?(
+        <Text>You have no current Invites</Text>
+      ):(
+        <React.Fragment>
+          { 
+             Invitations.map ( (i) => (
+              renderItem(i)
+              
+             )
+             
+          )}
+          </React.Fragment>)}
+       
       </View>
   );
 }

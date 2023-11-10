@@ -85,7 +85,7 @@ export class GroupsController {
   @Post(':groupName/removeAdmin')
   async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
     console.log("os");
-    let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user._id);
+    let group = await this.groupsService.removeAdmin(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
     return group;
   }
 }
