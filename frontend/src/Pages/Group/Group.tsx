@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Chip, Text, TextInput } from 'react-native-paper';
 import styles from '../../styles/main';
+import groupStyles from './GroupStyle';
 
 export default function Group({
   route,
@@ -62,20 +63,41 @@ export default function Group({
     }
   };
 
+  const onFollowersClick = async() => {
+    try {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/followers`, {
+        method: 'GET',
+      },
+      );
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      let json = await response.json();
+      setFollowers(json);
+      console.log(json);
+      navigation.navigate('Followers', {
+        screen: 'Main',
+        params: {
+          groupName: route.params.groupName,
+          followers: json,
+        }
+      })
+    } catch (err) {
+      console.error(`Error retriving admins: ${err}.`)
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Button onPress={onAdminClick}>
-        Admin
-      </Button>
-      <Button onPress={() => navigation.navigate('Followers', {
-              screen: 'Main',
-              params: {
-                groupName: route.params.groupName,
-              }
-            })}>
-        Followers
-      </Button>
-      <Text>{route.params.groupName}</Text>
+    <View >
+      <View style={groupStyles.container}>
+        <Button style={groupStyles.button} onPress={onAdminClick}>
+          Admin
+        </Button>
+        <Button style={groupStyles.button} onPress={onFollowersClick}>
+          Followers
+        </Button>
+      </View>
+
     </View>
   );
 }

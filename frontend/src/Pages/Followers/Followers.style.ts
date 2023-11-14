@@ -1,20 +1,20 @@
 import { StyleSheet } from 'react-native';
 
-const adminStyles = StyleSheet.create({
-    admin: {
+const followersStyles = StyleSheet.create({
+    follower: {
       margin: 5,
       padding: 10,
       backgroundColor: 'white',
       borderWidth: 5,
       width: '90%',
     },
-    adminText: {
+    followerText: {
       fontSize: 22,
       fontWeight: 'bold',
     },
-    adminSubText: {
+    followerSubText: {
       fontSize: 15,
     },
   });
 
-  export default adminStyles;
+  export default followersStyles;

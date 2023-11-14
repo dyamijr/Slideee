@@ -21,7 +21,6 @@ export default function Admin({
                 const promises = await Promise.all(admins.map(a => fetch(`${REACT_APP_BACKEND_URL}/users/id/${a}`)));
                 const productsArray = await Promise.all(promises.map(p => p.json()))
                 setAdmin(productsArray);
-                console.log(admin);
               } catch (err) {
                 console.error(`Error retriving admins: ${err}.`)
               }
@@ -30,28 +29,6 @@ export default function Admin({
         getAdmins();
       }, []);
     
-      async function getAdminObjects(json: any) {
-        try {
-          for (let i = 0; i < json.length; i++) {
-            console.log('test');
-            console.log(json.length);
-            console.log(i);
-            console.log(json[i]);
-            let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me}`, {
-              method: 'GET',
-            },
-            );
-            if (!response.ok) {
-              throw new Error(`${response.status}`);
-            }
-            let json1 = await response.json();
-            console.log(json1);              
-          }
-        } catch (err) {
-          console.error(`Error retriving admins: ${err}.`)
-        }
-      }
-
     return(
         <View style={styles.container}>
             {admin.length === 0 ?(
@@ -60,8 +37,8 @@ export default function Admin({
         <React.Fragment>
           {admin.map((a) => (
             <View style={adminStyles.admin}>
-              <Text>{a.displayName}</Text>
-              <Text>@{a.username}</Text>
+              <Text style={adminStyles.adminText}>{a.displayName}</Text>
+              <Text style={adminStyles.adminSubText}>{'\t'}@{a.username}</Text>
             </View>
             
           ))}
