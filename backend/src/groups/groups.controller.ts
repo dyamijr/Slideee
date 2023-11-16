@@ -54,6 +54,20 @@ export class GroupsController {
   }
 
   @UseGuards(AuthenticatedGuard)
+  @Get(':groupName/followers')
+  async getFollowers(@Param('groupName') groupName: string){
+    const followers = await this.groupsService.getFollowers(groupName);
+    return followers;
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get(':groupName/Admins')
+  async getAdmins(@Param('groupName') groupName: string){
+    const admins = await this.groupsService.getAdmins(groupName);
+    return admins;
+  }
+
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
     const group = await this.groupsService.deleteGroup(groupName, req.user._id);
@@ -76,15 +90,23 @@ export class GroupsController {
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/unfollow')
   async unfollowGroup(@Param('groupName') groupName: string, @Request() req) {
     let group = await this.groupsService.unfollowGroup(groupName, req.user._id);
     return group;
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Post(':groupName/removeAdmin')
+  async removeFollower(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
+    let group = await this.groupsService.removeFollower(groupName, userDto.user, req.user._id);
+    return group;
+  }
+
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/removeAdmin')
   async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    console.log("os");
     let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user._id);
     return group;
   }

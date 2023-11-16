@@ -66,14 +66,28 @@ export class GroupsService {
     return false;
   }
 
+  async getFollowers(groupName: string){
+    const group = await this.findOneByGroupName(groupName);
+    return group.followers;
+  }
+
+  async getAdmins(groupName: string){
+    const group = await this.findOneByGroupName(groupName);
+    return group.admins;
+  }
+ 
   async getIdFromGroupName(groupName: string){
-    const group = await this.findOneByGroupName(groupName)
+    const group = await this.findOneByGroupName(groupName);
     return group._id;
   }
 
   async isAdmin(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
     const group = await this.findOneById(groupId)
     return group.admins.find(x => x.equals(user));
+  }
+  async isOwner(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId)
+    return group.owner.equals(user);
   }
 
   async isFollower(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
@@ -95,6 +109,15 @@ export class GroupsService {
   async addAdmin(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
     const group = await this.findOneById(groupId);
     group.admins.push(user);
+    group.save();
+    return group;
+  }
+  async transferOwner(groupId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    const group = await this.findOneById(groupId);
+    group.owner = user;
+    if(!this.isAdmin(groupId,user)){
+      group.admins.push(user);
+    }
     group.save();
     return group;
   }
@@ -176,6 +199,30 @@ export class GroupsService {
     }
     
     group.admins.splice(index, 1);
+
+    await group.save();
+
+    return group;
+
+  }
+
+  async removeFollower(groupName: string, removeFollowerId: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
+    let group = await this.groupModel.findOne({
+      groupName: groupName,
+    });
+    if (!group) {
+      throw new BadRequestException('Group does not exist');
+    }
+    if (!this.isAdmin(group._id, user)) {
+      throw new UnauthorizedException('User is not an admin');
+    }
+    let index = group.followers.indexOf(removeFollowerId);
+
+    if(index === -1){
+      throw new BadRequestException('User is not an follwer');
+    }
+    
+    group.followers.splice(index, 1);
 
     await group.save();
 

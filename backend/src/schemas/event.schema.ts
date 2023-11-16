@@ -15,6 +15,12 @@ export class Event {
   @Prop()
   likes: number;
 
+  @Prop()
+  slides: number;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] })
+  comments: mongoose.Types.ObjectId[];
+
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Group' }] })
   collaborators: mongoose.Types.ObjectId[];
 
