@@ -15,8 +15,9 @@ import { InviteHandlerService } from './inviteHandler.service';
 import * as mongoose from 'mongoose';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { User } from 'src/users/entities/user.entity';
-import { UserDto } from 'src/groups/dto/user.dto';
-import { CreateEventDto } from 'src/events/dto/create-event.dto';
+import { UserDto } from '../groups/dto/user.dto';
+import { CreateEventDto } from '../events/dto/create-event.dto';
+
 
 
 @Controller('inviteHandler')

@@ -161,6 +161,53 @@ describe('GroupsService', () => {
     })
   });
   
+  describe('isValidAdmin', () => {
+    it('should return a', async () => {
+
+    })
+  });
+
+  describe('isNotAdmin', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('isValidFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('isNotFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('addNewFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('addExistingFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+  
+  describe('addNewAdmin', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('addExistingAdmin', () => {
+    it('should return a', async () => {
+      
+    })
+  });
   
   //Testing edit group
   describe('editNonExistentGroup', () => {

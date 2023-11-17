@@ -6,11 +6,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as mongoose from 'mongoose';
-import { InvitesService } from 'src/invites/invites.service';
+import { InvitesService } from '../invites/invites.service';
 import { InviteType } from '../schemas/invite.schema';
-import { EventsService } from 'src/events/events.service';
-import { GroupsService } from 'src/groups/groups.service';
-import { UsersService } from 'src/users/users.service';
+import { EventsService } from '../events/events.service';
+import { GroupsService } from '../groups/groups.service';
+import { UsersService } from '../users/users.service';
 
 
 @Injectable()
