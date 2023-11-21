@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Checkbox, Chip, TextInput } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon2 from 'react-native-vector-icons/Octicons';
 import GroupInviteStyle from './InviteStyle'
 
 
@@ -44,14 +46,14 @@ export default function Invites({
 }, []); 
    
 const renderItem = ( item:any ) => (
-  <View style={styles.container}>
+  <View style={ {flexDirection: 'row' }}>
      <Text>{item['sender']}</Text>
     <View style={{ flexDirection: 'row' }}>
     <Button style = {GroupInviteStyle.button} mode="outlined" >
-        Accept
+        <Icon name="check" size={25} color="green" />
       </Button>
       <Button style = {GroupInviteStyle.button} mode="outlined" >
-        Decline
+        <Icon2 name="x" size={25} color="red" />
       </Button>
     </View>
   </View>

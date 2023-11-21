@@ -25,13 +25,15 @@ const GroupInviteStyle = StyleSheet.create({
         },
         button: {
           height: 40,
-          borderTopRightRadius:  50,
-          borderBottomRightRadius:  50,
-          borderBottomLeftRadius: 50,
-          borderTopLeftRadius: 50,
+          borderTopRightRadius:  0,
+          borderBottomRightRadius:  0,
+          borderBottomLeftRadius: 0,
+          borderTopLeftRadius: 0,
           marginBottom: 0,
           marginTop: 0,
-          width: "45%",
+          marginRight: 15,
+          marginLeft: 10,
+          width: "30%",
         }
   });
 
