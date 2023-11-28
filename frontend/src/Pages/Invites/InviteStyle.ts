@@ -34,6 +34,9 @@ const GroupInviteStyle = StyleSheet.create({
           marginRight: 15,
           marginLeft: 10,
           width: "30%",
+        },
+        groupAsRow : {
+          flexDirection: 'row',
         }
   });
 

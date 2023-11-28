@@ -41,14 +41,13 @@ export default function Invites({
       }
   }
   getallInvites();
-  console.log("hi");
   console.log(Invitations);
 }, []); 
    
 const renderItem = ( item:any ) => (
   <View style={ {flexDirection: 'row' }}>
      <Text>{item['sender']}</Text>
-    <View style={{ flexDirection: 'row' }}>
+    <View style={GroupInviteStyle.groupAsRow}>
     <Button style = {GroupInviteStyle.button} mode="outlined" >
         <Icon name="check" size={25} color="green" />
       </Button>
@@ -57,7 +56,6 @@ const renderItem = ( item:any ) => (
       </Button>
     </View>
   </View>
- 
 );
 
 return (
