@@ -112,7 +112,7 @@ export class GroupsController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Post(':groupName/removeAdmin')
+  @Post(':groupName/removeFollower')
   async removeFollower(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
     let group = await this.groupsService.removeFollower(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
     return group;

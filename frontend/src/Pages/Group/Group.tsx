@@ -56,6 +56,7 @@ export default function Group({
         params: {
           groupName: route.params.groupName,
           admins: json,
+          isAdminView: route.params.isAdminView,
         }
       })
     } catch (err) {

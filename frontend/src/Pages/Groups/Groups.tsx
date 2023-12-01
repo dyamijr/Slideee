@@ -12,6 +12,7 @@ export default function Groups({
 
   const [admin, setAdmin] = useState([]);
   const [follow, setFollow] = useState([]);
+  
   useEffect(() => {
     async function getCurrentUserGroups() {
       try {
@@ -64,6 +65,7 @@ export default function Groups({
               screen: 'Main',
               params: {
                 groupName: g['groupName'],
+                isAdminView: true,
               }
             })
           }>{g['groupName']}</Button>
@@ -74,6 +76,7 @@ export default function Groups({
               screen: 'Main',
               params: {
                 groupName: g['groupName'],
+                isAdminView: false,
               }
             })
           }>{g['groupName']}</Button>

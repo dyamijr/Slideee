@@ -217,7 +217,6 @@ export class GroupsService {
       throw new UnauthorizedException('User is not an admin');
     }
     let index = group.followers.indexOf(removeFollowerId);
-
     if(index === -1){
       throw new BadRequestException('User is not an follwer');
     }

@@ -188,9 +188,11 @@ function GroupNavigation() {
               <Appbar.Header>
                 {props.back ? <Appbar.BackAction onPress={props.navigation.goBack} /> : null}
                 <Appbar.Content title={route.params.groupName} />
-                <Appbar.Action icon="account-plus" onPress={() => navigation.navigate("CreateEvent", {
-                  groupName: route.params.groupName
-                })}/>
+                {route.params.isAdminView ?
+                  <Appbar.Action icon="text-box-plus-outline" onPress={() => navigation.navigate("CreateEvent", {
+                    groupName: route.params.groupName
+                  })}/> 
+                  : null }
               </Appbar.Header>
             )
           }
@@ -225,9 +227,12 @@ function AdminNavigation() {
               <Appbar.Header>
                 {props.back ? <Appbar.BackAction onPress={props.navigation.goBack} /> : null}
                 <Appbar.Content title={'Group Administrators'} />
-                <Appbar.Action icon="account-plus" onPress={() => navigation.navigate("AddAdmin", {
-                  groupName: route.params.groupName
-                })}/>
+                {route.params.isAdminView ?
+                  <Appbar.Action icon="account-plus" onPress={() => navigation.navigate("AddAdmin", {
+                    groupName: route.params.groupName,
+                    isAdminView: route.params.isAdminView
+                  })}/> 
+                  : null }
               </Appbar.Header>
             )
           }
