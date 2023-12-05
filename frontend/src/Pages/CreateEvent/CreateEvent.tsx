@@ -30,7 +30,6 @@ export default function CreateEvent(this: any, {
 
   const onCreateEvent = useCallback(async () => {
     try {
-      console.log(date);
       let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/newEvent`, {
         method: 'POST',
         headers: {
@@ -46,7 +45,6 @@ export default function CreateEvent(this: any, {
         }),
       });
       if (!response.ok) {
-        
         throw new Error(`${response.status}`);
       }
       navigation.goBack();

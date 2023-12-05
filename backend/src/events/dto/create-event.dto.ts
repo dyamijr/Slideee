@@ -17,5 +17,4 @@ export class CreateEventDto {
   @IsDateString()
   date: Date;
 
-
 }
