@@ -6,7 +6,7 @@ import React from 'react';
 export default function Landing({ navigation }: { navigation: any }) {
   return (
     <View style={landingStyle.container}>
-      <Text style = {landingStyle.slideformat} >Welcome to Slideee</Text>
+      <Text style = {landingStyle.welcomeformat} >Welcome to Slideee</Text>
       <Text></Text>
 
       <Image 
@@ -14,7 +14,7 @@ export default function Landing({ navigation }: { navigation: any }) {
       source={require('../../../assets/slide.png')} />
       
       <Text></Text>
-      <Text style = {landingStyle.welcomeformat} >Playground of Life</Text>
+      <Text style = {landingStyle.mottoformat} >Playground of Life</Text>
       
       <Text></Text>
       <Text></Text>

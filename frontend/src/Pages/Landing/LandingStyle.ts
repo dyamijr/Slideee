@@ -18,12 +18,12 @@ const landingStyle = StyleSheet.create({
     marginTop: 20,
     width: "25%",
   },
-  slideformat: {
+  welcomeformat: {
     fontSize: 40,
     fontStyle: 'italic',
     fontFamily: 'Futura-CondensedMedium'
   },
-  welcomeformat: {
+  mottoformat: {
     fontSize: 25,
     fontFamily: 'Futura-CondensedMedium' 
   }
