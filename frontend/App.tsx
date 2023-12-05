@@ -25,6 +25,7 @@ function AppNavigation() {
   return (
     <Tab.Navigator
       initialRouteName="Main"
+
       screenOptions={{
         headerShown: false,
       }}

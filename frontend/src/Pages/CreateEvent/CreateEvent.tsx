@@ -66,7 +66,7 @@ export default function CreateEvent(this: any, {
 
   return (
     <View style={createEventStyle.container}>
-      <Text style={createEventStyle.titleblock}> Title</Text>
+      <Text style={createEventStyle.titleblock}>Title</Text>
       <Text style={createEventStyle.descriptionblock}>Make it captivating!</Text>
       <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
@@ -81,7 +81,7 @@ export default function CreateEvent(this: any, {
       />
 
       <Text></Text>
-      <Text style={createEventStyle.titleblock}> Description</Text>
+      <Text style={createEventStyle.titleblock}>Description</Text>
       <Text style={createEventStyle.descriptionblock}>Summarize your event for users!</Text>
       <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
