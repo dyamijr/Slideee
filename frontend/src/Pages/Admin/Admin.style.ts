@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 const adminStyles = StyleSheet.create({
-    admin: {
-      margin: 5,
+  adminBox: {
+    width:'100%',
+  },   
+  admin: {
+      margin: '5%',
       padding: 10,
       backgroundColor: 'white',
       borderWidth: 5,

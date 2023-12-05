@@ -1,8 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 const followersStyles = StyleSheet.create({
-    follower: {
-      margin: 5,
+  followerBox: {
+    width:'100%',
+  }, 
+  follower: {
+      marginLeft: '5%',
+      marginTop: 10,
       padding: 10,
       backgroundColor: 'white',
       borderWidth: 5,

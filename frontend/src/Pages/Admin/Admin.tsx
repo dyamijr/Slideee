@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Chip, Text, TextInput } from 'react-native-paper';
 import styles from '../../styles/main';
@@ -28,21 +28,37 @@ export default function Admin({
 
         getAdmins();
       }, []);
+
+      function Item({ item }: { item: any}) {
+        return (
+          <View style={adminStyles.admin}>
+               <Text style={adminStyles.adminText}>{item.displayName}</Text>
+               <Text style={adminStyles.adminSubText}>{'\t'}@{item.username}</Text>
+          </View>
+        )
+      }
     
     return(
         <View style={styles.container}>
             {admin.length === 0 ?(
                 <Text>{route.params.groupName} has no admin.</Text>
             ) : (
-        <React.Fragment>
-          {admin.map((a) => (
-            <View style={adminStyles.admin}>
-              <Text style={adminStyles.adminText}>{a.displayName}</Text>
-              <Text style={adminStyles.adminSubText}>{'\t'}@{a.username}</Text>
-            </View>
+              <View style={adminStyles.adminBox}>
+                <FlatList 
+                  data={admin}
+                  renderItem={(props) => <Item {...props}/>}
+                  keyExtractor={(item: any) => item._id}
+                />
+              </View>
+        // <React.Fragment>
+        //   {admin.map((a) => (
+        //     <View style={adminStyles.admin}>
+        //       <Text style={adminStyles.adminText}>{a.displayName}</Text>
+        //       <Text style={adminStyles.adminSubText}>{'\t'}@{a.username}</Text>
+        //     </View>
             
-          ))}
-        </React.Fragment>
+        //   ))}
+        // </React.Fragment>
             )}
         </View>
     );

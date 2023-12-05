@@ -81,6 +81,7 @@ export default function Group({
         params: {
           groupName: route.params.groupName,
           followers: json,
+          isAdminView: route.params.isAdminView
         }
       })
     } catch (err) {

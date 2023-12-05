@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
-import { Button, Chip, Text, TextInput } from 'react-native-paper';
+import { Card, Button, Chip, Text, TextInput } from 'react-native-paper';
 import styles from '../../styles/main';
 import followersStyles from './Followers.style';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -29,6 +29,22 @@ export default function Followers({
       getFollowers();
     }, []);
 
+    function Item({ item }: { item: any}) {
+      return (
+        <View style={followersStyles.follower}>
+              <View style={followersStyles.inline}>
+                <View>
+                  <Text style={followersStyles.followerText}>{item.displayName}</Text>
+                  <Text style={followersStyles.followerSubText}>{'\t'}@{item.username}</Text>
+                </View>
+                {route.params.isAdminView ? (
+                  <Icon name='account-remove' style={followersStyles.removeButton} color={'#FF0000'} size={24} onPress={() => removeFollower(item._id)}/>
+                  ):(null)}
+              </View>
+            </View>
+      )
+    }
+
     const removeFollower = useCallback(async(id: string) =>{
       try{
         console.log(id)
@@ -52,6 +68,7 @@ export default function Followers({
             break;
           }
         }
+        setFollowers([...followers])
       }
       catch (err){
         console.error(`Error removing follower: ${err}.`)
@@ -63,20 +80,13 @@ export default function Followers({
             {followers.length === 0 ?(
                 <Text>{route.params.groupName} has no followers.</Text>
             ) : (
-        <React.Fragment>
-          {followers.map((a) => (
-            <View style={followersStyles.follower}>
-              <View style={followersStyles.inline}>
-                <View>
-                  <Text style={followersStyles.followerText}>{a.displayName}</Text>
-                  <Text style={followersStyles.followerSubText}>{'\t'}@{a.username}</Text>
-                </View>
-                <Icon name='account-remove' style={followersStyles.removeButton} color={'#FF0000'} size={24} onPress={() => removeFollower(a._id)}/>
+              <View style={followersStyles.followerBox}>
+                <FlatList 
+                  data={followers}
+                  renderItem={(props) => <Item {...props}/>}
+                  keyExtractor={(item: any) => item._id}
+                />
               </View>
-            </View>
-            
-          ))}
-        </React.Fragment>
             )}
         </View>
     );
