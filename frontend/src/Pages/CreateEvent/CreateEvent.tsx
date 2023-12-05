@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Checkbox, Chip, TextInput } from 'react-native-paper';
+import createEventStyle from './CreateEventStyles';
 
 const MAX_COLLABORATORS = 2;
 
@@ -62,55 +63,52 @@ export default function CreateEvent({
   }, [newCollaborator]);
 
   return (
-    <View style={styles.container}>
-      <Text>Title</Text>
+    <View style={createEventStyle.container}>
+      <Text style={createEventStyle.titleblock}> Title</Text>
       <TextInput
         placeholder="Title"
         value={title}
         onChangeText={(newValue) => setTitle(newValue)}
       />
-      <Text>Description</Text>
+      <Text></Text>
+      <Text style={createEventStyle.titleblock}> Description</Text>
+      <Text style={createEventStyle.descriptionblock}>Summarize Your Event for Users!</Text>
+      <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
+        style={createEventStyle.boxstyle}
         placeholder="Description"
         value={description}
         onChangeText={(newValue) => setDescription(newValue)}
       />
-      <Text>Collaborators</Text>
-      <View style={styles.collaborators}>
+      <Text></Text>
+      <Text style={createEventStyle.titleblock}>Collaborators</Text>
+      <Text style={createEventStyle.descriptionblock}>What other group is co-hosting this event?</Text>
+      <Text style={createEventStyle.emptyspace}> </Text>
+      <View style={createEventStyle.collaborators}>
         {collaborators.map((collaborator, index) => (
           <View style={{display: 'flex', flexDirection: 'row'}} key={index}>
-            <Chip onClose={collaborator === route.params.groupName ? undefined : () => setCollaborators(collaborators.filter((item: any) => item !== collaborator))} icon="account-group">
-              {collaborator}
+            <Chip style={createEventStyle.boxstyle} onClose={collaborator === route.params.groupName ? undefined : () => setCollaborators(collaborators.filter((item: any) => item !== collaborator))} icon="account-group">
+              {collaborator} 
               </Chip>
           </View>
         ))}
+      <Text></Text>
         {collaborators.length < MAX_COLLABORATORS && (
           <TextInput
+            style={createEventStyle.boxstyle}
             placeholder="Add Collaborator"
             value={newCollaborator}
             onChangeText={(newValue) => setNewCollaborator(newValue)}
             onSubmitEditing={onNewCollaboratorSubmitted}
           />
         )}
+      <Text></Text>
       </View>
-      <Button mode="outlined" onPress={onCreateEvent}>
+      <Button style={createEventStyle.boxstyle} mode="outlined" onPress={onCreateEvent}>
         Create Event
       </Button>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  collaborators: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent:"center",
-    alignItems: 'center',
-  }
-});
+
