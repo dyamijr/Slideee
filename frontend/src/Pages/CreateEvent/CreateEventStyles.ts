@@ -26,11 +26,17 @@ const createEventStyle = StyleSheet.create({
     },
     boxstyle: {
         borderRadius: 0,
+        backgroundColor: '#FFFFFF',
     },
     boxstyle1: {
+        borderRadius: 0,
+        backgroundColor: '#E4A0A0',
         alignItems: "center",
         width: 'auto',
-    }
+    },
+    boxstyle2: {
+        borderRadius: 0,
+    },
   });
 
 export default createEventStyle;
