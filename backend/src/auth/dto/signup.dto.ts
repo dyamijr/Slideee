@@ -8,7 +8,6 @@ export class SignupDto {
   @Matches(RegExp(/^[a-zA-Z0-9\\-]{3,20}$/), {message: 'Please enter a display name using only alphanumeric characters'})
   displayName: string;
 
-  @Length(8, 20)
   @Matches(RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,20}$/),
   {message: 'Please enter a password with at least one upper case letter and at least one lower case letter is required. At least one digit is required. At least one special character from the set [@#$%^&+=!] is required. The total length of the password must be at least 8 characters.'})
   password: string;
