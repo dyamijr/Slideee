@@ -26,7 +26,11 @@ const createEventStyle = StyleSheet.create({
         fontSize: 5,
     },
     boxstyle: {
-        borderRadius: 0
+        borderRadius: 0,
+    },
+    boxstyle1: {
+        alignItems: "center",
+        width: 'auto',
     }
   });
 

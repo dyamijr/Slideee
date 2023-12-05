@@ -66,23 +66,24 @@ export default function CreateEvent({
     <View style={createEventStyle.container}>
       <Text style={createEventStyle.titleblock}> Title</Text>
       <TextInput
+        style={createEventStyle.boxstyle1}
         placeholder="Title"
         value={title}
         onChangeText={(newValue) => setTitle(newValue)}
       />
       <Text></Text>
       <Text style={createEventStyle.titleblock}> Description</Text>
-      <Text style={createEventStyle.descriptionblock}>Summarize Your Event for Users!</Text>
+      <Text style={createEventStyle.descriptionblock}>Summarize your event for users!</Text>
       <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
-        style={createEventStyle.boxstyle}
+        style={createEventStyle.boxstyle1}
         placeholder="Description"
         value={description}
         onChangeText={(newValue) => setDescription(newValue)}
       />
       <Text></Text>
       <Text style={createEventStyle.titleblock}>Collaborators</Text>
-      <Text style={createEventStyle.descriptionblock}>What other group is co-hosting this event?</Text>
+      <Text style={createEventStyle.descriptionblock}>What other groups are co-hosting this event?</Text>
       <Text style={createEventStyle.emptyspace}> </Text>
       <View style={createEventStyle.collaborators}>
         {collaborators.map((collaborator, index) => (
@@ -95,7 +96,7 @@ export default function CreateEvent({
       <Text></Text>
         {collaborators.length < MAX_COLLABORATORS && (
           <TextInput
-            style={createEventStyle.boxstyle}
+            style={createEventStyle.boxstyle1}
             placeholder="Add Collaborator"
             value={newCollaborator}
             onChangeText={(newValue) => setNewCollaborator(newValue)}
