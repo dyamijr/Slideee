@@ -50,6 +50,10 @@ export default function CreateGroup({
       <Text style={createGroupStyle.emptyspace}> </Text>
       <TextInput
         style={createGroupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Group Name"
         value={groupName}
         onChangeText={(newValue) => setGroupName(newValue)}
@@ -61,6 +65,10 @@ export default function CreateGroup({
       <Text style={createGroupStyle.emptyspace}> </Text>
       <TextInput
         style={createGroupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Display Name"
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
@@ -80,12 +88,3 @@ export default function CreateGroup({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

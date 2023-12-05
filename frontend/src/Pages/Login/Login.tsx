@@ -60,8 +60,8 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
         activeUnderlineColor='black'
         activeOutlineColor='black'
         placeholder="Password"
-        onChangeText={(newValue) => setPassword(newValue)}
         value={password}
+        onChangeText={(newValue) => setPassword(newValue)}
         secureTextEntry={true}
       />
       
