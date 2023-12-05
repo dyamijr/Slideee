@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, TextInput } from 'react-native-paper';
 import signupStyle from './SignupStyle';
@@ -42,35 +42,51 @@ export default function Signup({
   return (
     <View style={styles.container}>
       <Image 
-      style = {styles.logoImage}
+      style = {signupStyle.logoImage}
       source={require('../../../assets/slide.png')} />
+      <Text style={signupStyle.mottoformat}>Slideee</Text>
+      <Text></Text>
+      <Text></Text>
+
       <TextInput
-        style = {styles.inputText}
-        underlineColor = "trasnparent"
+        style = {signupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Username"
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
+      <Text></Text>
       <TextInput
-        style = {styles.inputText}
-        underlineColor = "trasnparent"
+        style = {signupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Display Name"
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
       />
+      <Text></Text>
       <TextInput
-        style = {styles.inputText}
-        underlineColor = "trasnparent"
+        style = {signupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Password"
         value={password}
         onChangeText={(newValue) => setPassword(newValue)}
         secureTextEntry={true}
       />
-      <Button onPress={onSignup}>
-        Signup
+      <Text></Text>
+      <Button textColor='#000000' style = {signupStyle.button} mode="outlined" onPress={onSignup}>
+        SignUp
       </Button>
       <Button
-        onPress={() => navigation.navigate('Login')}
+        textColor='#000000' style = {signupStyle.button} mode="outlined" onPress={() => navigation.navigate('Login')}
       >
         Already have an account?
       </Button>

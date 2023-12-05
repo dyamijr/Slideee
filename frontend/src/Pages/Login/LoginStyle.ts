@@ -31,10 +31,10 @@ const loginStyle = StyleSheet.create({
     fontSize: 15,
   },
   boxstyle1: {
-      borderRadius: 0,
-      backgroundColor: 'transparent',
-      alignItems: "center",
-      width: '50%',
+    borderRadius: 0,
+    backgroundColor: 'transparent',
+    alignItems: "center",
+    width: '50%',
   }
   });
 
