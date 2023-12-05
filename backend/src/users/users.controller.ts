@@ -12,6 +12,7 @@ import {
 import { UsersService } from './users.service';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { MeService } from './me.service';
+import mongoose from 'mongoose';
 
 @Controller('users')
 export class UsersController {
@@ -35,9 +36,18 @@ export class UsersController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Get(':username')
+  @Get('username/:username')
   async findOneByUsername(@Param('username') username: string) {
+    console.log('test2');
     const user = await this.usersService.findOneByUsername(username);
+    return user;
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get('id/:id')
+  async findOneById(@Param('id') id: string) {
+    console.log('test1');
+    const user = await this.usersService.findOneById(new mongoose.Types.ObjectId(id));
     return user;
   }
 }

@@ -217,7 +217,6 @@ export class GroupsService {
       throw new UnauthorizedException('User is not an admin');
     }
     let index = group.followers.indexOf(removeFollowerId);
-
     if(index === -1){
       throw new BadRequestException('User is not an follwer');
     }
@@ -228,6 +227,14 @@ export class GroupsService {
 
     return group;
 
+  }
+  async getAdminGroups(user: mongoose.Types.ObjectId){
+    const groups = this.groupModel.find({admins: user});
+    return groups;
+  }
+  async getFollowGroups(user: mongoose.Types.ObjectId){
+    const groups = this.groupModel.find({followers: user});
+    return groups;
   }
   // TODO: Get requests where the group is a sender and where the group is a recipient.
   async getGroupCollaborationRequests() {

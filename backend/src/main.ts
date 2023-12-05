@@ -21,7 +21,7 @@ async function bootstrap() {
       },
       store: MongoStore.create({
         mongoUrl: 'mongodb://0.0.0.0:27017',
-        dbName: 'slideee',
+        dbName: 'slideee', 
       }),
     }),
   );

@@ -68,6 +68,20 @@ export class GroupsController {
   }
 
   @UseGuards(AuthenticatedGuard)
+  @Get('me/adminGroups')
+  getCurrentUserAdminGroups(@Request() req) {
+    const data = this.groupsService.getAdminGroups(req.user._id);
+    return data;
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get('me/followGroups')
+  getCurrentUserFollowGroups(@Request() req) {
+    const data = this.groupsService.getFollowGroups(req.user._id);
+    return data;
+  }
+
+  @UseGuards(AuthenticatedGuard)
   @Post(':groupName/delete')
   async deleteGroup(@Param('groupName') groupName: string, @Request() req) {
     const group = await this.groupsService.deleteGroup(groupName, req.user._id);
@@ -98,16 +112,16 @@ export class GroupsController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Post(':groupName/removeAdmin')
+  @Post(':groupName/removeFollower')
   async removeFollower(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    let group = await this.groupsService.removeFollower(groupName, userDto.user, req.user._id);
+    let group = await this.groupsService.removeFollower(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
     return group;
   }
 
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/removeAdmin')
   async removeAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
-    let group = await this.groupsService.removeAdmin(groupName, userDto.user, req.user._id);
+    let group = await this.groupsService.removeAdmin(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
     return group;
   }
 }
