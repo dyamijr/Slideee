@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 const createEventStyle = StyleSheet.create({
-    container: {
+  scroll: {
+    backgroundColor: 'white',
+  },
+  container: {
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
@@ -14,6 +17,7 @@ const createEventStyle = StyleSheet.create({
       alignItems: 'center',
     },
     titleblock: {
+      marginTop: 15,
       fontSize: 20,
       fontWeight: 'bold',
     },
@@ -35,8 +39,14 @@ const createEventStyle = StyleSheet.create({
         width: 'auto',
     },
     boxstyle2: {
+        marginTop: 20,
         borderRadius: 0,
+        marginBottom: 20,
     },
+    boxstyle3: {
+      alignItems: "center",
+      width: 'auto',
+    }
   });
 
 export default createEventStyle;
