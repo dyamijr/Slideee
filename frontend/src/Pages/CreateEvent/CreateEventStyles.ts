@@ -16,7 +16,6 @@ const createEventStyle = StyleSheet.create({
     titleblock: {
       fontSize: 20,
       fontWeight: 'bold',
-      fontColor: '',
     },
     descriptionblock: {
       fontSize: 13,
