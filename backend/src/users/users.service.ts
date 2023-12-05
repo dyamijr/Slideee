@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findOneById(id: number) {
+  async findOneById(id: mongoose.Types.ObjectId) {
     const user = await this.userModel.findById(id);
     return user;
   }
@@ -33,5 +33,69 @@ export class UsersService {
     });
     await createdUser.save();
     return createdUser;
+  }
+
+  async likeEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
+    user.likedEvents.push(id);
+    await user.save();
+  }
+
+  async unlikeEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
+    user.likedEvents.splice(user.likedEvents.indexOf(id), 1);
+    await user.save();
+  }
+
+  async findLike(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
+    return user.likedEvents.indexOf(id);
+  }
+
+  async slideEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
+    user.slidEvents.push(id);
+    await user.save();
+  }
+
+  async unslideEvent(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
+    user.slidEvents.splice(user.slidEvents.indexOf(id), 1);
+    await user.save();
+  }
+
+  async findSlide(id: mongoose.Types.ObjectId, uid: mongoose.Types.ObjectId) {
+    const user = await this.userModel.findById(uid);
+    if (!user) {
+      throw new BadRequestException(
+        `User Not Found`,
+      );
+    }
+    return user.slidEvents.indexOf(id);
   }
 }
