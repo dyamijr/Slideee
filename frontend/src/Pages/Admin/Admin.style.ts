@@ -5,11 +5,21 @@ const adminStyles = StyleSheet.create({
     width:'100%',
   },   
   admin: {
-      margin: '5%',
+      marginLeft: '5%',
       padding: 10,
+      marginTop: 10,
       backgroundColor: 'white',
       borderWidth: 5,
       width: '90%',
+    },
+    inline: {
+      display:'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    removeButton: {
+      marginTop: 10,
+      marginRight: 20,
     },
     adminText: {
       fontSize: 22,

@@ -16,6 +16,7 @@ export default function Group({
   const[group, setGroup] = useState();
   const[admin, setAdmin] = useState([]);
   const[followers, setFollowers] = useState([]);
+  const[isOwnerView, setIsOwnerView] = useState(false);
       
   useEffect(() => {
     async function getGroup() {
@@ -57,6 +58,7 @@ export default function Group({
           groupName: route.params.groupName,
           admins: json,
           isAdminView: route.params.isAdminView,
+          isOwnerView: await isOwner(),
         }
       })
     } catch (err) {
@@ -64,8 +66,28 @@ export default function Group({
     }
   };
 
+  const isOwner = async function () {
+    try {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me`, {
+        method: 'GET',
+      },
+      );
+      if(!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      let json = await response.json();
+      if(json.id === group.owner){
+        return true;
+      }
+      return false;        
+    } catch (err) {
+      console.error(`Error retriving admins: ${err}.`)
+    }
+  }
+
   const onFollowersClick = async() => {
     try {
+      isOwner();
       let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/followers`, {
         method: 'GET',
       },
@@ -92,10 +114,10 @@ export default function Group({
   return (
     <View >
       <View style={groupStyles.container}>
-        <Button style={groupStyles.button} onPress={onAdminClick}>
+        <Button style={groupStyles.button} textColor="red" onPress={onAdminClick}>
           Admin
         </Button>
-        <Button style={groupStyles.button} onPress={onFollowersClick}>
+        <Button style={groupStyles.button} textColor="red" onPress={onFollowersClick}>
           Followers
         </Button>
       </View>

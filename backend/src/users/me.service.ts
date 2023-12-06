@@ -9,6 +9,7 @@ export class MeService {
 
   getCurrentUser(me: UserDocument) {
     return {
+      id: me.id,
       username: me.username,
       displayName: me.displayName,
     };

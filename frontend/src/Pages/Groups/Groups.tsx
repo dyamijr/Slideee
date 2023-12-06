@@ -71,7 +71,7 @@ export default function Groups({
           }>{g['groupName']}</Button>
           ))}
           {follow.map((g) => (
-            <Button key='{g[groupName]}' onPress={() => 
+            <Button key={g['groupName']} onPress={() => 
               navigation.navigate('Group', {
               screen: 'Main',
               params: {
