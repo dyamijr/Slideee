@@ -25,7 +25,6 @@ export class SignupStrategy extends PassportStrategy(Strategy, 'signup') {
     signupDto.password = req.body.password;
     const errors = await validate(signupDto);
     if (errors.length > 0) {
-      console.log(errors[0].constraints.matches)
       let myMap = new Map<string, string>();
       for (let i = 0; i < errors.length; i++) {
         if (errors[i].constraints.matches.includes('user')){
