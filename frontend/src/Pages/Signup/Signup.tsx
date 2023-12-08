@@ -14,6 +14,9 @@ export default function Signup({
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [displayNameError,setDisplayNameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const onSignup = useCallback(async () => {
     try {
@@ -31,11 +34,16 @@ export default function Signup({
       });
       if (response.ok) {
         navigation.navigate('Home');
-      } else {
+      } 
+      
+      else{
+        const err = await response.json();
+        throw new Error(err.message || err.statusText);
+        setUsernameError(err.message);
         setPassword('');
       }
     } catch (err) {
-      console.error(`Error Signing Up: ${err}.`)
+      console.error(`${err}.`)
     }
   }, [username, displayName, password]);
 

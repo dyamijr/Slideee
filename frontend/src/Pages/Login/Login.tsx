@@ -9,6 +9,7 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
   const onLogin = useCallback(async () => {
     try {
       let response = await fetch(`${REACT_APP_BACKEND_URL}/auth/login`, {
