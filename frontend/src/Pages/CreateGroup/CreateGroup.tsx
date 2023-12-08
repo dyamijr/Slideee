@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Checkbox, TextInput } from 'react-native-paper';
+import createGroupStyle from './CreateGroupStyles';
 
 export default function CreateGroup({
   route,
@@ -43,37 +44,44 @@ export default function CreateGroup({
   }, [groupName, displayName, isPrivate]);
 
   return (
-    <View style={styles.container}>
+    <View style={createGroupStyle.container}>
+      <Text style={createGroupStyle.titleblock}>Group Name</Text>
+      <Text style={createGroupStyle.descriptionblock}>What shall others call you?</Text>
       <TextInput
+        style={createGroupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Group Name"
         value={groupName}
         onChangeText={(newValue) => setGroupName(newValue)}
       />
+
+      <Text></Text>
+      <Text style={createGroupStyle.titleblock}>Display Name</Text>
+      <Text style={createGroupStyle.descriptionblock}>How will others remember you?</Text>
       <TextInput
+        style={createGroupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Display Name"
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
       />
       <Checkbox.Item
         mode="android"
-        label='isPrivate'
+        label='Private Group?'
         status={isPrivate ? 'checked' : 'unchecked'}
         onPress={() => {
           setIsPrivate(!isPrivate);
         }}
       />
-      <Button mode="outlined" onPress={onCreateGroup}>
+      <Button textColor= 'black' style={createGroupStyle.boxstyle2} mode="outlined" onPress={onCreateGroup}>
         Create Group
         </Button>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
