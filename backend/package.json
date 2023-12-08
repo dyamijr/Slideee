@@ -29,6 +29,8 @@
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@react-native-community/cli": "^13.0.0",
+    "@react-native-community/datetimepicker": "^7.6.2",
     "@types/morgan": "^1.9.4",
     "@types/passport": "^1.0.12",
     "bcrypt": "^5.1.0",
@@ -42,6 +44,7 @@
     "npm": "^9.4.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "react-datetime-picker": "^5.5.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
