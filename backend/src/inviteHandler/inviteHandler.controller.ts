@@ -58,6 +58,8 @@ export class InviteHandlerController {
       createEventDto.title,
       createEventDto.description,
       createEventDto.collaborators,
+      createEventDto.location,
+      createEventDto.date,
       req.user._id,
     );
     return event;

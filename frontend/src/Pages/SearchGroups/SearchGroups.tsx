@@ -2,10 +2,11 @@ import { REACT_APP_BACKEND_URL } from '@env';
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
+import searchGroupStyle from './SearchGroupStyles';
 
 function Item({ item, navigation }: { item: any, navigation: any }) {
   return (
-    <Card mode="contained" onPress={() => navigation.navigate("Group", {
+    <Card style={searchGroupStyle.boxstyle2} mode="contained" onPress={() => navigation.navigate("Group", {
       screen: "Main",
       params: {
         groupName: item.groupName,
@@ -13,8 +14,8 @@ function Item({ item, navigation }: { item: any, navigation: any }) {
       }
     })}>
       <Card.Content>
-        <Text variant="titleLarge">{item.displayName}</Text>
-        <Text variant="titleMedium">{item.groupName}</Text>
+        <Text style={searchGroupStyle.displayblock}>{item.displayName}</Text>
+        <Text style={searchGroupStyle.nameblock}>{item.groupName}</Text>
       </Card.Content>
     </Card>
   )
@@ -39,8 +40,11 @@ export default function SearchGroups(props: any) {
   }, [searchQuery])
 
   return (
-    <View>
+    <View style = {searchGroupStyle.container}>
       <Searchbar
+        style={searchGroupStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColorAndroid='black'
         placeholder="Search"
         value={searchQuery}
         onChangeText={(newValue) => {
@@ -51,7 +55,8 @@ export default function SearchGroups(props: any) {
       />
       <FlatList 
         data={searchResults}
-        renderItem={(props) => <Item navigation={navigation} {...props}/>}
+        renderItem={(props) => 
+        <Item navigation={navigation} {...props} />}
         keyExtractor={(item: any) => item._id}
       />
     </View>
