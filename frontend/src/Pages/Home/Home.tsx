@@ -1,12 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component}  from 'react';
 import { StyleSheet, View, Button, Alert } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
+
+
+class Events extends Component {
+
+
+  constructor(id, title) {
+    super(id,title);
+
+    // Initial state with an array of events
+    this.state = {
+      events: [
+        { id: '1', title: 'Birthday Party' },
+        { id: '2', title: 'Music Night' },
+      ],
+      newEventTitle: '', // State to hold the new event title
+    };
+  }
+  render() {
+    const { Events.events, newEventTitle } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.heading}>Events in the Party</Text>
+
+        {/* Input field to add new events */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Event Title"
+            value={newEventTitle}
+            onChangeText={this.handleInputChange}
+          />
+          <Button title="Add Event" onPress={this.handleAddEvent} />
+        </View>
+
+        {/* Display the list of events */}
+        <FlatList
+          data={events}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.eventItem}>
+              <Text>{item.title}</Text>
+            </View>
+          )}
+        />
+      </View>
+    );
+  }
+}
+
+
 
 export default function Home({ navigation }: { route: any; navigation: any }) {
   const [userSearchQuery, setUserSearchQuery] = useState('');
   //making a new event in the events array in the create events function 
   const[events, setEvents] = useState([]);
-  let allEvents = [];
+  let allEvents = [1];
   useEffect(() => {
     async function getCurrentUser() {
       try {
@@ -30,6 +81,12 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
     allEvents.push([]);
   }
 
+  const handleDeleteItem = (eventNum) => {
+    // Filter out the item to be deleted based on its ID
+    const updatedItems = allEvents.filter((item) => );
+    setEvents(updatedItems);
+    // You can perform additional delete actions here
+  };
 
 
   const postEvent = () => {
