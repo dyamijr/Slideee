@@ -1,19 +1,25 @@
-import { StyleSheet, View, Image } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import landingStyle from './LandingStyle'
-import styles from '../../styles/main'
+import React from 'react';
 
 export default function Landing({ navigation }: { navigation: any }) {
   return (
-    <View style={styles.container}>
+    <View style={landingStyle.container}>
+      <Text style = {landingStyle.welcomeformat} >Welcome to Slideee</Text>
+      
       <Image 
-      style = {styles.logoImage}
+      style = {landingStyle.logoImage}
       source={require('../../../assets/slide.png')} />
-      <Button style = {styles.button} mode="outlined" onPress={() => navigation.navigate('Login')}>
+      
+      <Text style = {landingStyle.mottoformat} >Playground of Life</Text>
+      
+      <Button textColor = '#000000' style = {landingStyle.button} mode="outlined" onPress={() => navigation.navigate('Login')}>
         Login
       </Button>
-      <Button style = {styles.button} mode="outlined" onPress={() => navigation.navigate('Signup')}>
-        Signup
+      
+      <Button textColor = '#000000' style = {landingStyle.button} mode="outlined" onPress={() => navigation.navigate('Signup')}>
+        SignUp
       </Button>
     </View>
   );
