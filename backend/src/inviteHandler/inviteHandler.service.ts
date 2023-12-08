@@ -108,8 +108,8 @@ export class InviteHandlerService {
     }
     let type = await this.invitesService.getInviteType(inviteId);
     if(type === InviteType.AdminRequest){
-      if(await this.invitesService.getInviteRecipient(inviteId) != user){
-        throw new UnauthorizedException('Incorrect user');
+      if((await this.invitesService.getInviteRecipient(inviteId)).toString() != user.toString()){
+        throw new UnauthorizedException('Incorrect user ');
       }
       let group = await this.invitesService.getInviteSender(inviteId);
       if(!await this.groupsService.isValidGroupById(group)){
