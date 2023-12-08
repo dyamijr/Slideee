@@ -9,6 +9,7 @@ function Item({ item, navigation }: { item: any, navigation: any }) {
       screen: "Main",
       params: {
         groupName: item.groupName,
+        displayName: item.displayName,
       }
     })}>
       <Card.Content>

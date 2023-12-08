@@ -15,6 +15,7 @@ import { Appbar, Provider as PaperProvider } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import SearchGroups from './src/Pages/SearchGroups/SearchGroups';
 import Admin from './src/Pages/Admin/Admin';
 import Followers from './src/Pages/Followers/Followers';
@@ -187,7 +188,7 @@ function GroupNavigation() {
             header: (props) => (
               <Appbar.Header>
                 {props.back ? <Appbar.BackAction onPress={props.navigation.goBack} /> : null}
-                <Appbar.Content title={route.params.groupName} />
+                <Appbar.Content title={route.params.displayName}/>
                 {route.params.isAdminView ?
                   <Appbar.Action icon="text-box-plus-outline" onPress={() => navigation.navigate("CreateEvent", {
                     groupName: route.params.groupName

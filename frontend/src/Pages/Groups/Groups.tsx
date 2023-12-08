@@ -12,11 +12,20 @@ export default function Groups({
 
   const [admin, setAdmin] = useState([]);
   const [follow, setFollow] = useState([]);
+  const [me, setMe] = useState('');
   
   useEffect(() => {
     async function getCurrentUserGroups() {
       try {
-        let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/me/adminGroups`, {
+        let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me`, {
+          method: 'GET',
+        });
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        let json = await response.json();
+        setMe(json.id);
+        response = await fetch(`${REACT_APP_BACKEND_URL}/groups/me/adminGroups`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -26,9 +35,9 @@ export default function Groups({
         if (!response.ok) {
           throw new Error(`${response.status}`);
         }
-        let json = await response.json();
-        setAdmin(json);
-        console.log(json);
+        let json1 = await response.json();
+        setAdmin(json1);
+        console.log(json1);
         
         response = await fetch(`${REACT_APP_BACKEND_URL}/groups/me/followGroups`, {
           method: 'GET',
@@ -40,10 +49,9 @@ export default function Groups({
         if (!response.ok) {
           throw new Error(`${response.status}`);
         }
-        json = await response.json();
-        setFollow(json);
-        console.log(json);
-
+        let json2 = await response.json();
+        let missing = json2.filter((item: any) => json1.find((item2: any) => item['groupName'] === item2['groupName']) === undefined);
+        setFollow(missing);
       } catch(err) {
         console.error(`Error retrieving user groups: ${err}.`);
       }
@@ -51,7 +59,6 @@ export default function Groups({
     getCurrentUserGroups();
   }, []);
 
-  const test = async() => console.log('test');
 
   return (
     <View style={styles.container}>
@@ -65,7 +72,9 @@ export default function Groups({
               screen: 'Main',
               params: {
                 groupName: g['groupName'],
+                displayName: g['displayName'],
                 isAdminView: true,
+                me: me,
               }
             })
           }>{g['groupName']}</Button>
@@ -76,7 +85,9 @@ export default function Groups({
               screen: 'Main',
               params: {
                 groupName: g['groupName'],
+                displayName: g['displayName'],
                 isAdminView: false,
+                me: me,
               }
             })
           }>{g['groupName']}</Button>

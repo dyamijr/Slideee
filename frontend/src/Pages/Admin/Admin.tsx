@@ -58,6 +58,7 @@ export default function Admin({
           console.error(`Error removing follower: ${err}.`)
         }
       }, [admin])
+
       function Item({ item }: { item: any}) {
         return (
           <View style={adminStyles.admin}>
@@ -86,15 +87,6 @@ export default function Admin({
                   keyExtractor={(item: any) => item._id}
                 />
               </View>
-        // <React.Fragment>
-        //   {admin.map((a) => (
-        //     <View style={adminStyles.admin}>
-        //       <Text style={adminStyles.adminText}>{a.displayName}</Text>
-        //       <Text style={adminStyles.adminSubText}>{'\t'}@{a.username}</Text>
-        //     </View>
-            
-        //   ))}
-        // </React.Fragment>
             )}
         </View>
     );

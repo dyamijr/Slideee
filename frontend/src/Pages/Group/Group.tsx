@@ -4,6 +4,7 @@ import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Chip, Text, TextInput } from 'react-native-paper';
 import styles from '../../styles/main';
 import groupStyles from './GroupStyle';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 export default function Group({
   route,
@@ -17,6 +18,7 @@ export default function Group({
   const[admin, setAdmin] = useState([]);
   const[followers, setFollowers] = useState([]);
   const[isOwnerView, setIsOwnerView] = useState(false);
+  const[isFollower, setIsFollower] = useState(false);
       
   useEffect(() => {
     async function getGroup() {
@@ -33,6 +35,31 @@ export default function Group({
         let json = await response.json();
         setGroup(json);
         console.log(json);
+
+        response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/admins`, {
+          method: 'GET',
+        },
+        );
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        json = await response.json();
+        setAdmin(json);
+
+        response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/followers`, {
+          method: 'GET',
+        },
+        );
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        json = await response.json();
+        setFollowers(json);
+        if(json.includes(route.params.me)){
+          setIsFollower(true);
+        }
+
+
       } catch(err) {
         console.error(`Error retrieving group: ${err}.`)
       }
@@ -42,21 +69,11 @@ export default function Group({
 
   const onAdminClick = async() => {
     try {
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/admins`, {
-        method: 'GET',
-      },
-      );
-      if (!response.ok) {
-        throw new Error(`${response.status}`);
-      }
-      let json = await response.json();
-      setAdmin(json);
-      console.log(json);
       navigation.navigate('Admin', {
         screen: 'Main',
         params: {
           groupName: route.params.groupName,
-          admins: json,
+          admins: admin,
           isAdminView: route.params.isAdminView,
           isOwnerView: await isOwner(),
         }
@@ -68,15 +85,7 @@ export default function Group({
 
   const isOwner = async function () {
     try {
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/users/me`, {
-        method: 'GET',
-      },
-      );
-      if(!response.ok) {
-        throw new Error(`${response.status}`);
-      }
-      let json = await response.json();
-      if(json.id === group.owner){
+      if(route.params.me === group.owner){
         return true;
       }
       return false;        
@@ -87,22 +96,11 @@ export default function Group({
 
   const onFollowersClick = async() => {
     try {
-      isOwner();
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/followers`, {
-        method: 'GET',
-      },
-      );
-      if (!response.ok) {
-        throw new Error(`${response.status}`);
-      }
-      let json = await response.json();
-      setFollowers(json);
-      console.log(json);
       navigation.navigate('Followers', {
         screen: 'Main',
         params: {
           groupName: route.params.groupName,
-          followers: json,
+          followers: followers,
           isAdminView: route.params.isAdminView
         }
       })
@@ -111,14 +109,64 @@ export default function Group({
     }
   };
 
+  const onFollow = useCallback(async(id: string) => {
+    try {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/${route.params.groupName}/follow`,
+        {
+          method: 'POST',
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      let json = await response.json();
+      setGroup(json);
+      console.log(json);
+      setFollowers([...followers])
+
+    } catch(err) {
+      console.error(`Error following group: ${err}.`)
+    }
+  }, [followers]);
+  const onUnFollow = async() => {
+    try{
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/groups/${route.params.groupName}/unfollow`,
+        {
+          method: 'POST',
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      let json = await response.json();
+      setGroup(json);
+      console.log(json);
+    } catch(err) {
+      console.error(`Error following group: ${err}.`)
+    }
+  };
+
   return (
-    <View >
+    <View style={groupStyles.fullbox}>
+      <View style={groupStyles.textStyle}>
+        <Text>@{route.params.groupName}</Text>
+      </View>
+      <View style={groupStyles.textStyle}>
+        <Text>Black Students’ Alliance @ RPI </Text>
+      </View>
       <View style={groupStyles.container}>
         <Button style={groupStyles.button} textColor="red" onPress={onAdminClick}>
           Admin
         </Button>
         <Button style={groupStyles.button} textColor="red" onPress={onFollowersClick}>
           Followers
+        </Button>
+        <Button style={groupStyles.button2} textColor="red" onPress={onFollowersClick}>
+        {isFollower ? (
+            <Icon name='user-unfollow' color={'#FF0000'} size={18} />
+          ):(
+            <Icon name='user-follow' color={'#00FF00'} size={18} />
+          )}
         </Button>
       </View>
 
