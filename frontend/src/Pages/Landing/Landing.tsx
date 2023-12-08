@@ -7,17 +7,13 @@ export default function Landing({ navigation }: { navigation: any }) {
   return (
     <View style={landingStyle.container}>
       <Text style = {landingStyle.welcomeformat} >Welcome to Slideee</Text>
-      <Text></Text>
-
+      
       <Image 
       style = {landingStyle.logoImage}
       source={require('../../../assets/slide.png')} />
       
-      <Text></Text>
       <Text style = {landingStyle.mottoformat} >Playground of Life</Text>
       
-      <Text></Text>
-      <Text></Text>
       <Button textColor = '#000000' style = {landingStyle.button} mode="outlined" onPress={() => navigation.navigate('Login')}>
         Login
       </Button>

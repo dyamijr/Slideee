@@ -39,8 +39,6 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
       style = {loginStyle.logoImage}
       source={require('../../../assets/slide.png')} />
       <Text style={loginStyle.mottoformat}>Slideee</Text>
-      <Text></Text>
-      <Text></Text>
 
       <TextInput
         style = {loginStyle.boxstyle1}
@@ -52,7 +50,7 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
-      <Text></Text>
+      
       <TextInput
         style = {loginStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -65,7 +63,7 @@ export default function Login({ navigation }: { route: any; navigation: any }) {
         secureTextEntry={true}
       />
       
-      <Text></Text>
+      
       <Button textColor='#000000' style = {loginStyle.button} mode="outlined" onPress={onLogin}>
         Login
       </Button>

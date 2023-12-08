@@ -47,7 +47,6 @@ export default function CreateGroup({
     <View style={createGroupStyle.container}>
       <Text style={createGroupStyle.titleblock}>Group Name</Text>
       <Text style={createGroupStyle.descriptionblock}>What shall others call you?</Text>
-      <Text style={createGroupStyle.emptyspace}> </Text>
       <TextInput
         style={createGroupStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -62,7 +61,6 @@ export default function CreateGroup({
       <Text></Text>
       <Text style={createGroupStyle.titleblock}>Display Name</Text>
       <Text style={createGroupStyle.descriptionblock}>How will others remember you?</Text>
-      <Text style={createGroupStyle.emptyspace}> </Text>
       <TextInput
         style={createGroupStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -81,7 +79,6 @@ export default function CreateGroup({
           setIsPrivate(!isPrivate);
         }}
       />
-      <Text></Text>
       <Button textColor= 'black' style={createGroupStyle.boxstyle2} mode="outlined" onPress={onCreateGroup}>
         Create Group
         </Button>

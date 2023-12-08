@@ -17,7 +17,7 @@ const createEventStyle = StyleSheet.create({
       alignItems: 'center',
     },
     titleblock: {
-      marginTop: 15,
+      marginTop: 10,
       fontSize: 20,
       fontWeight: 'bold',
     },
@@ -25,14 +25,12 @@ const createEventStyle = StyleSheet.create({
       fontSize: 13,
       fontStyle: 'italic'
     },
-    emptyspace: {
-        fontSize: 5,
-    },
     boxstyle: {
         borderRadius: 0,
         backgroundColor: '#FFFFFF',
     },
     boxstyle1: {
+        marginTop: 5,
         borderRadius: 0,
         backgroundColor: '#E4A0A0',
         alignItems: "center",

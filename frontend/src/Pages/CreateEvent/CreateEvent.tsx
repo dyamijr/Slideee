@@ -79,7 +79,6 @@ export default function CreateEvent(this: any, {
     <View style={createEventStyle.container}>
       <Text style={createEventStyle.titleblock}>Title</Text>
       <Text style={createEventStyle.descriptionblock}>Make it captivating!</Text>
-      <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
         style={createEventStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -94,7 +93,6 @@ export default function CreateEvent(this: any, {
 
       <Text style={createEventStyle.titleblock}>Description</Text>
       <Text style={createEventStyle.descriptionblock}>Summarize your event for users!</Text>
-      <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
         style={createEventStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -108,7 +106,6 @@ export default function CreateEvent(this: any, {
 
       <Text style={createEventStyle.titleblock}>Collaborators</Text>
       <Text style={createEventStyle.descriptionblock}>What other groups are co-hosting this event?</Text>
-      <Text style={createEventStyle.emptyspace}> </Text>
       <View style={createEventStyle.collaborators}>
         {collaborators.map((collaborator, index) => (
           <View style={{display: 'flex', flexDirection: 'row'}} key={index}>
@@ -118,7 +115,6 @@ export default function CreateEvent(this: any, {
               </Chip>
           </View>
         ))}
-      <Text style={createEventStyle.emptyspace}></Text>
         {collaborators.length < MAX_COLLABORATORS && (
           <TextInput
             style={createEventStyle.boxstyle1}
@@ -135,7 +131,6 @@ export default function CreateEvent(this: any, {
 
       <Text style={createEventStyle.titleblock}>Location</Text>
       <Text style={createEventStyle.descriptionblock}>Where will your event take place?</Text>
-      <Text style={createEventStyle.emptyspace}> </Text>
       <TextInput
         style={createEventStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -149,7 +144,6 @@ export default function CreateEvent(this: any, {
       
       <Text style={createEventStyle.titleblock}>Date</Text>
       <Text style={createEventStyle.descriptionblock}>When will your event be hosted?</Text>
-      <Text style={createEventStyle.emptyspace}> </Text>
       <View style={createEventStyle.boxstyle3}>
         <DateTimePicker
             testID="dateTimePicker"

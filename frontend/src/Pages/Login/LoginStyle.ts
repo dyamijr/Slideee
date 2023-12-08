@@ -14,7 +14,7 @@ const loginStyle = StyleSheet.create({
     height: 40,
     borderColor: 'black',
     borderRadius: 0,
-    marginBottom: 10,
+    marginBottom: 5,
     marginTop: 20,
     width: "auto",
   },
@@ -25,12 +25,11 @@ const loginStyle = StyleSheet.create({
   },
   mottoformat: {
     fontSize: 35,
-    fontFamily: 'Futura-CondensedMedium' 
-  },
-  emptyspace: {
-    fontSize: 15,
+    fontFamily: 'Futura-CondensedMedium',
+    marginBottom: 25
   },
   boxstyle1: {
+    marginBottom: 15,
     borderRadius: 0,
     backgroundColor: 'transparent',
     alignItems: "center",

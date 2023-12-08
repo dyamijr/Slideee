@@ -14,7 +14,7 @@ const signupStyle = StyleSheet.create({
     height: 40,
     borderColor: 'black',
     borderRadius: 0,
-    marginBottom: 10,
+    marginBottom: 5,
     marginTop: 20,
     width: "auto",
   },
@@ -25,12 +25,14 @@ const signupStyle = StyleSheet.create({
   },
   mottoformat: {
     fontSize: 35,
-    fontFamily: 'Futura-CondensedMedium' 
+    fontFamily: 'Futura-CondensedMedium',
+    marginBottom: 25
   },
   emptyspace: {
     fontSize: 15,
   },
   boxstyle1: {
+    marginBottom: 15,
     borderRadius: 0,
     backgroundColor: 'transparent',
     alignItems: "center",

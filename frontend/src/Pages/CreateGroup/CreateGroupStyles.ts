@@ -14,6 +14,7 @@ const createGroupStyle = StyleSheet.create({
       alignItems: 'center',
     },
     titleblock: {
+      marginTop: 10,
       fontSize: 20,
       fontWeight: 'bold',
     },
@@ -21,19 +22,17 @@ const createGroupStyle = StyleSheet.create({
       fontSize: 13,
       fontStyle: 'italic'
     },
-    emptyspace: {
-        fontSize: 5,
-    },
     boxstyle: {
         borderRadius: 0,
         backgroundColor: '#FFFFFF',
     },
     boxstyle1: {
-        borderRadius: 0,
-        backgroundColor: '#E4A0A0',
-        alignItems: "center",
-        width: 'auto',
-    },
+      marginTop: 5,
+      borderRadius: 0,
+      backgroundColor: '#E4A0A0',
+      alignItems: "center",
+      width: 'auto',
+  },
     boxstyle2: {
         borderRadius: 0,
     },

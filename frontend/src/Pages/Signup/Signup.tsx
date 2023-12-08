@@ -45,8 +45,6 @@ export default function Signup({
       style = {signupStyle.logoImage}
       source={require('../../../assets/slide.png')} />
       <Text style={signupStyle.mottoformat}>Slideee</Text>
-      <Text></Text>
-      <Text></Text>
 
       <TextInput
         style = {signupStyle.boxstyle1}
@@ -58,7 +56,7 @@ export default function Signup({
         value={username}
         onChangeText={(newValue) => setUsername(newValue)}
       />
-      <Text></Text>
+      
       <TextInput
         style = {signupStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -69,7 +67,7 @@ export default function Signup({
         value={displayName}
         onChangeText={(newValue) => setDisplayName(newValue)}
       />
-      <Text></Text>
+      
       <TextInput
         style = {signupStyle.boxstyle1}
         placeholderTextColor= 'black'
@@ -81,7 +79,7 @@ export default function Signup({
         onChangeText={(newValue) => setPassword(newValue)}
         secureTextEntry={true}
       />
-      <Text></Text>
+      
       <Button textColor='#000000' style = {signupStyle.button} mode="outlined" onPress={onSignup}>
         SignUp
       </Button>
