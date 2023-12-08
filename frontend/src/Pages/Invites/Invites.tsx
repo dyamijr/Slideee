@@ -48,7 +48,7 @@ export default function Invites({
 
 const onAccept = useCallback(async (inviteid:any) => {
   try {
-    let response = await fetch(`${REACT_APP_BACKEND_URL}inviteHandler/${inviteid}/accept`, {
+    let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/${inviteid}/accept`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -68,7 +68,7 @@ const onAccept = useCallback(async (inviteid:any) => {
 
 const onDecline = useCallback(async (inviteid:any) => {
   try {
-    let response = await fetch(`${REACT_APP_BACKEND_URL}/${inviteid}/decline`, {
+    let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/${inviteid}/decline`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

@@ -11,6 +11,7 @@ import { InviteType } from '../schemas/invite.schema';
 import { EventsService } from 'src/events/events.service';
 import { GroupsService } from 'src/groups/groups.service';
 import { UsersService } from 'src/users/users.service';
+import { StatusType } from '../schemas/invite.schema';
 
 
 @Injectable()
@@ -96,13 +97,14 @@ export class InviteHandlerService {
 
     return invite;
   }
+  
   async acceptInvite(inviteId: string, user: mongoose.Types.ObjectId) {
     //const invite = await this.invitesService.findById(inviteId);
     if (!await this.invitesService.isValidInvite(inviteId)) {
       throw new NotFoundException('Invite does not exist');
     }
-    if(await this.invitesService.getInviteStatus(inviteId)){
-      throw new BadRequestException('Invite has already been accepted');
+    if(await this.invitesService.getInviteStatus(inviteId) != StatusType.Pending ){
+      throw new BadRequestException('Invite has already been accepted/declined');
     }
     let type = await this.invitesService.getInviteType(inviteId);
     if(type === InviteType.AdminRequest){
@@ -113,6 +115,7 @@ export class InviteHandlerService {
       if(!await this.groupsService.isValidGroupById(group)){
         throw new BadRequestException('Group does not exist');
       }
+
       await this.groupsService.addAdmin(group, user);
     }
     else if(type === InviteType.FollowRequest){
