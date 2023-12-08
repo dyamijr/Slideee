@@ -17,6 +17,7 @@ export default function Invites({
 }) {
 
   const [Invitations,setInvitations] = useState([]);
+
   
   useEffect(() => {
     async function getallInvites() {
@@ -45,9 +46,9 @@ export default function Invites({
 }, []); 
 
 
-const onAccept = (inviteid:any) => useCallback(async () => {
+const onAccept = useCallback(async (inviteid:any) => {
   try {
-    let response = await fetch(`${REACT_APP_BACKEND_URL}/${inviteid}/accept`, {
+    let response = await fetch(`${REACT_APP_BACKEND_URL}inviteHandler/${inviteid}/accept`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -56,6 +57,8 @@ const onAccept = (inviteid:any) => useCallback(async () => {
     });
     if (!response.ok) {
       throw new Error(`${response.status}`);
+    }else{
+      console.log("invite was accepted")
     }
   }
   catch(err) {
@@ -63,7 +66,7 @@ const onAccept = (inviteid:any) => useCallback(async () => {
   }
 } , []);
 
-const onDecline = (inviteid:any) => useCallback(async () => {
+const onDecline = useCallback(async (inviteid:any) => {
   try {
     let response = await fetch(`${REACT_APP_BACKEND_URL}/${inviteid}/decline`, {
       method: 'POST',
@@ -90,11 +93,11 @@ const renderItem = ( item:any ) => (
         <Text>Status : {item['status']}</Text>
       </View>
       <View style={GroupInviteStyle.groupAsRow}>
-      <Button style = {GroupInviteStyle.button} mode="outlined" > 
+      <Button style = {GroupInviteStyle.button} mode="outlined" onPress={() => onAccept(item['_id'])}> 
           <Icon name="check" size={19} color="green" />
         </Button>
-        <Button style = {GroupInviteStyle.button} mode="outlined" >
-          <Icon2 name="x" size={19} color="red" />
+        <Button style = {GroupInviteStyle.button} mode="outlined" onPress={() => onDecline(item['_id']) }>
+          <Icon2 name="x" size={19} color="red"  />
         </Button>
       </View>
     </View>
