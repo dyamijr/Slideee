@@ -4,7 +4,9 @@ import { REACT_APP_BACKEND_URL } from '@env';
 
 export default function Home({ navigation }: { route: any; navigation: any }) {
   const [userSearchQuery, setUserSearchQuery] = useState('');
-
+  //making a new event in the events array in the create events function 
+  const[events, setEvents] = useState([]);
+  let allEvents = [];
   useEffect(() => {
     async function getCurrentUser() {
       try {
@@ -22,9 +24,22 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
     }
     getCurrentUser();
   }, []);
+  //create an event in this function
+  const createEvent = () => {
+    setEvents([]); 
+    allEvents.push([]);
+  }
+
+
 
   const postEvent = () => {
     // Event post test function
+    //add a post to the events 
+    const [counter, setCounter] = useState(0);
+    setCounter(1); 
+
+
+
     const handleBoxPress = () => {
       console.log('Box Pressed!');
       //  functionality here
