@@ -129,6 +129,8 @@ export class InviteHandlerService {
     title: string,
     description: string,
     collaboratorsGroupNames: string[],
+    location: string, 
+    date: Date,
     admin: mongoose.Types.ObjectId,
   ) {
     const collaboratorsGroupDocuments: mongoose.Types.ObjectId[] = [];
@@ -146,7 +148,7 @@ export class InviteHandlerService {
       throw new UnauthorizedException();
     }
 
-    const createdEventId = await this.eventService.create(title, description, collaboratorsGroupDocuments[0], admin);
+    const createdEventId = await this.eventService.create(title, description, collaboratorsGroupDocuments[0], location, date, admin);
 
     for (let i = 1; i < collaboratorsGroupDocuments.length; i++) {
       this.invitesService.createInvite(

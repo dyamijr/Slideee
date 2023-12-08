@@ -18,11 +18,15 @@ export class EventsService {
     title: string,
     description: string,
     group: mongoose.Types.ObjectId,
+    location: string,
+    date: Date,
     admin: mongoose.Types.ObjectId,
   ) {
     const createdEvent = new this.eventModel({
       title: title,
       description: description,
+      location: location, 
+      date: date, 
       collaborators: [group],
       createdBy: admin._id,
       likes: 0,

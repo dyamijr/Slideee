@@ -13,6 +13,12 @@ export class Event {
   description: string;
 
   @Prop()
+  location: string;
+
+  @Prop()
+  date: Date;
+
+  @Prop()
   likes: number;
 
   @Prop()
