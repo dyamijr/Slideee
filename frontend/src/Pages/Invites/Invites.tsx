@@ -62,7 +62,26 @@ const onAccept = (inviteid:any) => useCallback(async () => {
     console.error(`Error retrieving user invites: ${err}.`);
   }
 } , []);
-   
+
+const onDecline = (inviteid:any) => useCallback(async () => {
+  try {
+    let response = await fetch(`${REACT_APP_BACKEND_URL}/${inviteid}/decline`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`${response.status}`);
+    }
+  }
+  catch(err) {
+    console.error(`Error retrieving user invites: ${err}.`);
+  }
+} , []);
+
+
 const renderItem = ( item:any ) => (
   <View style = {GroupInviteStyle.container}>
     <View style={GroupInviteStyle.groupAsRow}>

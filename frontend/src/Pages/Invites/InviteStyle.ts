@@ -22,7 +22,7 @@ const GroupInviteStyle = StyleSheet.create({
           alignItems: 'center',
           justifyContent: 'flex-start' ,
           borderBottomColor: 'black',
-          borderBottomWidth : '1'
+          borderBottomWidth : 1
 
 
 
