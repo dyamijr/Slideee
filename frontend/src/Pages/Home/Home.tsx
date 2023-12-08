@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, Button, Alert } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 
 export default function Home({ navigation }: { route: any; navigation: any }) {
@@ -23,11 +23,28 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
     getCurrentUser();
   }, []);
 
-  return (
-    <View style={styles.container}>
+  const postEvent = () => {
+    // Event post test function
+    const handleBoxPress = () => {
+      console.log('Box Pressed!');
+      //  functionality here
+    };
+    const handleButtonPress = () => {
+      // Perform an action when the button is pressed
+      Alert.alert('Button Pressed!', 'You pressed the button.');
+//test button
+    }
 
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    {/* Button component with onPress event */}
+    <Button
+      title="Press Me"
+      onPress={handleButtonPress} // Assign the event handler function
+    />
+      
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -37,4 +54,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})};
