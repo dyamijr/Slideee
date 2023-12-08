@@ -43,17 +43,41 @@ export default function Invites({
   getallInvites();
   console.log(Invitations);
 }, []); 
+
+
+const onAccept = (inviteid:any) => useCallback(async () => {
+  try {
+    let response = await fetch(`${REACT_APP_BACKEND_URL}/${inviteid}/accept`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`${response.status}`);
+    }
+  }
+  catch(err) {
+    console.error(`Error retrieving user invites: ${err}.`);
+  }
+} , []);
    
 const renderItem = ( item:any ) => (
-  <View style={ {flexDirection: 'row' }}>
-     <Text>{item['sender']}</Text>
+  <View style = {GroupInviteStyle.container}>
     <View style={GroupInviteStyle.groupAsRow}>
-    <Button style = {GroupInviteStyle.button} mode="outlined" >
-        <Icon name="check" size={25} color="green" />
-      </Button>
+      <View style={GroupInviteStyle.groupAsColumn}>
+        <Text>{item['type']} </Text>
+        <Text>{item['status']}</Text>
+      </View>
+      <View style={GroupInviteStyle.groupAsRow}>
       <Button style = {GroupInviteStyle.button} mode="outlined" >
-        <Icon2 name="x" size={25} color="red" />
-      </Button>
+          <Icon name="check" size={19} color="green" />
+        </Button>
+        <Button style = {GroupInviteStyle.button} mode="outlined" >
+          <Icon2 name="x" size={19} color="red" />
+        </Button>
+      </View>
     </View>
   </View>
 );
