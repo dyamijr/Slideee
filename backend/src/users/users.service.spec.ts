@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
+import { UsersService } from '../users/users.service';
 import { User, UserDocument, UserSchema } from '../schemas/user.schema';
 import { closeInMongodConnection, rootMongooseTestModule } from '../testUtils/mongo/MongooseTestModule';
 import { Model } from 'mongoose';
@@ -16,7 +16,7 @@ describe('UsersService', () => {
         rootMongooseTestModule(),
         MongooseModule.forFeature([{name: 'User', schema: UserSchema}]), 
       ],
-      providers:  [User],
+      providers:  [User, UsersService],
     }).compile();
 
     service = module.get<UsersService>(UsersService);

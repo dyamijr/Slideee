@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InviteHandlerService } from './inviteHandler.service';
+import { InviteHandlerService } from '../inviteHandler/inviteHandler.service';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Group, GroupDocument, GroupSchema } from '../schemas/group.schema';
 import { closeInMongodConnection, rootMongooseTestModule } from '../testUtils/mongo/MongooseTestModule';
@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Invite ,InviteDocument, InviteType } from '../schemas/invite.schema';
 import { InvitesService } from '../invites/invites.service';
-import { EventsService } from 'src/events/events.service';
+import { EventsService } from '../events/events.service';
 
 describe('GroupsService', () => {
   let service: InviteHandlerService;

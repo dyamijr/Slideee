@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event, EventDocument } from '../schemas/event.schema';
-import { UsersService } from 'src/users/users.service';
-import { Comment, CommentDocument } from 'src/schemas/comment.schema';
+import {UsersService} from '../users/users.service'
+import { Comment, CommentDocument } from '../schemas/comment.schema';
 
 @Injectable()
 export class EventsService {

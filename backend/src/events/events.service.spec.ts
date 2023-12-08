@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventsService } from './events.service';
+import { EventsService } from '../events/events.service';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { BadRequestException } from '@nestjs/common';
 import { closeInMongodConnection, rootMongooseTestModule } from '../testUtils/mongo/MongooseTestModule';

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GroupsService } from './groups.service';
+import { GroupsService } from '../groups/groups.service';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Group, GroupDocument, GroupSchema } from '../schemas/group.schema';
 import { closeInMongodConnection, rootMongooseTestModule } from '../testUtils/mongo/MongooseTestModule';
