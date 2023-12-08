@@ -122,11 +122,29 @@ export default function Home({ navigation }: { route: any; navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
   },
-  counterText: {
+  heading: {
     fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  inputContainer: {
+    flexDirection: 'row',
     marginBottom: 20,
   },
-})};
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  eventItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+});
