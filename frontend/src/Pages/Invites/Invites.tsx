@@ -67,11 +67,11 @@ const renderItem = ( item:any ) => (
   <View style = {GroupInviteStyle.container}>
     <View style={GroupInviteStyle.groupAsRow}>
       <View style={GroupInviteStyle.groupAsColumn}>
-        <Text>{item['type']} </Text>
-        <Text>{item['status']}</Text>
+        <Text>Type: {item['type']} </Text>
+        <Text>Status : {item['status']}</Text>
       </View>
       <View style={GroupInviteStyle.groupAsRow}>
-      <Button style = {GroupInviteStyle.button} mode="outlined" >
+      <Button style = {GroupInviteStyle.button} mode="outlined" > 
           <Icon name="check" size={19} color="green" />
         </Button>
         <Button style = {GroupInviteStyle.button} mode="outlined" >
@@ -79,7 +79,10 @@ const renderItem = ( item:any ) => (
         </Button>
       </View>
     </View>
+
   </View>
+  
+  
 );
 
 return (

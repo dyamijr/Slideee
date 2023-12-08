@@ -19,11 +19,18 @@ const GroupInviteStyle = StyleSheet.create({
         }, 
         container: {
           width:'100%',
-          alignItems: 'center', 
+          alignItems: 'center',
+          justifyContent: 'flex-start' ,
+          borderBottomColor: 'black',
+          borderBottomWidth : '1'
+
+
+
         },
         invitationlist:{
-          justifyContent: 'center',
+          //justifyContent: 'center',
           flexDirection: 'row',
+          borderBottomColor: 'black',
  
           width: 'auto'
         },
@@ -43,6 +50,7 @@ const GroupInviteStyle = StyleSheet.create({
         },
         groupAsRow : {
           flexDirection: 'row',
+          marginBottom: 2,
         },
         groupAsColumn : {
           flexDirection: 'column',
