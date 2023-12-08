@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { REACT_APP_BACKEND_URL } from '@env';
 import { Button, Checkbox, Chip, TextInput } from 'react-native-paper';
+import createEventStyle from './CreateEventStyles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const MAX_COLLABORATORS = 2;
 
-export default function CreateEvent({
+const MAX_COLLABORATORS = 5;
+
+export default function CreateEvent(this: any, {
   route,
   navigation,
 }: {
@@ -15,14 +19,18 @@ export default function CreateEvent({
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [newCollaborator, setNewCollaborator] = useState('');
+  const [location, setLocation] = useState('');
   const [collaborators, setCollaborators] = useState([route.params.groupName]);
-  const [collaboratorids, setCollaboratorsid] = useState([route.params._id])
+  const [date, setDate] = useState(new Date());
 
-
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
 
   const onCreateEvent = useCallback(async () => {
     try {
-      let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/newevent`, {
+      let response = await fetch(`${REACT_APP_BACKEND_URL}/inviteHandler/newEvent`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -31,7 +39,9 @@ export default function CreateEvent({
         body: JSON.stringify({
           title: title,
           description: description,
-          collaborators: collaboratorids,
+          collaborators: collaborators,
+          location: location,
+          date: date,
         }),
       });
       if (!response.ok) {
@@ -41,7 +51,7 @@ export default function CreateEvent({
     } catch (err) {
       console.error(err);
     }
-  }, [title, description]);
+  }, [title, description, location, date]);
 
   const onNewCollaboratorSubmitted = useCallback(async () => {
     try {
@@ -54,71 +64,104 @@ export default function CreateEvent({
           method: 'GET',
         },
       );
-      let collaboratorid = await response.json()
-      console.log("HEREEEEE!!!")
-      console.log(route.params)
       if (!response.ok) {
         throw new Error("Invalid Group");
       }
       setNewCollaborator("");
       setCollaborators([...collaborators, newCollaborator]);
-      setCollaboratorsid([...collaboratorids, collaboratorid]);
-      console.log(collaboratorids)
     } catch(err) {
       console.error(`Error adding collaboration group: ${err}.`);
     }
   }, [newCollaborator]);
 
   return (
-    <View style={styles.container}>
-      <Text>Title</Text>
+    <ScrollView automaticallyAdjustKeyboardInsets={true} style={createEventStyle.scroll}>
+    <View style={createEventStyle.container}>
+      <Text style={createEventStyle.titleblock}>Title</Text>
+      <Text style={createEventStyle.descriptionblock}>Make it captivating!</Text>
       <TextInput
+        style={createEventStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Title"
         value={title}
         onChangeText={(newValue) => setTitle(newValue)}
       />
-      <Text>Description</Text>
+
+
+      <Text style={createEventStyle.titleblock}>Description</Text>
+      <Text style={createEventStyle.descriptionblock}>Summarize your event for users!</Text>
       <TextInput
+        style={createEventStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
         placeholder="Description"
         value={description}
         onChangeText={(newValue) => setDescription(newValue)}
       />
-      <Text>Collaborators</Text>
-      <View style={styles.collaborators}>
+
+      <Text style={createEventStyle.titleblock}>Collaborators</Text>
+      <Text style={createEventStyle.descriptionblock}>What other groups are co-hosting this event?</Text>
+      <View style={createEventStyle.collaborators}>
         {collaborators.map((collaborator, index) => (
           <View style={{display: 'flex', flexDirection: 'row'}} key={index}>
-            <Chip onClose={collaborator === route.params.groupName ? undefined : () => setCollaborators(collaborators.filter((item: any) => item !== collaborator))} icon="account-group">
-              {collaborator}
+            <Chip style={createEventStyle.boxstyle} onClose={collaborator === route.params.groupName ? undefined : () => setCollaborators(collaborators.filter((item: any) => item !== collaborator))}  icon={() => (
+            <Icon name="account-group" size={17} color="#E4A0A0"/> )}>
+              {collaborator} 
               </Chip>
           </View>
         ))}
         {collaborators.length < MAX_COLLABORATORS && (
           <TextInput
+            style={createEventStyle.boxstyle1}
+            placeholderTextColor= 'black'
+            underlineColor='black'
+            activeUnderlineColor='black'
+            activeOutlineColor='black'
             placeholder="Add Collaborator"
             value={newCollaborator}
             onChangeText={(newValue) => setNewCollaborator(newValue)}
             onSubmitEditing={onNewCollaboratorSubmitted}
           />
         )}
-      </View>
-      <Button mode="outlined" onPress={onCreateEvent}>
+
+      <Text style={createEventStyle.titleblock}>Location</Text>
+      <Text style={createEventStyle.descriptionblock}>Where will your event take place?</Text>
+      <TextInput
+        style={createEventStyle.boxstyle1}
+        placeholderTextColor= 'black'
+        underlineColor='black'
+        activeUnderlineColor='black'
+        activeOutlineColor='black'
+        placeholder="Location"
+        value={location}
+        onChangeText={(newValue) => setLocation(newValue)}
+      />
+      
+      <Text style={createEventStyle.titleblock}>Date</Text>
+      <Text style={createEventStyle.descriptionblock}>When will your event be hosted?</Text>
+      <View style={createEventStyle.boxstyle3}>
+        <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={'datetime'}
+            is24Hour={true}
+            accentColor={'#E4A0A0'}
+            onChange={onChange}
+        />
+        </View>
+        </View>
+      <Button textColor= 'black' style={createEventStyle.boxstyle2} mode="outlined" onPress={onCreateEvent}>
         Create Event
       </Button>
+      
     </View>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  collaborators: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent:"center",
-    alignItems: 'center',
-  }
-});
+

@@ -26,6 +26,7 @@ function AppNavigation() {
   return (
     <Tab.Navigator
       initialRouteName="Main"
+
       screenOptions={{
         headerShown: false,
       }}
@@ -125,8 +126,8 @@ function GroupsNavigation() {
         options={{
           header: (props) => (
             <Appbar.Header>
-              <Appbar.Content title="My Groups"/>
               <Appbar.Action icon="account-search" onPress={() => props.navigation.navigate("Search")} />
+              <Appbar.Content title="My Groups"/>
               <Appbar.Action icon="account-plus" onPress={() => props.navigation.navigate("CreateGroup")} />
             </Appbar.Header>
           ),

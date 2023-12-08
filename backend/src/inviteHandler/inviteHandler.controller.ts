@@ -33,9 +33,15 @@ export class InviteHandlerController {
   @UseGuards(AuthenticatedGuard)
   @Post(':groupName/addAdmin')
   async addAdmin(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
+    let invite = await this.inviteHandlerService.addAdmin(groupName, userDto.user, req.user._id);
+    return invite;
+  }
 
-    let group = await this.inviteHandlerService.addAdmin(groupName, new mongoose.Types.ObjectId(userDto.user), req.user._id);
-    return group;
+  @UseGuards(AuthenticatedGuard)
+  @Post(':groupName/transfer')
+  async tranferOwnership(@Param('groupName') groupName: string, @Body() userDto: UserDto, @Request() req) {
+    let invite = await this.inviteHandlerService.transferOwnership(groupName, userDto.user, req.user._id);
+    return invite;
   }
   
   @UseGuards(AuthenticatedGuard)
@@ -52,17 +58,11 @@ export class InviteHandlerController {
       createEventDto.title,
       createEventDto.description,
       createEventDto.collaborators,
+      createEventDto.location,
+      createEventDto.date,
       req.user._id,
     );
     return event;
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @Get('allInvites')
-  async showInvites(@Request() req ) {
-    const pendingInvites = await this.inviteHandlerService.showInvites(
-      req.user._id,
-    );
-    return pendingInvites;
-  }
 }

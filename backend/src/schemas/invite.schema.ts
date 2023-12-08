@@ -8,6 +8,7 @@ export enum InviteType {
   FollowRequest = 'FollowRequest',
   AdminRequest = 'AdminRequest',
   CollaboratorRequest = 'CollaboratorRequest',
+  OwnershipRequest = 'OwnershipRequest',
 }
 
 export enum StatusType{
