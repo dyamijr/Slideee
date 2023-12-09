@@ -3,10 +3,10 @@ import { EventsService } from './events.service';
 import { EventsController } from './events.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Event, EventSchema } from '../schemas/event.schema';
-import { GroupsModule } from 'src/groups/groups.module';
-import { InvitesModule } from 'src/invites/invites.module';
-import { Comment, CommentSchema } from 'src/schemas/comment.schema';
-import { UsersModule } from 'src/users/users.module';
+import { GroupsModule } from '../groups/groups.module';
+import { InvitesModule } from '../invites/invites.module';
+import { Comment, CommentSchema } from '../schemas/comment.schema';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [

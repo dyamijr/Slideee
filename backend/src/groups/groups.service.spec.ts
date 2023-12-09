@@ -7,7 +7,6 @@ import { User, UserDocument, UserSchema } from '../schemas/user.schema';
 import { Model } from 'mongoose';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
-
 describe('GroupsService', () => {
   let service: GroupsService;
   let userModel: Model<UserDocument>;

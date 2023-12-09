@@ -7,29 +7,29 @@ import { Group, GroupDocument, GroupSchema } from '../schemas/group.schema';
 import { Model } from 'mongoose';
 import { User, UserDocument, UserSchema } from '../schemas/user.schema';
 import { Event, EventDocument, EventSchema } from '../schemas/event.schema';
+import { Comment, CommentSchema } from '../schemas/comment.schema';
+import { EventsController } from './events.controller';
+import { UsersModule } from 'src/users/users.module';
 
 describe('EventsService', () => {
   let service: EventsService;
   let userModel: Model<UserDocument>;
   let groupModel: Model<GroupDocument>;
   let eventModel: Model<EventDocument>;
-
   let module: TestingModule;
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [
         rootMongooseTestModule(),
-        MongooseModule.forFeature([{ name: 'Event', schema: EventSchema }, {name: 'User', schema: UserSchema}, {name: 'Group', schema: GroupSchema}]), 
+        MongooseModule.forFeature([{ name: 'Event', schema: EventSchema }, { name: 'User', schema: UserSchema}, { name: 'Group', schema: GroupSchema}]), 
       ],
-      providers: [EventsService, Group, User],
+      providers: [EventsService, User, Group, Event],
     }).compile();
-
 
     service = module.get<EventsService>(EventsService);
     userModel = module.get<Model<UserDocument>>(getModelToken(User.name));
     groupModel = module.get<Model<GroupDocument>>(getModelToken(Group.name));
     eventModel = module.get<Model<EventDocument>>(getModelToken(Event.name));
-
   });
 
   it('should be defined', () => {
@@ -38,7 +38,6 @@ describe('EventsService', () => {
 
   describe('createNewEvent', () => {
     it('should return an event with title: title, description: description', async () => {
-
       const user = new userModel({
         username: "username",
         displayName: "displayName",
@@ -56,9 +55,11 @@ describe('EventsService', () => {
       await group.save();
       
       const title = 'title';
-      const desc = 'description';
+      const desc = 'description'; 
+      const date = Date.now();
+      const location = "DCC";
 
-      const createEvent = await service.create(title, desc, group._id, user._id);
+      const createEvent = await service.create(title, desc, group._id, user._id, date, location);
       const event = await service.findById((createEvent))
 
       expect(title).toEqual(event.title);
