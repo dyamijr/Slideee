@@ -59,6 +59,7 @@ const onAccept = useCallback(async (inviteid:any) => {
       throw new Error(`${response.status}`);
     }else{
       console.log("invite was accepted")
+      
     }
   }
   catch(err) {
@@ -89,8 +90,8 @@ const renderItem = ( item:any ) => (
   <View style = {GroupInviteStyle.container}>
     <View style={GroupInviteStyle.groupAsRow}>
       <View style={GroupInviteStyle.groupAsColumn}>
-        <Text>Type: {item['type']} </Text>
-        <Text>Status : {item['status']}</Text>
+        <Text style = {{fontWeight: 'bold',color:'red'}}>Type: {item['type']} </Text>
+        <Text style = {{fontWeight: 'bold',color:'red'}}>Status : {item['status']}</Text>
       </View>
       <View style={GroupInviteStyle.groupAsRow}>
       <Button style = {GroupInviteStyle.button} mode="outlined" onPress={() => onAccept(item['_id'])}> 
