@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "madge": "^6.0.0",
-    "mongodb-memory-server": "^8.12.1"
+    "mongodb-memory-server": "^8.16.0"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^7.6.2"

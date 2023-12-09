@@ -6,11 +6,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as mongoose from 'mongoose';
-import { InvitesService } from 'src/invites/invites.service';
+import { InvitesService } from '../invites/invites.service';
 import { InviteType } from '../schemas/invite.schema';
-import { EventsService } from 'src/events/events.service';
-import { GroupsService } from 'src/groups/groups.service';
-import { UsersService } from 'src/users/users.service';
+import { EventsService } from '../events/events.service';
+import { GroupsService } from '../groups/groups.service';
+import { UsersService } from '../users/users.service';
 
 
 @Injectable()
@@ -45,7 +45,6 @@ export class InviteHandlerService {
       );
       return invite;
     }
-
     return group;
   }
 
@@ -73,29 +72,6 @@ export class InviteHandlerService {
     return invite;
   }
 
-  async transferOwnership(groupName: string, newOwner: mongoose.Types.ObjectId, user: mongoose.Types.ObjectId){
-    let group = await this.groupsService.getIdFromGroupName(groupName);
-    if (!await this.groupsService.isValidGroupById(group)) {
-      throw new BadRequestException('Group does not exist');
-    }
-    if(!await this.groupsService.isOwner(group, user)){
-      throw new UnauthorizedException('User is not the owner');
-    }
-    if(!this.userService.findOneById(newOwner)){
-      throw new BadRequestException('User does not exist');
-    }
-    if(await this.groupsService.isOwner(group, newOwner)){
-      throw new BadRequestException('User is already owner');
-    }
-
-    let invite = this.invitesService.createInvite(
-      InviteType.OwnershipRequest,
-      group,
-      newOwner,
-    );
-
-    return invite;
-  }
   async acceptInvite(inviteId: string, user: mongoose.Types.ObjectId) {
     //const invite = await this.invitesService.findById(inviteId);
     if (!await this.invitesService.isValidInvite(inviteId)) {
@@ -140,16 +116,6 @@ export class InviteHandlerService {
         throw new BadRequestException('Event does not exist');
       }
       await this.eventService.addColloborator(event, group2);
-    }
-    else if(type === InviteType.OwnershipRequest){
-      if(await this.invitesService.getInviteRecipient(inviteId) != user){
-        throw new UnauthorizedException('Incorrect user');
-      }
-      let group = await this.invitesService.getInviteSender(inviteId);
-      if(!await this.groupsService.isValidGroupById(group)){
-        throw new BadRequestException('Group does not exist');
-      }
-      await this.groupsService.transferOwner(group, user);
     }
     else{
       throw new BadRequestException('Unknown exception type'); 

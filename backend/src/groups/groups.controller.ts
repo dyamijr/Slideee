@@ -36,12 +36,12 @@ export class GroupsController {
     return group;
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @Get('/')
-  async queryGroups(@Query('groupName') groupNameQuery = '') {
-    const groups = await this.groupsService.queryGroups(groupNameQuery);
-    return groups;
-  }
+  // @UseGuards(AuthenticatedGuard)
+  // @Get('/')
+  // async queryGroups(@Query('groupName') groupNameQuery = '') {
+  //   const groups = await this.groupsService.queryGroups(groupNameQuery);
+  //   return groups;
+  // }
 
   @UseGuards(AuthenticatedGuard)
   @Get(':groupName')

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GroupsService } from './groups.service';
+import { GroupsService } from '../groups/groups.service';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Group, GroupDocument, GroupSchema } from '../schemas/group.schema';
 import { closeInMongodConnection, rootMongooseTestModule } from '../testUtils/mongo/MongooseTestModule';
@@ -20,7 +20,6 @@ describe('GroupsService', () => {
       ],
       providers: [GroupsService, Group, User],
     }).compile();
-
 
     service = module.get<GroupsService>(GroupsService);
     userModel = module.get<Model<UserDocument>>(getModelToken(User.name));
@@ -82,6 +81,133 @@ describe('GroupsService', () => {
 
     })
   });
+
+  //Testing findOneByName
+  describe('findNonExistentGroupName', () => {
+    it('should return null', async () => {
+      
+      const groupName = "nonExistent";
+
+      const group = async () => {
+        await service.findOneByGroupName(groupName);
+      };
+
+      expect(group).toBeNull();
+    })
+  });
+
+  describe('findByExistingGroupName', () => {
+    it('should return a group with username: name, display: name', async () => {
+
+      const groupName = "groupName";
+      const displayName = "displayName";
+      const isPrivate = true;
+
+      const owner = new userModel({
+        username: "username",
+        displayName: "displayName",
+        password: "password",
+      });
+
+      let group = new groupModel({
+        groupName: groupName,
+        displayName: displayName,
+        isPrivate: true,
+        owner: owner, 
+        admins: [owner],
+        followers: [],
+      });
+      await group.save();
+
+      const find = await service.findOneByGroupName(groupName);
+
+      expect(groupName).toEqual(find.groupName);
+      expect(displayName).toEqual(find.displayName);
+      expect(group.isPrivate).toBeTruthy();
+      expect(owner._id).toEqual(find.owner)
+    })
+  });
+
+  describe('findByExistingGroupId', () => {
+    it('should return a group with username: name, display: name', async () => {
+        
+      const groupName = "groupName";
+      const displayName = "displayName";
+      const isPrivate = true;
+
+      const owner = new userModel({
+        username: "username",
+        displayName: "displayName",
+        password: "password",
+      });
+
+      let group = new groupModel({
+        groupName: groupName,
+        displayName: displayName,
+        isPrivate: true,
+        owner: owner, 
+        admins: [owner],
+        followers: [],
+      });
+      await group.save();
+
+      const find = await service.findOneByGroupName(groupName);
+
+      expect(find.groupName).toEqual(groupName);
+      expect(find.displayName).toEqual(displayName);
+      expect(find.isPrivate).toBeTruthy();
+      expect(owner._id).toEqual(find.owner);
+    })
+  });
+  
+  describe('isValidAdmin', () => {
+    it('should return a', async () => {
+
+    })
+  });
+
+  describe('isNotAdmin', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('isValidFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('isNotFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('addNewFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('addExistingFollower', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+  
+  describe('addNewAdmin', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+
+  describe('addExistingAdmin', () => {
+    it('should return a', async () => {
+      
+    })
+  });
+  
   //Testing edit group
   describe('editNonExistentGroup', () => {
     it('should throw a BadRequestException', async () => {
@@ -301,169 +427,6 @@ describe('GroupsService', () => {
       expect(ret).toEqual("Success");
     })
   });
-  // //Testing Follow Group
-  // describe('followNonExistentGroup', () => {
-  //   it('should throw a BadRequestException', async () => {
-
-  //     const groupName = "groupName";
-  //     const displayName = "displayName";
-
-  //     const followUser = new userModel({
-  //       username: "username",
-  //       displayName: "displayName",
-  //       password: "password",
-  //     });
-      
-  //     const followGroup  = async () => {
-  //       await service.followGroup(groupName, followUser);
-  //     };
-
-  //     await expect(followGroup()).rejects.toThrow(BadRequestException);
-
-  //   })
-  // });
-
-  // describe('FollowGroupAsAdmin', () => {
-  //   it('should throw a BadRequestException', async () => {
-
-  //     const groupName = "groupName";
-  //     const displayName = "displayName";
-
-  //     const user = new userModel({
-  //       username: "username",
-  //       displayName: "displayName",
-  //       password: "password",
-  //     });
-
-  //     const followUser = new userModel({
-  //       username: "username1",
-  //       displayName: "displayName1",
-  //       password: "password1",
-  //     });
-
-  //     let group = new groupModel({
-  //       groupName: groupName,
-  //       displayName: displayName,
-  //       isPrivate: false,
-  //       owner: user, 
-  //       admins: [user, followUser],
-  //       followers: [],
-  //     });
-  //     await group.save();
-      
-  //     const followGroup  = async () => {
-  //       await service.followGroup(groupName, followUser);
-  //     };
-
-  //     await expect(followGroup()).rejects.toThrow(BadRequestException);
-
-  //   })
-  // });
-
-  // describe('FollowGroupAsOwner', () => {
-  //   it('should throw a BadRequestException', async () => {
-
-  //     const groupName = "groupName";
-  //     const displayName = "displayName";
-
-  //     const user = new userModel({
-  //       username: "username",
-  //       displayName: "displayName",
-  //       password: "password",
-  //     });
-
-  //     let group = new groupModel({
-  //       groupName: groupName,
-  //       displayName: displayName,
-  //       isPrivate: false,
-  //       owner: user, 
-  //       admins: [user],
-  //       followers: [],
-  //     });
-  //     await group.save();
-      
-  //     const followGroup  = async () => {
-  //       await service.followGroup(groupName, user);
-  //     };
-
-  //     await expect(followGroup()).rejects.toThrow(BadRequestException);
-
-  //   })
-  // });
-
-  // describe('followGroupAsFollower', () => {
-  //   it('should throw a BadRequestException', async () => {
-
-  //     const groupName = "groupName";
-  //     const displayName = "displayName";
-
-  //     const user = new userModel({
-  //       username: "username",
-  //       displayName: "displayName",
-  //       password: "password",
-  //     });
-
-  //     const followUser = new userModel({
-  //       username: "username1",
-  //       displayName: "displayName1",
-  //       password: "password1",
-  //     });
-
-  //     let group = new groupModel({
-  //       groupName: groupName,
-  //       displayName: displayName,
-  //       isPrivate: false,
-  //       owner: user, 
-  //       admins: [user],
-  //       followers: [followUser],
-  //     });
-  //     await group.save();
-      
-  //     const followGroup  = async () => {
-  //       await service.followGroup(groupName, followUser);
-  //     };
-
-  //     await expect(followGroup()).rejects.toThrow(BadRequestException);
-
-  //   })
-  // });
-
-  // describe('followPublicGroup', () => {
-  //   it('user should be added to group as a follower', async () => {
-
-  //     const groupName = "groupName";
-  //     const displayName = "displayName";
-
-  //     const user = new userModel({
-  //       username: "username",
-  //       displayName: "displayName",
-  //       password: "password",
-  //     });
-
-  //     const followUser = new userModel({
-  //       username: "username1",
-  //       displayName: "displayName1",
-  //       password: "password1",
-  //     });
-
-  //     let group = new groupModel({
-  //       groupName: groupName,
-  //       displayName: displayName,
-  //       isPrivate: false,
-  //       owner: user, 
-  //       admins: [user],
-  //       followers: [],
-  //     });
-  //     await group.save();
-
-  //     await service.followGroup(groupName, followUser);
-
-  //     group = await groupModel.findById(group._id);
-
-  //     expect(group.followers).toHaveLength(1);
-  //     expect(group.followers[0]).toEqual(followUser._id);
-  //   })
-  // });
 
   //Testing Unfollow Group
   describe('unfollowNonExistentGroup', () => {
@@ -564,3 +527,6 @@ describe('GroupsService', () => {
     await closeInMongodConnection();
   });
 });
+
+
+
